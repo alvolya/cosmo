@@ -1,0 +1,6 @@
+ ! Name of command file for input = SNM      
+ ! Type of interaction = SDI
+ ! IA,HBW,ALD,BLD,R0D,DIFFD =  100   8.535    0.000    0.000    0.000    0.000
+ ! A0,A1,B0,B1,Q0,Q1 =   0.7740  0.3330 -2.5030  0.3700  0.0000  0.0000 for surface delta
+ ! Fill in next line with number of TBME and SPE
+   0

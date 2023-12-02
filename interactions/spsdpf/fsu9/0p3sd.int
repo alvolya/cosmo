@@ -1,0 +1,41 @@
+! ************************ 0p3sd.int ***************************
+!This file is a part of the FSU interaction
+!This effective nucleon-nucleon interaction is distributed under the terms of the
+!Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license,
+!https://creativecommons.org/licenses/by-nc-sa/4.0/
+!
+!Please refer to publications:
+!R. S. Lubna, et al.  Phys. Rev. Research 2, 043342 (2020)
+!R. S. Lubna, et al. Phys. Rev. C 100, 034308 (2019)
+!R. S. Lubna, Ph.D. thesis, Florida State University (Summer 2019)
+!
+!This material is based upon work supported by the
+!U.S. Department of Energy Office of Science,
+!Office of Nuclear Physics under Grant No. DE-SC0009883
+!
+!The orbits are indexed in natural oscillator order:
+!0s, 0p3/2, 0p1/2, 0d5/2, 0d3/2, 1s1/2, 0f7/2, 0f5/2, 0p3/2, 0p1/2
+!
+!
+ 20  0.0  0.0  0.0  1.322  19.873  -4.72  0.0  0.0  0.0  0.0
+4   2   4   2   1   0   -0.165324
+4   2   4   2   2   0   -0.165324
+4   2   4   2   3   0   -0.165324
+4   2   4   2   4   0   -0.165324
+4   2   4   2   1   1   -0.165324
+4   2   4   2   2   1   -0.165324
+4   2   4   2   3   1   -0.165324
+4   2   4   2   4   1   -0.165324
+5   2   5   2   0   0   -2.4840666
+5   2   5   2   1   0   -2.4840666
+5   2   5   2   2   0   -2.4840666
+5   2   5   2   3   0   -2.4840666
+5   2   5   2   0   1   -2.4840666
+5   2   5   2   1   1   -2.4840666
+5   2   5   2   2   1   -2.4840666
+5   2   5   2   3   1   -2.4840666
+6   2   6   2   1   0   0.5899209
+6   2   6   2   2   0   0.5899209
+6   2   6   2   1   1   0.5899209
+6   2   6   2   2   1   0.5899209
+

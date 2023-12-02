@@ -1,0 +1,50 @@
+## Acknowledgment Requirement
+
+The use of this program, CoSMo, is authorized upon acknowledgment of the intellectual property. This includes all software components and interaction libraries. The program should be acknowledged as follows:
+"Alexander Volya, shell model code CoSMo, http://www.volya.net."
+
+## Interaction Libraries
+
+- Location: `interactions/`
+- Source: The interactions were obtained from publicly open sources and are subject to copyrights and restrictions described therein and in `interactions/int.xml`
+- Note for Authors: Authors of interaction Hamiltonians wishing to include, modify, or restrict the use and distribution of their results should contact the author via [http://www.volya.net](http://www.volya.net).
+
+## Third-Party Components
+
+Some components of this project rely on the following third-party components:
+
+- Basic XML Parser
+  Location: 'include/xml'
+  Description: A basic XML parser written in ANSI C++ for portability, using recursion and a node tree to break down the elements of an XML document.
+  Version: V2.44
+  Author: Frank Vanden Berghen
+  URL: http://www.applied-mathematics.net/tools/xmlParser.html
+  Copyright: Copyright (c) 2002, Frank Vanden Berghen. All rights reserved.
+  License: See the file 'AFPL-license.txt' in this distribution for licensing terms.
+
+- Davidson Algorithm
+  Location: 'include/kdav'
+  Description: An object-oriented C++ implementation of Davidson method for finding a few selected extreme eigenpairs of a large, sparse, real, symmetric matrix.
+  Authors: T. Dziubak and J. Matulewski
+  Publication: T. Dziubak and J. Matulewski, "An Object-Oriented C++ Implementation Of Davidson Method For Finding A Few Selected Extreme Eigenpairs Of A Large, Sparse, Real, Symmetric Matrix," Computer Physics Communications 177, 676-682 (2007).
+  URL: https://doi.org/10.1016/j.cpc.2007.06.003.
+
+- Eigen Library
+  Location: Typically installed separately or included at './eigen'
+  Description: A high-level C++ library for linear algebra, matrix and vector operations, geometrical transformations, numerical solvers, and related algorithms.
+  Version: 3.4
+  URL: https://gitlab.com/libeigen/eigen
+  License: Primarily MPL2, with parts under BSD License. See the file 'COPYING' in the Eigen distribution for full licensing terms.
+
+Please refer to individual licensing terms of these components for more details. The respective licenses are included in the project where applicable or available from the mentioned sources.
+
+## Acknowledgments 
+
+We acknowledge the contributions and support that have been essential for this project:
+
+- Special thanks to Konstantinos Kravvaris, Mark Lingle, Volha Abramkina, Naureen Ahsan, and Daniel Volya for contributions. 
+
+- This material is based upon work supported by the U.S. Department of Energy Office of Science, Office of Nuclear Physics under Awards No. DE-SC0009883 
+
+- We acknowledge Florida State University and the Department of Physics for providing research facilities and academic resources.
+

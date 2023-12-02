@@ -1,0 +1,5 @@
+ ! Name of command file for input = SN100C   
+ ! Type of interaction = COL
+ ! IA,HBW,ALD,BLD,R0D,DIFFD =  100   8.535    0.000    0.000    0.000    0.000
+ ! Fill in next line with number of TBME and SPE
+   0

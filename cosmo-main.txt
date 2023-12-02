@@ -1,0 +1,13 @@
+./xmlshell/cosmoxml.cpp
+./xmlshell/xmbs/Xsysmbs.cpp
+./xmlshell/xmbs/XsysmbsOMP.cpp
+./davidson/DEXHVJT.cpp
+./davidson/DEXHVJTcsb.cpp
+./davidson/davidson_vfile.cpp
+./xmlshell/XHH+JJ.cpp
+./xmlshell/XSHLJT.cpp
+./xmlshell/Xlevels.cpp
+./xmlshell/XSHLEMB.cpp
+./xmlshell/XSHLSF.cpp
+./xmlshell/XSHLAO.cpp
+

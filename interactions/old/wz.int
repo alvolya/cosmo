@@ -1,0 +1,6 @@
+! The "USD" interaction of B. H. Wildenthal for A=18
+! For other A the two-body matrix elements should be multiplied
+! by (18/A)**(0.3) and the single-particle matrix elements
+! are mass independent.
+! ORDER IS:  1 = 1D3/2    2 = 1D5/2    3 = 2S1/2 
+    63      1.6465800     -3.9477999     -3.1635399

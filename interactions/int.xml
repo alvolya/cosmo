@@ -1,0 +1,2556 @@
+<?xml version="1.0"?>
+<cosmo>
+    <modelspace name="spsdpfg9">
+    <valencespace name="spsdpfg9">
+        <core name="0n" N="0" Z="0"/>
+        <orbital name="0s1" n="0" l="0" j="1/2" type="pn" index="1"/>
+        <orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+        <orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="3"/>
+        <orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="4"/>
+        <orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="5"/>
+        <orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="6"/>
+        <orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="7"/>
+        <orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="8"/>
+        <orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="9"/>
+        <orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="10"/>
+        <orbital name="0g9" n="0" l="4" j="9/2" type="pn" index="11"/>
+        <outercore name="100Sn" N="50" Z="50"/>
+    </valencespace>
+    <hamiltonian name="fsux" valencespace="spsdpfg9" Lawson="10">
+           <file format="ascii">
+               <name>spsdpfpb-fsux.int</name>
+               <comment>Unchanged from WBP</comment>
+           </file>
+           <file format="ascii">
+               <name>fsux.int</name>
+               <formulascale rank="2">(18/A)^0.3</formulascale>
+           </file>
+           <file format="ascii">
+               <name>0p1sd-fsux.int</name>
+           </file>
+           <file format="ascii">
+               <name>0p3sd-fsux.int</name>
+           </file>
+           <file format="ascii">
+               <name>0s0f1p0-fsux.int</name>
+           </file>
+           <file format="ascii">
+               <name>fpg9-fsux.int</name>
+               <formulascale rank="2">(58/A)^0.3</formulascale>
+           </file>
+           <comment>Test interaction fsu11+g9/2 shell, undeveloped fsux</comment>
+        </hamiltonian>
+    </modelspace>
+<modelspace name="psdpf">
+<valencespace name="psdpf">
+		<core name="4He" N="2" Z="2"/>
+		<orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="3"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="5"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="4"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="6"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="8"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="7"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="9"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="psdpf" valencespace="psdpf">
+		<file format="ascii">
+			<name>psdpf.int</name>
+		</file>
+		<file format="ascii">
+			<name>com.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment> M. Bouhelal, F. Haas, E. Caurier, F. Nowacki, A. Bouldjeri</comment>
+		<reference> Nulear Physics A 864 (2011) 113-127</reference>
+	</hamiltonian>
+</modelspace>
+<modelspace name="p">
+	<valencespace name="p">
+		<core name="4He" N="2" Z="2"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="1"/>
+		<orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+		<outercore name="16O" N="8" Z="8"/>
+	</valencespace>
+	<hamiltonian name="ckpot" valencespace="p">
+		<file format="ascii">
+			<name>ckpot.int</name>
+		</file>
+		<comment>(8-16)POT    S. Cohen and D. Kurath,</comment>
+	</hamiltonian>
+	<hamiltonian name="cki" valencespace="p">
+		<file format="ascii">
+			<name>cki.int</name>
+		</file>
+		<comment>(6-16)TBME   Nucl. Phys. A73, 1 (1965) and</comment>
+	</hamiltonian>
+	<hamiltonian name="ckii" valencespace="p">
+		<file format="ascii">
+			<name>ckii.int</name>
+		</file>
+		<comment>(8-16)TBME   Nucl. Phys. A101, 1 (1967)</comment>
+	</hamiltonian>
+	<hamiltonian name="pmom" valencespace="p">
+		<file format="ascii">
+			<name>pmom.int</name>
+		</file>
+		<comment>Includes fit to moments, van Hees et al, Nucl. Phys. A476, 61 (1988) and pri. comm.</comment>
+	</hamiltonian>
+	<hamiltonian name="pjp" valencespace="p">
+		<file format="ascii">
+			<name>pjp.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<comment>JULIES-RICHTER POT INT</comment>
+	</hamiltonian>
+	<hamiltonian name="pjt" valencespace="p">
+		<file format="ascii">
+			<name>pjt.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<comment>JULIES-RICHTER TBME INT S. Afr. Tydskr.Fis. 15 nr. 3/4 (1992)</comment>
+	</hamiltonian>
+	<hamiltonian name="mp" valencespace="p">
+		<file format="ascii">
+			<name>mp.int</name>
+		</file>
+		<comment>D.J.MILLENER (PRIVATE COMMUNICATION NOV 1984)</comment>
+	</hamiltonian>
+	<hamiltonian name="pewt" valencespace="p">
+		<file format="ascii">
+			<name>pewt.int</name>
+		</file>
+		<comment>* P(10-16)T: WARBURTON A=10-16 TBME INT (1991)</comment>
+	</hamiltonian>
+	<hamiltonian name="pwt" valencespace="p">
+		<file format="ascii">
+			<name>pwt.int</name>
+			<formulascale rank="2">(A/16)^(-0.2)</formulascale>
+		</file>
+		<comment>* P(5-16)T:  WARBURTON A= 5-16 TBME INT (1991)</comment>
+	</hamiltonian>
+	<hamiltonian name="pkuo" valencespace="p">
+		<file format="ascii">
+			<name>pkuo.int</name>
+		</file>
+		<comment>* Kuo, Paris interaction, Private Comm. (1989)</comment>
+	</hamiltonian>
+	<hamiltonian name="psu3" valencespace="p">
+		<file format="ascii">
+			<name>psu3.int</name>
+		</file>
+		<comment>* SU3 INT - OCT 1990 VERSION</comment>
+	</hamiltonian>
+	<hamiltonian name="ckihe" valencespace="p">
+		<file format="ascii">
+			<name>ckihe.int</name>
+		</file>
+		<comment>* CKI plus fit to He isotopes PRC37, 2220 (1988).</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="ppn">
+	<valencespace name="ppn">
+		<core name="4He" N="2" Z="2"/>
+		<orbital name="p0p1" n="0" l="1" j="1/2" type="p" index="1"/>
+		<orbital name="p0p3" n="0" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="n0p1" n="0" l="1" j="1/2" type="n" index="3"/>
+		<orbital name="n0p3" n="0" l="1" j="3/2" type="n" index="4"/>
+		<outercore name="16O" N="8" Z="8"/>
+	</valencespace>
+	<hamiltonian name="ckppn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckppn.int</name>
+		</file>
+		<comment>(8-16)POT    S. Cohen and D. Kurath,</comment>
+	</hamiltonian>
+	<hamiltonian name="ckipn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckipn.int</name>
+		</file>
+		<comment>(6-16)TBME   Nucl. Phys. A73, 1 (1965) and</comment>
+	</hamiltonian>
+	<hamiltonian name="ckiipn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckiipn.int</name>
+		</file>
+		<comment>(8-16)TBME   Nucl. Phys. A101, 1 (1967)</comment>
+	</hamiltonian>
+	<hamiltonian name="pmompn" valencespace="ppn">
+		<file format="ascii">
+			<name>pmompn.int</name>
+		</file>
+		<comment>Includes fit to moments, van Hees et al, Nucl. Phys. A476, 61 (1988) and pri. comm.</comment>
+	</hamiltonian>
+	<hamiltonian name="pjppn" valencespace="ppn">
+		<file format="ascii">
+			<name>pjppn.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<comment>* JULIES-RICHTER POT  INT (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="pjtpn" valencespace="ppn">
+		<file format="ascii">
+			<name>pjtpn.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<comment>* JULIES-RICHTER TBME INT (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="su3ppn" valencespace="ppn">
+		<file format="ascii">
+			<name>su3ppn.int</name>
+		</file>
+		<comment>SU3 INT ORMAND-BROWN INC, NPA491, 1 (1989) original int + PCOSPN + CKPIVPN + CKPITPN</comment>
+	</hamiltonian>
+	<hamiltonian name="ckpcdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckppn.int</name>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>(8-16)POT    S. Cohen and D. Kurath,</comment>
+	</hamiltonian>
+	<hamiltonian name="ckicdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckipn.int</name>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>(6-16)TBME   Nucl. Phys. A73, 1 (1965) and</comment>
+	</hamiltonian>
+	<hamiltonian name="ckiicdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>ckiipn.int</name>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>! (8-16)TBME   Nucl. Phys. A101, 1 (1967)</comment>
+	</hamiltonian>
+	<hamiltonian name="pjpcdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>pjppn.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>* JULIES-RICHTER POT  INT (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="pjtcdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>pjtpn.int</name>
+			<formulascale rank="2">(16/A)^0.17</formulascale>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>* JULIES-RICHTER TBME INT (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="pmomcdpn" valencespace="ppn">
+		<file format="ascii">
+			<name>pmompn.int</name>
+		</file>
+		<file format="ascii">
+			<name>pcospn.int</name>
+			<scale rank="1">1.210176</scale>
+			<scale rank="2">1.246481</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>ckpitpn.int</name>
+			<scale rank="2">-0.016800</scale>
+		</file>
+		<comment>! Includes fit to moments, van Hees et al,</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sd">
+	<valencespace name="sd">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<hamiltonian name="sdba" valencespace="sd">
+		<file format="ascii">
+			<name>sdba.int</name>
+		</file>
+		<comment>* BONN A FROM Hjorth-Jensen, SEP 2000</comment>
+	</hamiltonian>
+	<hamiltonian name="kuosd" valencespace="sd">
+		<file format="ascii">
+			<name>kuosd.int</name>
+		</file>
+		<comment>RENORMALIZED KUO NPA103, 71 (1967)</comment>
+	</hamiltonian>
+	<hamiltonian name="kuosdm" valencespace="sd">
+		<file format="ascii">
+			<name>kuosd.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>&quot; &quot; PLUS (A/18)**0.3 MASS DEPENDENCE</comment>
+	</hamiltonian>
+	<hamiltonian name="bkuosd" valencespace="sd">
+		<file format="ascii">
+			<name>bkuosd.int</name>
+		</file>
+		<comment>BARE KUO NPA103, 71 (1967)</comment>
+	</hamiltonian>
+	<hamiltonian name="pw" valencespace="sd">
+		<file format="ascii">
+			<name>pw.int</name>
+		</file>
+		<comment>(PW) PREEDOM-WILDENTHAL PR C6, 1633 (1972)</comment>
+	</hamiltonian>
+	<hamiltonian name="cw" valencespace="sd">
+		<file format="ascii">
+			<name>cw.int</name>
+		</file>
+		<comment>(CW) CHUNG-WILDENTHAL A=17-28 INTERACTION</comment>
+	</hamiltonian>
+	<hamiltonian name="cwh" valencespace="sd">
+		<file format="ascii">
+			<name>cwh.int</name>
+		</file>
+		<comment>(CW) CHUNG-WILDENTHAL A=28-39 INTERACTION</comment>
+	</hamiltonian>
+	<hamiltonian name="kuosdh" valencespace="sd">
+		<file format="ascii">
+			<name>kuosdh.int</name>
+		</file>
+		<comment>K12.5P from Chung&apos;s thesis</comment>
+	</hamiltonian>
+	<hamiltonian name="sdm" valencespace="sd">
+		<file format="ascii">
+			<name>sdm.int</name>
+		</file>
+		<comment>WILDENTHAL-MCGRORY MSDI (PRC4, 1708 (1971))</comment>
+	</hamiltonian>
+	<hamiltonian name="usd" valencespace="sd">
+		<file format="ascii">
+			<name>w.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>(W) WILDENTHAL&apos;S A=17-39 &quot;USD&quot; INT (JULY 1982)</comment>
+		<reference doi="10.1016/0146-6410(84)90011-5">Prog. Part. Nucl. Phys. 11, 5 (1984)</reference>
+		<reference doi="10.1146/annurev.ns.38.120188.000333">Annu. Rev. Nucl. Part. Sci. 38, 29 (1988)</reference>
+	</hamiltonian>
+	<hamiltonian name="usda" valencespace="sd">
+		<file format="ascii">
+			<name>usda.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>Phys. Rev. C74, 034315 (2006)</comment>
+		<reference doi="10.1103/PhysRevC.78.064302">PHYSICAL REVIEW C 78, 064302 (2008)</reference>
+	</hamiltonian>
+	<hamiltonian name="usdb" valencespace="sd">
+		<file format="ascii">
+			<name>usdb.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>Phys. Rev. C74, 034315 (2006)</comment>
+		<reference doi="10.1103/PhysRevC.78.064302">PHYSICAL REVIEW C 78, 064302 (2008)</reference>
+	</hamiltonian>
+	<hamiltonian name="hbusd" valencespace="sd">
+		<file format="ascii">
+			<name>hbusd.int</name>
+			<formulascale rank="2">(18/A)^0.35</formulascale>
+		</file>
+		<comment>SDPOTA int from Ann. Phys. 182, 191 (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="hbumsd" valencespace="sd">
+		<file format="ascii">
+			<name>hbumsd.int</name>
+			<formulascale rank="2">(18/A)^0.35</formulascale>
+		</file>
+		<comment>SDPOTB int from Ann. Phys. 182, 191 (1988)</comment>
+	</hamiltonian>
+	<hamiltonian name="su3sd" valencespace="sd">
+		<file format="ascii">
+			<name>su3sd.int</name>
+		</file>
+		<comment>SU3 INT - OCT 1990 VERSION</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sdpn">
+	<valencespace name="sdpn">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="p0d3" n="0" l="2" j="3/2" type="p" index="1"/>
+		<orbital name="p0d5" n="0" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1s1" n="1" l="0" j="1/2" type="p" index="3"/>
+		<orbital name="n0d3" n="0" l="2" j="3/2" type="n" index="4"/>
+		<orbital name="n0d5" n="0" l="2" j="5/2" type="n" index="5"/>
+		<orbital name="n1s1" n="1" l="0" j="1/2" type="n" index="6"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+    <hamiltonian name="usdc" valencespace="sdpn">
+            <file format="ascii">
+                    <name>usdcpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>sdcoupn.int</name>
+                    <formulascale rank="2">(28/A)^(1./6)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>citpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <comment>Isospin breaking USD Hamiltonian</comment>
+            <reference>A. Magilligan, B. A. Brown, Phys. Rev. C 101 (2020) 064312.</reference>
+    </hamiltonian>
+    <hamiltonian name="usdi" valencespace="sdpn">
+            <file format="ascii">
+                    <name>usdipn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>sdcoupn.int</name>
+                    <formulascale rank="2">(28/A)^(1./6)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>iitpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <comment>Isospin breaking USD Hamiltonian</comment>
+            <reference>A. Magilligan, B. A. Brown, Phys. Rev. C 101 (2020) 064312.</reference>
+    </hamiltonian>
+    <hamiltonian name="usdim" valencespace="sdpn">
+            <file format="ascii">
+                    <name>usdimpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>sdcoumpn.int</name>
+                    <formulascale rank="2">(28/A)^(1./6)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>jitpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <comment>Isospin breaking USD Hamiltonian</comment>
+            <reference>A. Magilligan, B. A. Brown, Phys. Rev. C 101 (2020) 064312.</reference>
+    </hamiltonian>
+    <hamiltonian name="usdcm" valencespace="sdpn">
+            <file format="ascii">
+                    <name>usdcmpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>sdcoumpn.int</name>
+                    <formulascale rank="2">(28/A)^(1./6)</formulascale>
+            </file>
+            <file format="ascii">
+                    <name>ditpn.int</name>
+                    <formulascale rank="2">(18/A)^(0.3)</formulascale>
+            </file>
+            <comment>Isospin breaking USD Hamiltonian</comment>
+            <reference>A. Magilligan, B. A. Brown, Phys. Rev. C 101 (2020) 064312.</reference>
+    </hamiltonian>
+	<hamiltonian name="usdapn" valencespace="sdpn">
+		<file format="ascii">
+			<name>usdapn.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>usda in pn</comment>
+	</hamiltonian>
+	<hamiltonian name="usdbpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>usdbpn.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>usdb in pn</comment>
+	</hamiltonian>
+	<hamiltonian name="wpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>wpn.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>&quot;USD&quot; INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="wcdpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>wpn.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdcospn.int</name>
+			<scale rank="1">1.051730</scale>
+			<scale rank="2">1.051730</scale>
+            <formulascale rank="1">0.30020901228183283*sqrt((1 - 8.644386574074073e-6*pow(40. - A,3.))*(-25./pow(A,2./3.) + 45./pow(A,1./3.)))</formulascale>
+            <formulascale rank="2">0.30020901228183283*sqrt((1 - 8.644386574074073e-6*pow(40. - A,3.))*(-25./pow(A,2./3.) + 45./pow(A,1./3.)))</formulascale>
+            <note>scaling=sqrt(hw(A)/hw(39))</note>
+            <note>hw(A)=(45.*pow(A,-1/3)-25.*pow(A,-2./3.))*sdscale(A)) </note>
+            <note>sdscale(A)=1-0.1195*pow((40.-A)/24.,3.)</note>
+		</file>
+		<file format="ascii">
+			<name>wivpn.int</name>
+			<scale rank="2">-0.016568</scale>
+            <formulascale rank="2">-0.0171*(18/A)^(0.3)</formulascale>
+            <note>scaling=-0.0171*(norm of tbme in interaction)</note>
+		</file>
+		<file format="ascii">
+			<name>witpn.int</name>
+			<scale rank="2">-0.047282</scale>
+            <formulascale rank="2">-0.0488*(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>&quot;USD&quot; PLUS COULOMB PLUS &quot;USD&quot; ISOVECTOR AND  ISOTENSOR, NPA491, 1 (1989)</comment>
+	</hamiltonian>
+	<hamiltonian name="usdbcdpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>usdbpn.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdcospn.int</name>
+			<scale rank="1">1.051730</scale>
+			<scale rank="2">1.051730</scale>
+		</file>
+		<file format="ascii">
+			<name>wivpn.int</name>
+			<scale rank="2">-0.016568</scale>
+		</file>
+		<file format="ascii">
+			<name>witpn.int</name>
+			<scale rank="2">-0.047282</scale>
+		</file>
+		<comment>! &quot;usdb&quot; PLUS COULOMB PLUS &quot;USD&quot; ISOVECTOR AND</comment>
+	</hamiltonian>
+	<hamiltonian name="cwhcdpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>cwhpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>sdcospn.int</name>
+			<scale rank="1">1.051730</scale>
+			<scale rank="2">1.051730</scale>
+		</file>
+		<file format="ascii">
+			<name>wivpn.int</name>
+			<scale rank="2">-0.017100</scale>
+		</file>
+		<file format="ascii">
+			<name>witpn.int</name>
+			<scale rank="2">-0.048800</scale>
+		</file>
+		<comment>&quot;CWH&quot; PLUS COULOMB PLUS &quot;USD&quot; ISOVECTOR AND  ISOTENSOR, NPA491, 1 (1989)</comment>
+	</hamiltonian>
+	<hamiltonian name="sdmpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>sdmpn.int</name>
+		</file>
+		<comment>MSDI (PRC4, 1708 (1971)) IN PN FORMALISM</comment>
+	</hamiltonian>
+	<hamiltonian name="sdmcdpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>sdmpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>sdcotpn.int</name>
+			<scale rank="2">1.090094</scale>
+		</file>
+		<file format="ascii">
+			<name>sdmten.int</name>
+			<scale rank="2">0.020000</scale>
+		</file>
+		<comment>MSDI (PRC4, 1708 (1971)) PLUS INC INTERACTION OF TOWNER  and  HARDY (NPA205, 33 (1973)) SHSP.FOR(SDMCDPN = SDMPN+SDMTEN)</comment>
+	</hamiltonian>
+	<hamiltonian name="sdmcdnp" valencespace="sdpn">
+		<file format="ascii">
+			<name>sdmpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>sdcotnp.int</name>
+			<scale rank="2">1.090094</scale>
+		</file>
+		<file format="ascii">
+			<name>sdmten.int</name>
+			<scale rank="2">0.020000</scale>
+		</file>
+		<comment>SAME AS MCDPN  EXCEPT P-N LABELS INTERCHANGED SHSP.FOR(SDMCDNP = SDMNP+SDMTEN)</comment>
+	</hamiltonian>
+	<hamiltonian name="su3sdpn" valencespace="sdpn">
+		<file format="ascii">
+			<name>su3sdpn.int</name>
+		</file>
+		<comment>SU3 INT</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="zbm">
+	<valencespace name="zbm">
+		<core name="12C" N="6" Z="6"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<outercore name="32S" N="16" Z="16"/>
+	</valencespace>
+	<hamiltonian name="zbmi" valencespace="zbm">
+		<file format="ascii">
+			<name>zbmi.int</name>
+		</file>
+		<comment>(I)  ZUKER-BUCK-MCGRORY PRL 21, 39 (1968)</comment>
+	</hamiltonian>
+	<hamiltonian name="zbmii" valencespace="zbm">
+		<file format="ascii">
+			<name>zbmii.int</name>
+		</file>
+		<comment>(II) ZUKER-BUCK-MCGRORY PRL 21, 39 (1968)</comment>
+	</hamiltonian>
+	<hamiltonian name="rewil" valencespace="zbm">
+		<file format="ascii">
+			<name>rewil.int</name>
+		</file>
+		<comment>MCGRORY-WILDENTHAL PRC7, 974 (1973) (F-INT) FROM REEHAL-WILDENTHAL PART AND NUCL 6, 137 (1973)</comment>
+	</hamiltonian>
+	<hamiltonian name="zwm" valencespace="zbm">
+		<file format="ascii">
+			<name>zwm.int</name>
+		</file>
+		<comment>MCGRORY-WILDENTHAL PRC7, 974 (1973) (Z-INT) FROM ZUKER PRL 23, 983 (1969)</comment>
+	</hamiltonian>
+	<hamiltonian name="su3zbm" valencespace="zbm">
+		<file format="ascii">
+			<name>su3zbm.int</name>
+		</file>
+		<comment>SU3 INT</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="zbme">
+	<valencespace name="zbme">
+		<core name="12C" N="6" Z="6"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="4"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<hamiltonian name="rewile" valencespace="zbme">
+		<file format="ascii">
+			<name>rewile.int</name>
+		</file>
+		<comment>REEHAL-WILDENTHAL PART AND NUCL 6, 137 (1973) F-INT IN PRC7, 974 (1973)</comment>
+	</hamiltonian>
+	<hamiltonian name="zwme" valencespace="zbme">
+		<file format="ascii">
+			<name>zwme.int</name>
+		</file>
+		<comment>MCGRORY-WILDENTHAL PR C7, 974 (1973) (Z-INT)</comment>
+	</hamiltonian>
+	<hamiltonian name="su3zbme" valencespace="zbme">
+		<file format="ascii">
+			<name>su3zbme.int</name>
+		</file>
+		<comment>SU3 INT</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="zbmpn">
+	<valencespace name="zbmpn">
+		<core name="12C" N="6" Z="6"/>
+		<orbital name="p0p1" n="0" l="1" j="1/2" type="p" index="1"/>
+		<orbital name="p0d5" n="0" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1s1" n="1" l="0" j="1/2" type="p" index="3"/>
+		<orbital name="n0p1" n="0" l="1" j="1/2" type="n" index="4"/>
+		<orbital name="n0d5" n="0" l="2" j="5/2" type="n" index="5"/>
+		<orbital name="n1s1" n="1" l="0" j="1/2" type="n" index="6"/>
+		<outercore name="32S" N="16" Z="16"/>
+	</valencespace>
+	<hamiltonian name="rewilpn" valencespace="zbmpn">
+		<file format="ascii">
+			<name>rewilpn.int</name>
+		</file>
+		<comment>REEHAL-WILDENTHAL PART AND NUCL 6, 137 (1973)</comment>
+	</hamiltonian>
+	<hamiltonian name="zbmipn" valencespace="zbmpn">
+		<file format="ascii">
+			<name>zbmipn.int</name>
+		</file>
+		<comment>REWILPN + INC INTERACTION, AUG 1987</comment>
+	</hamiltonian>
+	<hamiltonian name="zbmiipn" valencespace="zbmpn">
+		<file format="ascii">
+			<name>zbmiipn.int</name>
+		</file>
+		<comment>REWILPN + INC INTERACTION, AUG 1987</comment>
+	</hamiltonian>
+	<hamiltonian name="rwcdpn" valencespace="zbmpn">
+		<file format="ascii">
+			<name>rewilpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>zbmcospn.int</name>
+			<scale rank="1">1.120101</scale>
+			<scale rank="2">1.164905</scale>
+		</file>
+		<file format="ascii">
+			<name>rewilivpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<file format="ascii">
+			<name>rewilitpn.int</name>
+			<scale rank="2">-0.029900</scale>
+		</file>
+		<comment>REWILPN + INC INTERACTION, AUG 1987</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="psd">
+	<valencespace name="psd">
+		<core name="4He" N="2" Z="2"/>
+        <orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="1"/>
+        <orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="3"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="4"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="5"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+    <hamiltonian name="psdux" valencespace="psd">
+        <file format="ascii">
+            <name>psdua.int</name>
+        </file>
+        <file format="ascii">
+            <name>psduw.int</name>
+            <formulascale rank="2">(18/A)^0.3</formulascale>
+        </file>
+        <file format="ascii">
+            <name>psdcm.int</name>
+            <scale rank="1">30.000000</scale>
+            <scale rank="2">30.000000</scale>
+        </file>
+    </hamiltonian>
+	<hamiltonian name="psdmk" valencespace="psd">
+		<file format="ascii">
+			<name>psdmk.int</name>
+		</file>
+		<file format="ascii">
+			<name>psdcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>MK(P-SD) + PW(SD) + CKPOT(P)</comment>
+	</hamiltonian>
+    <hamiltonian name="ysox" valencespace="psd">
+        <file format="ascii">
+            <name>ysox.int</name>
+        </file>
+        <file format="ascii">
+            <name>psdcm.int</name>
+            <scale rank="1">10.000000</scale>
+            <scale rank="2">10.000000</scale>
+        </file>
+        <comment>Cenxi Yuan, Toshio Suzuki, Takaharu Otsuka, Furong Xu, and Naofumi Tsunoda,
+         Phys. Rev. C 85, 064324 (2012)</comment>
+    </hamiltonian>
+	<hamiltonian name="psdmwk" valencespace="psd">
+		<file format="ascii">
+			<name>psdmwk.int</name>
+		</file>
+		<file format="ascii">
+			<name>psdcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>MK(P-SD) + W(SD) + MP(P)</comment>
+	</hamiltonian>
+	<hamiltonian name="psdvh" valencespace="psd">
+		<file format="ascii">
+			<name>psdvh.int</name>
+		</file>
+		<file format="ascii">
+			<name>psdcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>van Hees&apos;s psd interaction (via F. Barker)</comment>
+	</hamiltonian>
+	<hamiltonian name="psdsu3" valencespace="psd">
+		<file format="ascii">
+			<name>psdsu3.int</name>
+		</file>
+		<file format="ascii">
+			<name>psdcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>SU3 INT</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="psdpn">
+	<valencespace name="psdpn">
+		<core name="4He" N="2" Z="2"/>
+		<orbital name="p0p1" n="0" l="1" j="1/2" type="p" index="1"/>
+		<orbital name="p0p3" n="0" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p0d3" n="0" l="2" j="3/2" type="p" index="3"/>
+		<orbital name="p0d5" n="0" l="2" j="5/2" type="p" index="4"/>
+		<orbital name="p1s1" n="1" l="0" j="1/2" type="p" index="5"/>
+		<orbital name="n0p1" n="0" l="1" j="1/2" type="n" index="6"/>
+		<orbital name="n0p3" n="0" l="1" j="3/2" type="n" index="7"/>
+		<orbital name="n0d3" n="0" l="2" j="3/2" type="n" index="8"/>
+		<orbital name="n0d5" n="0" l="2" j="5/2" type="n" index="9"/>
+		<orbital name="n1s1" n="1" l="0" j="1/2" type="n" index="10"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<hamiltonian name="psdmwkpn" valencespace="psdpn">
+		<file format="ascii">
+			<name>psdmwkpn.int</name>
+		</file>
+		<comment>! MP(P) + W(SD) + MK(OTHER)</comment>
+	</hamiltonian>
+	<hamiltonian name="psdu" valencespace="psdpn">
+		<file format="ascii">
+			<name>psduwpn.int</name>
+			<formulascale rank="2">(18/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>psduapn.int</name>
+		</file>
+        	<file format="ascii">
+			<name>psdcmpn.int</name>
+			<scale rank="1">30.000000</scale>
+			<scale rank="2">30.000000</scale>
+		</file>
+		<comment>PhysRevC.83.021301</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="spsdpf">
+	<valencespace name="spsdpf">
+		<core name="0n" N="0" Z="0"/>
+		<orbital name="0s1" n="0" l="0" j="1/2" type="pn" index="1"/>
+		<orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="3"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="4"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="5"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="6"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="7"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="8"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="9"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="10"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="spfsu3" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spfsu3.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<file format="ascii">
+			<name>spsdpft.int</name>
+			<scale rank="2">7.333333</scale>
+		</file>
+		<comment>SU3</comment>
+	</hamiltonian>
+	<hamiltonian name="wbt" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpftb.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmw.int</name>
+			<formulascale rank="2">(18/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>SPSDPFT +SPSDPFMW+0S0F1P0(H7B;OTHERS), MAR 1992</comment>
+	</hamiltonian>
+	<hamiltonian name="wbp" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpfpb.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmw.int</name>
+			<formulascale rank="2">(18/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>E. K. Warburton and B. A. Brown, Phys. Rev. C 46 (1992) 923 </comment>
+		<reference doi="10.1103/PhysRevC.46.923">E. K. Warburton and B. A. Brown, Phys. Rev. C 46 (1992) 923</reference>
+	</hamiltonian>
+    <hamiltonian name="fsu9" valencespace="spsdpf">
+        <file format="ascii">
+            <name>spsdpfpb.int</name>
+            <comment>Unchanged from WBP</comment>
+        </file>
+        <file format="ascii">
+            <name>fsu9/spsdfp-fsu9.int</name>
+            <formulascale rank="2">(18/A)^0.3</formulascale>
+        </file>
+        <file format="ascii">
+            <name>fsu9/0p1sd.int</name>
+        </file>
+        <file format="ascii">
+            <name>fsu9/0p3sd.int</name>
+        </file>
+        <file format="ascii">
+            <name>0s0f1p0.int</name>
+        </file>
+        <file format="ascii">
+            <name>spsdpfcm.int</name>
+            <scale rank="1">10.000000</scale>
+            <scale rank="2">10.000000</scale>
+            <comment>Center-of-mass</comment>
+        </file>
+        <comment>Interaction fitted to particle-hole excitations</comment>
+        <reference doi="10.1103/PhysRevResearch.2.043342">R. S. Lubna, et al.  Phys. Rev. Research 2, 043342 (2020)</reference>
+        <reference>R. S. Lubna, et al. Phys. Rev. C 100, 034308 (2019)</reference>
+        <reference>R. S. Lubna, Ph.D. thesis, Florida State University (2019)</reference>
+     </hamiltonian>
+    <hamiltonian name="fsu11" valencespace="spsdpf">
+           <file format="ascii">
+               <name>spsdpfpb.int</name>
+               <comment>Unchanged from WBP</comment>
+           </file>
+           <file format="ascii">
+               <name>fsu11/fsu11.int</name>
+               <formulascale rank="2">(18/A)^0.3</formulascale>
+           </file>
+           <file format="ascii">
+               <name>fsu11/0p1sd-fsu11.int</name>
+           </file>
+           <file format="ascii">
+               <name>fsu11/0p3sd-fsu11.int</name>
+           </file>
+           <file format="ascii">
+               <name>0s0f1p0.int</name>
+           </file>
+           <file format="ascii">
+               <name>spsdpfcm.int</name>
+               <scale rank="1">10.000000</scale>
+               <scale rank="2">10.000000</scale>
+               <comment>Center-of-mass</comment>
+           </file>
+           <comment>Interaction fitted to particle-hole excitations</comment>
+           <reference doi="10.1103/PhysRevResearch.2.043342">R. S. Lubna, et al.  Phys. Rev. Research 2, 043342 (2020)</reference>
+           <reference>R. S. Lubna, et al. Phys. Rev. C 100, 034308 (2019)</reference>
+           <reference>R. S. Lubna, Ph.D. thesis, Florida State University (2019)</reference>
+        </hamiltonian>
+    <hamiltonian name="wbp-a" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpfpb.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmw.int</name>
+			<formulascale rank="2">(18/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>wbp-a.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">20.000000</scale>
+			<scale rank="2">20.000000</scale>
+		</file>
+		<comment>E. K. Warburton and B. A. Brown, Phys. Rev. C 46 (1992) 923</comment>
+		<reference doi="http://dx.doi.org/10.1103/PhysRevC.85.044305">P. C. Bender, et.al. Phys. Rev. C 85, 044305 (2012)</reference>
+		<rejection NMIN="8" NMAX="8">
+			<orbital name="0s1" n="0" l="0" j="1/2" index="1" type="n"/>
+			<orbital name="0p3" n="0" l="1" j="3/2" index="2" type="n"/>
+			<orbital name="0p1" n="0" l="1" j="1/2" index="3" type="n"/>
+		</rejection>
+		<rejection NMIN="8" NMAX="8">
+			<orbital name="0s1" n="0" l="0" j="1/2" index="1" type="p"/>
+			<orbital name="0p3" n="0" l="1" j="3/2" index="2" type="p"/>
+			<orbital name="0p1" n="0" l="1" j="1/2" index="3" type="p"/>
+		</rejection>
+        <rejection NMIN="0" NMAX="1">
+			<orbital name="0f7" n="0" l="3" j="7/2" index="7" type="pn"/>
+			<orbital name="0f5" n="0" l="3" j="5/2" index="8" type="pn"/>
+			<orbital name="1p3" n="1" l="1" j="3/2" index="9" type="pn"/>
+			<orbital name="1p1" n="1" l="1" j="1/2" index="10" type="pn"/>
+		</rejection>
+        <rejection NMIN="12" NMAX="12">
+			<orbital name="0d5" n="0" l="2" j="5/2" index="4" type="n"/>
+			<orbital name="0d3" n="0" l="2" j="3/2" index="5" type="n"/>
+			<orbital name="1s1" n="1" l="0" j="1/2" index="6" type="n"/>
+		</rejection>
+		<rejection NMIN="7" NMAX="7">
+			<orbital name="0d5" n="0" l="2" j="5/2" index="4" type="p"/>
+			<orbital name="0d3" n="0" l="2" j="3/2" index="5" type="p"/>
+			<orbital name="1s1" n="1" l="0" j="1/2" index="6" type="p"/>
+		</rejection>
+	</hamiltonian>
+	<hamiltonian name="wbn" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpfp3.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmw.int</name>
+			<scale rank="2">1.035967</scale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfbn.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>EKW-BAB POTENTIAL FIT; PSDP+PSDW, 40 2HW TBME from WBP</comment>
+	</hamiltonian>
+	<hamiltonian name="wbb" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpfp3.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmb.int</name>
+			<scale rank="2">1.035967</scale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfbn.int</name>
+			<scale rank="2">0.800000</scale>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>same as WBP but w.int replaced by USDB.int plus spsdpfbn.int(p-sd,off-diagonal)</comment>
+	</hamiltonian>
+	<hamiltonian name="wbm" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpftb.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfmw.int</name>
+			<scale rank="2">0.906471</scale>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>WBP WITH USD*X WB* interactions listed above are via E. K. Warburton and B. A. Brown, Phys. Rev. C 46, 923 (1992).</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="d3f7">
+	<valencespace name="d3f7">
+		<core name="32S" N="16" Z="16"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="2"/>
+		<outercore name="56Ni" N="28" Z="28"/>
+	</valencespace>
+	<hamiltonian name="w0" valencespace="d3f7">
+		<file format="ascii">
+			<name>w0.int</name>
+		</file>
+		<comment>WILDENTHAL AS USED IN PRL 33, 233 (1974)</comment>
+	</hamiltonian>
+	<hamiltonian name="sas" valencespace="d3f7">
+		<file format="ascii">
+			<name>sas.int</name>
+		</file>
+		<comment>SAKAKURA-ARIMA-SEBE PL 61B, 335(1976)</comment>
+	</hamiltonian>
+	<hamiltonian name="fep" valencespace="d3f7">
+		<file format="ascii">
+			<name>fep.int</name>
+		</file>
+		<comment>FEDERMAN-PITTEL PR 186, 1106 (1969)</comment>
+	</hamiltonian>
+	<hamiltonian name="hw" valencespace="d3f7">
+		<file format="ascii">
+			<name>hw.int</name>
+			<scale rank="2">0.900000</scale>
+		</file>
+		<comment>S.T.Hsieh, X.Ji, R.Mooy and B.H.Wildenthal in &quot;Nuclear Structure at High Spin, Excitation and Momentum Transfer&quot;, edited by H. Nann, AIP Conference Proceedings 142, (American Institue of Physics, 1986), p. 357.</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="d3f7pn">
+	<valencespace name="d3f7pn">
+		<core name="32S" N="16" Z="16"/>
+		<orbital name="p0d3" n="0" l="2" j="3/2" type="p" index="1"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="2"/>
+		<orbital name="n0d3" n="0" l="2" j="3/2" type="n" index="3"/>
+		<orbital name="n0f7" n="0" l="3" j="7/2" type="n" index="4"/>
+		<outercore name="56Ni" N="28" Z="28"/>
+	</valencespace>
+	<hamiltonian name="saspn" valencespace="d3f7pn">
+		<file format="ascii">
+			<name>saspn.int</name>
+		</file>
+		<comment>SAS INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="hwpn" valencespace="d3f7pn">
+		<file format="ascii">
+			<name>hwpn.int</name>
+		</file>
+		<comment>* &quot;HW&quot; INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="hwcdpn" valencespace="d3f7pn">
+		<file format="ascii">
+			<name>hwpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>d3f7cospn.int</name>
+			<scale rank="1">1.010742</scale>
+			<scale rank="2">1.051172</scale>
+		</file>
+		<file format="ascii">
+			<name>hwivpn.int</name>
+			<scale rank="2">-0.018000</scale>
+		</file>
+		<file format="ascii">
+			<name>hwitpn.int</name>
+			<scale rank="2">-0.057100</scale>
+		</file>
+		<comment>* &quot;HW&quot; PLUS COULOMB PLUS &quot;HW&quot; ISOTENSOR</comment>
+	</hamiltonian>
+	<hamiltonian name="hwcdnp" valencespace="d3f7pn">
+		<file format="ascii">
+			<name>hwpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>d3f7cosnp.int</name>
+			<scale rank="1">1.010742</scale>
+			<scale rank="2">1.051172</scale>
+		</file>
+		<file format="ascii">
+			<name>hwivpn.int</name>
+			<scale rank="2">0.018000</scale>
+		</file>
+		<file format="ascii">
+			<name>hwitpn.int</name>
+			<scale rank="2">-0.057100</scale>
+		</file>
+		<comment>* SAME AS HWCDPN EXCEPT P-N LABELS INTERCHANGED</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="hasp">
+	<valencespace name="hasp">
+		<core name="28Si" N="14" Z="14"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="2"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="3"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="4"/>
+		<outercore name="64Ge" N="32" Z="32"/>
+	</valencespace>
+	<hamiltonian name="hasp" valencespace="hasp">
+		<file format="ascii">
+			<name>hasp.int</name>
+		</file>
+		<comment>+ parity int from HASPER, PRC19, 1482 (1979)</comment>
+	</hamiltonian>
+	<hamiltonian name="hasn" valencespace="hasp">
+		<file format="ascii">
+			<name>hasn.int</name>
+		</file>
+		<comment>- parity int from HASPER, PRC19, 1482 (1979)</comment>
+	</hamiltonian>
+	<hamiltonian name="vpnp" valencespace="hasp">
+		<file format="ascii">
+			<name>vpnp.int</name>
+		</file>
+		<comment>MSDI int: van-der-Poel Nucl. Phys. A373, 81 (82)</comment>
+	</hamiltonian>
+	<hamiltonian name="vpth" valencespace="hasp">
+		<file format="ascii">
+			<name>vpth.int</name>
+		</file>
+		<comment>MSDI int: van-der-Poel Thesis, p.50 (JAB)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sdf7p3">
+	<valencespace name="sdf7p3">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="1"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="4"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="5"/>
+		<outercore name="64Ge" N="32" Z="32"/>
+	</valencespace>
+	<hamiltonian name="sdpf-mh" valencespace="sdf7p3">
+	  <file format="ascii">
+		<name>mhsdpfm.int</name>
+		<formulascale rank="2">(18/A)^(0.3)</formulascale>
+	  </file>
+	<file format="ascii">
+			<name>sdf7p3cm.int</name>
+			<scale rank="1">30.000000</scale>
+			<scale rank="2">30.000000</scale>
+	</file>
+	<comment>sdpf-m interaction created by M. Horoi using PRC 60, 054315 (1999), see Journal of Physics: Conference Series 49 (2006) 196–197 </comment>
+<reference doi="10.1103/PhysRevC.85.034311">E. S. Diffenderfer, et.al. Phys. Rev. C 85, 034311 (2012)</reference>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sdpf">
+	<valencespace name="sdpf">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="1"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="4"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="5"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="6"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="7"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="sdpfu" valencespace="sdpf">
+	  <file format="ascii">
+		<name>sdpfu.int</name>
+		<formulascale rank="2">(18/A)^(1/3)</formulascale>
+	  </file>
+	<rejection NMIN="0" NMAX="0">
+		<orbital name="0f7" n="0" l="3" j="7/2" type="p" index="4"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="p" index="5"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="p" index="6"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="p" index="7"/>
+	</rejection>
+	<rejection NMIN="12" NMAX="12">
+		<orbital name="0d5" n="0" l="2" j="5/2" type="n" index="1"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="n" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="n" index="3"/>
+	</rejection>
+	  	<comment>SDPF-U + masses, use for Z more 14, CM is included</comment>
+		<reference doi="10.1103/PhysRevC.79.014310">Phys. Rev. C79, 014310 (2009)</reference>
+		<reference doi="10.1103/PhysRevC.63.044316">S. Nummela, et.al. PRC 63 (2001) 44316</reference>
+	</hamiltonian>
+	<hamiltonian name="sdpfu-si" valencespace="sdpf">
+	  <file format="ascii">
+		<name>sdpfu-si.int</name>
+		<formulascale rank="2">(18/A)^(1/3)</formulascale>
+	  </file>
+	<rejection NMIN="0" NMAX="0">
+		<orbital name="0f7" n="0" l="3" j="7/2" type="p" index="4"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="p" index="5"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="p" index="6"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="p" index="7"/>
+	</rejection>
+	<rejection NMIN="12" NMAX="12">
+		<orbital name="0d5" n="0" l="2" j="5/2" type="n" index="1"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="n" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="n" index="3"/>
+	</rejection>
+	        <comment>SDPF-U-SI, use Z less or equal 14, CM is included</comment>
+		<reference doi="10.1103/PhysRevC.79.014310">Phys. Rev. C79, 014310 (2009)</reference>
+		<reference doi="10.1103/PhysRevC.63.044316">S. Nummela, et.al. PRC 63 (2001) 44316</reference>
+	</hamiltonian>
+	<hamiltonian name="sdpfm40" valencespace="sdpf">
+		<file format="ascii">
+			<name>sdpfw.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfm40.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfvhb.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>Phys. Rev. C34, 1031 (1986)   SHSP.FOR(SDPFM40 = SDPFW + SDPFVHB + SDPFM40)   (SDPF)VHB = PFVH + (F7/2)**2 MADE TO FIT 42SC   (SDPF)M40 = MILLENER-KURATH D3-F7 EXACT FIT       TO 1P1H STATES IN 40CA EXCEPT FOR 3- T=0</comment>
+	</hamiltonian>
+	<hamiltonian name="sdpfmw" valencespace="sdpf">
+		<file format="ascii">
+			<name>sdpfw.int</name>
+			<scale rank="2">1.995262</scale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmw.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmc.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>Phys. Rev. C41, 1147 (1990) (better than M40)   SHSP.FOR(SDPFMW = SDPFW + SDPFMC + SDPFMW)   (SDPF)W = (SD)W FOR A=40   (SDPF)MC = MCGRORY; PHYS.REV. C8, 693(1973)   (SDPF)MW  = (SDPF)M40 EXCEPT SPE CHANGED TO               GIVE MCGRORY&apos;S FP VALUES.</comment>
+	</hamiltonian>
+	<hamiltonian name="sdpfwb" valencespace="sdpf">
+		<file format="ascii">
+			<name>sdpfw.int</name>
+			<scale rank="2">1.995262</scale>
+		</file>
+		<file format="ascii">
+			<name>sdpfwb.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmc.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>SHSP.FOR(SDPFWB = SDPFW + SDPFMC + SDPFWB)   (SDPF)W = (SD)W FOR A=40   (SDPF)MC = MCGRORY; PHYS.REV. C8, 693(1973)   (SDPF)WB  = MODIFIED SDPFMW   See p29 of BNL Report 40890(1987). The MK   potential (overall) strength was increased   by 20% and some other changes were made in   it as noted the the (amended) report.</comment>
+	</hamiltonian>
+	<hamiltonian name="sdpfwa" valencespace="sdpf">
+		<file format="ascii">
+			<name>sdpfw.int</name>
+			<scale rank="2">1.995262</scale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmw.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfbp.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>(1990) Works better around A=48 than SDPFMW   SHSP.FOR(SHPFWA = SDPFW + SDPFBP + SDPFMK)   (SDPF)W = (SD)W FOR A=40   (SDPF)BP = (FP)BP   (SDPF)MW  = MILLENER-KURATH</comment>
+	</hamiltonian>
+    <hamiltonian name="sdpf-mu" valencespace="sdpf">
+        <file format="ascii">
+            <name>sdpf-mu.int</name>
+            <formulascale rank="2">(42/A)^0.3</formulascale>
+        </file>
+        <file format="ascii">
+            <name>sdpfcm.int</name>
+            <scale rank="1">10.000000</scale>
+            <scale rank="2">10.000000</scale>
+        </file>
+        <comment>Y. Utsuno, T. Otsuka, B. A. Brown, M. Honma, T. Mizusaki, and N. Shimizu
+         Phys. Rev. C 86, 051301(R) (2012).</comment>
+    </hamiltonian>
+    <hamiltonian name="sdpf-m" valencespace="sdpf">
+        <file format="ascii">
+            <name>sdpf-m.int</name>
+            <formulascale rank="2">(18/A)^0.3</formulascale>
+        </file>
+        <file format="ascii">
+            <name>sdpfcm.int</name>
+            <scale rank="1">10.000000</scale>
+            <scale rank="2">10.000000</scale>
+        </file>
+        <comment>Y. Utsuno, T. Otsuka, T. Mizusaki, and M. Honma,
+         Phys. Rev. C 60, 054315 (1999).</comment>
+    </hamiltonian>
+	<hamiltonian name="sdpf-nr" valencespace="sdpf">
+		<file format="ascii">
+			<name>sdpfnow.int</name>
+			<formulascale rank="2">(18/A)^(1/3)</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>SDPF-NR INTERACTION</comment>
+		<reference doi="10.1103/PhysRevC.63.044316">PRC 63 (2001) 44316</reference>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sdpfpn">
+	<valencespace name="sdpfpn">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="p0d5" n="0" l="2" j="5/2" type="p" index="1"/>
+		<orbital name="p0d3" n="0" l="2" j="3/2" type="p" index="2"/>
+		<orbital name="p1s1" n="1" l="0" j="1/2" type="p" index="3"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="4"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="5"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="6"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="7"/>
+		<orbital name="n0d5" n="0" l="2" j="5/2" type="n" index="8"/>
+		<orbital name="n0d3" n="0" l="2" j="3/2" type="n" index="9"/>
+		<orbital name="n1s1" n="1" l="0" j="1/2" type="n" index="10"/>
+		<orbital name="n0f7" n="0" l="3" j="7/2" type="n" index="11"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="12"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="13"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="14"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="spdfpn-nr" valencespace="sdpfpn">
+		<file format="ascii">
+			<name>nowpn.int</name>
+			<formulascale rank="2">(18/A)^(1/3)</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcmpn.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>pn version of sdpf-nr</comment>
+	<reference doi="10.1103/PhysRevC.63.044316">PRC 63 (2001) 44316</reference>
+	</hamiltonian>
+	<hamiltonian name="sdpfmwpnl" valencespace="sdpfpn">
+		<file format="ascii">
+			<name>sdpfwpn.int</name>
+			<scale rank="2">1.995262</scale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmwpn.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfmcpn.int</name>
+			<formulascale rank="2">(40/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>sdpfcmpn.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+		</file>
+		<comment>* SHSP.FOR(SDPFMWPN=SDPFWPN+SDPFMCPN+SDPFMWPN)   (SDPF)W = (SD)W FOR A=40   (SDPF)MC = MCGRORY; PHYS.REV. C8, 693(1973)   (SDPF)MW  = (SDPF)M40 EXCEPT SPE CHANGED TO               GIVE MCGRORY&apos;S FP VALUES.</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="f7">
+	<valencespace name="f7">
+		<core name="40Ca" N="20" Z="20"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="1"/>
+		<outercore name="56Ni" N="28" Z="28"/>
+	</valencespace>
+	<hamiltonian name="f7mbz" valencespace="f7">
+		<file format="ascii">
+			<name>f7mbz.int</name>
+		</file>
+		<comment>J. D. McCullen, B. F. Bayman and L. Zamick Phys. Rev. 134, B515 (1963).</comment>
+	</hamiltonian>
+	<hamiltonian name="f742" valencespace="f7">
+		<file format="ascii">
+			<name>f742.int</name>
+		</file>
+		<comment>KUTCHERA et al. &quot;42SC&quot; R NUOVO CIM, VOL-1 NO-12</comment>
+	</hamiltonian>
+	<hamiltonian name="f748" valencespace="f7">
+		<file format="ascii">
+			<name>f748.int</name>
+		</file>
+		<comment>KUTCHERA et al. &quot;48SC&quot; R NUOVO CIM, VOL-1 NO-12</comment>
+	</hamiltonian>
+	<hamiltonian name="f754" valencespace="f7">
+		<file format="ascii">
+			<name>f754.int</name>
+		</file>
+		<comment>KUTCHERA et al. &quot;54CO&quot; R NUOVO CIM, VOL-1 NO-12</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="f7pn">
+	<valencespace name="f7pn">
+		<core name="40Ca" N="20" Z="20"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="1"/>
+		<orbital name="n0f7" n="0" l="3" j="7/2" type="n" index="2"/>
+		<outercore name="56Ni" N="28" Z="28"/>
+	</valencespace>
+	<hamiltonian name="f742pn" valencespace="f7pn">
+		<file format="ascii">
+			<name>f742pn.int</name>
+		</file>
+		<comment>KUTCHERA PN INT BASED ON 42TI, 42SC AND 42CA</comment>
+	</hamiltonian>
+	<hamiltonian name="f748pn" valencespace="f7pn">
+		<file format="ascii">
+			<name>f748pn.int</name>
+		</file>
+		<comment>KUTCHERA PN INT BASED ON 50TI, 48SC AND 50TI</comment>
+	</hamiltonian>
+	<hamiltonian name="f748bpn" valencespace="f7pn">
+		<file format="ascii">
+			<name>f748bpn.int</name>
+		</file>
+		<comment>KUTCHERA PN INT BASED ON 50TI, 48SC AND 46CA</comment>
+	</hamiltonian>
+	<hamiltonian name="f7cdpn" valencespace="f7pn">
+		<file format="ascii">
+			<name>f7cdpn.int</name>
+		</file>
+		<comment>Brown and Sherr, NPA322, 61 (1979)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="fp">
+	<valencespace name="fp">
+		<core name="40Ca" N="20" Z="20"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="1"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="3"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="4"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="su3fp" valencespace="fp">
+		<file format="ascii">
+			<name>su3fp.int</name>
+		</file>
+		<comment>SU3 INT - OCT 1990 VERSION</comment>
+	</hamiltonian>
+	<hamiltonian name="gx1" valencespace="fp">
+		<file format="ascii">
+			<name>gx1.int</name>
+			<formulascale rank="2">(A/42)^-0.3</formulascale>
+		</file>
+		<comment>GXFP1</comment>
+<reference doi="10.1103/PhysRevC.65.061301">M. Honma, T. Otsuka, B.A. Brown, and T. Mizusaki, Phys. Rev. C 65, 061301(R) (2002).</reference>
+	<reference doi="10.1103/PhysRevC.69.034335">M. Honma, T. Otsuka, B.A. Brown, and T. Mizusaki, Phys. Rev. C 69, 034335 (2004).</reference>
+	</hamiltonian>
+	<hamiltonian name="gx2" valencespace="fp">
+		<file format="ascii">
+			<name>gx2.int</name>
+			<formulascale rank="2">(A/42)^-0.3</formulascale>
+		</file>
+		<comment>GXFP2</comment>
+<reference doi="10.1103/PhysRevC.65.061301">M. Honma, T. Otsuka, B.A. Brown, and T. Mizusaki, Phys. Rev. C 65, 061301(R) (2002).</reference>
+	<reference doi="10.1103/PhysRevC.69.034335">M. Honma, T. Otsuka, B.A. Brown, and T. Mizusaki, Phys. Rev. C 69, 034335 (2004).</reference>
+	</hamiltonian>
+	<hamiltonian name="kb3" valencespace="fp">
+		<file format="ascii">
+			<name>kb3.int</name>
+		</file>
+		<comment>KB3</comment>
+<reference doi="10.1103/PhysRevC.60.011304">C. Friessner, N. Pietralla, A. Schmidt, I. Schneider, Y. Utsuno, T. Otsuka, and P. von Brentano, Phys. Rev. C 60, 011304(R) (1999)</reference>
+	</hamiltonian>
+	<hamiltonian name="kb3g" valencespace="fp">
+		<file format="ascii">
+			<name>kb3g.int</name>
+			<formulascale rank="2">(A/42)^-(1/3)</formulascale>
+		</file>
+		<comment>KB3G</comment>
+	</hamiltonian>
+	<hamiltonian name="gx1a" valencespace="fp">
+		<file format="ascii">
+			<name>gx1a.int</name>
+			<formulascale rank="2">(A/42)^-0.3</formulascale>
+		</file>
+		<comment>GXFP1A</comment>
+	</hamiltonian>
+	<hamiltonian name="kbf" valencespace="fp">
+		<file format="ascii">
+			<name>kbf.int</name>
+			<formulascale rank="2">(A/42)^-(1/3)</formulascale>
+		</file>
+		<comment>KBF</comment>
+	</hamiltonian>
+	<hamiltonian name="fpd6" valencespace="fp">
+		<file format="ascii">
+			<name>fpd6.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<comment>Richter et al., Nucl. Phys. A523, 325 (1991) FULL FP    POTENTIAL FIT - AUG 1989 called FPD6 in Table 7 of this paper</comment>
+<reference doi="10.1103/PhysRevC.60.011304">C. Friessner, N. Pietralla, A. Schmidt, I. Schneider, Y. Utsuno, T. Otsuka, and P. von Brentano, Phys. Rev. C 60, 011304(R) (1999)</reference>
+	</hamiltonian>
+	<hamiltonian name="fpbm" valencespace="fp">
+		<file format="ascii">
+			<name>fpbm.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<comment>Richter et al., Nucl. Phys. A523, 325 (1991) FULL FP    TBME FIT - AUG 1989 called FPMI3 in Table 7 of this paper</comment>
+	</hamiltonian>
+	<hamiltonian name="fpd6n" valencespace="fp">
+		<file format="ascii">
+			<name>fpd6n.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<comment>FPBP WITH SPE ADJUSTED FOR 56NI</comment>
+	</hamiltonian>
+	<hamiltonian name="fpm" valencespace="fp">
+		<file format="ascii">
+			<name>fpm.int</name>
+		</file>
+		<comment>MOOY INTERACTION  ZP A312, 59 (1983) AND PRIVATE COMMUNICATION</comment>
+	</hamiltonian>
+	<hamiltonian name="fpy" valencespace="fp">
+		<file format="ascii">
+			<name>fpy.int</name>
+		</file>
+		<comment>F7P3F5P1 + YOKOYAMA &quot;D&quot; INTERACTION  PHYS REV C31, 1012 (1985) AND PRIV COMM  PLUS MSDI(0.25,0.53,-1.09,.50)  FOR ALL OTHER MATRIX ELEMENTS FROM THE  1ST COLUMN IN TABLE 1 OF  KOOPS AND GLAUDEMANS, Z. PHYS. A280, 181 (1977)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpv" valencespace="fp">
+		<file format="ascii">
+			<name>fpv.int</name>
+		</file>
+		<comment>VAN HEES INTERACTION Z. PHYS. A303, 267 (1981)  PLUS MSDI(0.25,0.53,-1.09,.50)  FOR ALL OTHER MATRIX ELEMENTS FROM THE  1ST COLUMN IN TABLE 1 OF  KOOPS AND GLAUDEMANS, Z. PHYS. A280, 181 (1977)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpvh" valencespace="fp">
+		<file format="ascii">
+			<name>fpvh.int</name>
+		</file>
+		<comment>SAME AS FPV BUT REPLACING F5P1P3 WITH  WITH VAN HIENEN - CHUNG - WILDENTHAL  INTERACTION NPA269, 159 (1976)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpv2" valencespace="fp">
+		<file format="ascii">
+			<name>fpv2.int</name>
+		</file>
+		<comment>FPV + 2 MEV ADDED ONTO F5/2 ORBIT  TO GET BETTER 1+ PH SPECTRUM IN 48CA  SEE B.D.ANDERSON ET AL, PRC31, 1161 (1985)</comment>
+	</hamiltonian>
+	<hamiltonian name="fprkb" valencespace="fp">
+		<file format="ascii">
+			<name>fprkb.int</name>
+		</file>
+		<comment>RENORMALIZED KUO-BROWN, NPA114, 241 (1986)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpbkb" valencespace="fp">
+		<file format="ascii">
+			<name>fpbkb.int</name>
+		</file>
+		<comment>BARE KUO-BROWN, NPA114, 241 (1986)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpmcc" valencespace="fp">
+		<file format="ascii">
+			<name>fpmcc.int</name>
+		</file>
+		<comment>FPRKB + 15 TBME CHANGED BY J.B.McGrory, B. H. Wildenthal and E.C.Halbert Phys. Rev. C2, 186 (1970)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpmcd" valencespace="fp">
+		<file format="ascii">
+			<name>fpmcd.int</name>
+		</file>
+		<comment>FPRKB + 8 TBME CHANGED FOR |F7/2,F7/2,J,T) AND NEW S.P.E. F7/2=-8.36, P3/2=-6.26, F5/2=-1.86, P1/2=-4.46 J.B.McGrory, Phys. Rev. C8, 693 (1973)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpmce" valencespace="fp">
+		<file format="ascii">
+			<name>fpmce.int</name>
+		</file>
+		<comment>FPMCC + 50 KeV CHANGED TO F7-F5 + NEW  S.P.E. 0.0(1F7/2), 2.1(2P3/2), 4.4(2P1/2), 8.2(1F5/2) J.B.McGrory and B.H.Wildenthal, Phys. Lett. 103B, 173 (1981)</comment>
+	</hamiltonian>
+	<hamiltonian name="fpmh" valencespace="fp">
+		<file format="ascii">
+			<name>fpmh.int</name>
+		</file>
+		<comment>FPMCE + SHIFT THE MONOPOLE OF INTER-SHELL INTERRACTION (F7,j|V|F7,j) (J,T=0) BY -0.3 MeV K.Muto and H.Horie, Phys.Lett. 138B, 9 (1984)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="fppn">
+	<valencespace name="fppn">
+		<core name="40Ca" N="20" Z="20"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="3"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="4"/>
+		<orbital name="n0f7" n="0" l="3" j="7/2" type="n" index="5"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="6"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="7"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="8"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="gx1pn" valencespace="fppn">
+		<file format="ascii">
+			<name>gx1pn.int</name>
+			<formulascale rank="2">(A/42)^-0.3</formulascale>
+		</file>
+		<comment>GXFP1 IN PN</comment>
+	</hamiltonian>
+	<hamiltonian name="kb3gpn" valencespace="fppn">
+		<file format="ascii">
+			<name>kb3gpn.int</name>
+			<formulascale rank="2">(A/42)^-(1/3)</formulascale>
+		</file>
+		<comment>KB3G IN PN</comment>
+	</hamiltonian>
+	<hamiltonian name="gx1apn" valencespace="fppn">
+		<file format="ascii">
+			<name>gx1apn.int</name>
+			<formulascale rank="2">(A/42)^-0.3</formulascale>
+		</file>
+		<comment>gxpf1a in pn</comment>
+	</hamiltonian>
+	<hamiltonian name="fpd6pn" valencespace="fppn">
+		<file format="ascii">
+			<name>fpd6pn.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<comment>&quot;FPD6&quot; INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="fpd6npn" valencespace="fppn">
+		<file format="ascii">
+			<name>fpd6npn.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<comment>&quot;FPD6N&quot; INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="fpd6cdpnf" valencespace="fppn">
+		<file format="ascii">
+			<name>fpd6pn.int</name>
+			<formulascale rank="2">(A/42)**-0.35</formulascale>
+		</file>
+		<file format="ascii">
+			<name>fpcospn.int</name>
+			<scale rank="1">0.978051</scale>
+             <note>scaling=sqrt(hw(A)/hw(39)) rank=1</note>
+            <note>hw(A) is tabulated</note>
+			<scale rank="2">0.958490</scale>
+             <note>scaling=0.98*sqrt(hw(A)/hw(39)), rank=2</note>
+            <note>hw(A)=(45.*pow(A,-1/3)-25.*pow(A,-2./3.))) </note>
+		</file>
+		<file format="ascii">
+			<name>fpbivpn.int</name>
+			<scale rank="2">-0.009838</scale>
+            <note>scaling=-0.01*(TB-scaling) e.g. -0.01*(42/A)^(0.35)</note>
+		</file>
+		<file format="ascii">
+			<name>fpbitpn.int</name>
+			<scale rank="2">-0.049192</scale>
+             <note>scaling=-0.05*(TB-scaling) e.g. -0.05*(42/A)^(0.35)</note>
+		</file>
+		<comment>&quot;FPD6&quot; PLUS COULOMB PLUS &quot;FPD6&quot; ISOTENSOR</comment>
+	</hamiltonian>
+	<hamiltonian name="fpvpn" valencespace="fppn">
+		<file format="ascii">
+			<name>fpvpn.int</name>
+		</file>
+		<comment>&quot;FPV&quot; INT PN FORMALSIM</comment>
+	</hamiltonian>
+	<hamiltonian name="fpvcdpn" valencespace="fppn">
+		<file format="ascii">
+			<name>fpvpn.int</name>
+		</file>
+		<file format="ascii">
+			<name>fpcospn.int</name>
+			<scale rank="1">0.983873</scale>
+			<scale rank="2">1.023228</scale>
+		</file>
+		<file format="ascii">
+			<name>fpvivpn.int</name>
+			<scale rank="2">0.015700</scale>
+		</file>
+		<file format="ascii">
+			<name>fpvitpn.int</name>
+			<scale rank="2">-0.042000</scale>
+		</file>
+		<comment>&quot;FPV&quot; PLUS COULOMB PLUS &quot;FPV&quot; ISOTENSOR</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="ho">
+	<valencespace name="ho">
+		<core name="48Ca" N="28" Z="20"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="3"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="4"/>
+		<outercore name="68Ge" N="36" Z="32"/>
+	</valencespace>
+	<hamiltonian name="ho" valencespace="ho">
+		<file format="ascii">
+			<name>ho.int</name>
+		</file>
+		<comment>H.Horie and K.Ogawa, Prog. of Theoretical Physics 46, 439 (1971), Nucl. Phys. A216, 407 (1973).</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="f5p">
+	<valencespace name="f5p">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="1"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="3"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="f5pvh" valencespace="f5p">
+		<file format="ascii">
+			<name>f5pvh.int</name>
+		</file>
+		<comment>WITH VAN HIENEN - CHUNG - WILDENTHAL  INTERACTION NPA269, 159 (1976)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="gl">
+	<valencespace name="gl">
+		<core name="88Sr" N="50" Z="38"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="1"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="2"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="3"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="4"/>
+		<outercore name="108Sn" N="58" Z="50"/>
+	</valencespace>
+	<hamiltonian name="gl" valencespace="gl">
+		<file format="ascii">
+			<name>gl.int</name>
+		</file>
+		<comment>GLOECKNER INTERACTION (FINAL) NPA253, 301 (1975)</comment>
+		<reference doi="10.1016/0375-9474(75)90484-4">D.H. Gloeckner, Nucl.Phys.A 235 (1975) 301</reference>
+	</hamiltonian>
+	<hamiltonian name="glb" valencespace="gl">
+		<file format="ascii">
+			<name>glb.int</name>
+		</file>
+		<comment>GLOECKNER INTERACTION, BARE G-MATRIX(N=51)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="n50j">
+	<valencespace name="n50j">
+		<core name="78Ni" N="50" Z="28"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="4"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="5"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="6"/>
+		<outercore name="108Zr" N="68" Z="40"/>
+	</valencespace>
+	<hamiltonian name="n50j" valencespace="n50j">
+		<file format="ascii">
+			<name>n50j.int</name>
+		</file>
+		<comment>JI-WILDENTHAL INTERACTION (N=50)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="f5pg9">
+	<valencespace name="f5pg9">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="1"/>
+         	<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="2"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="3"/>
+		<orbital name="0g9" n="0" l="4" j="9/2" type="pn" index="4"/>
+		<outercore name="100Sn" N="50" Z="50"/>
+	</valencespace>
+	<hamiltonian name="jj44b" valencespace="f5pg9">
+		<file format="ascii">
+			<name>jj44b.int</name>
+			<formulascale rank="2">(58/A)^(0.3)</formulascale>
+		</file>
+		<comment>f4.int  4th iteration for A=56-100 fit Brown and Lisetskiy, unpublished</comment>
+	</hamiltonian>
+	<hamiltonian name="jun45" valencespace="f5pg9">
+		<file format="ascii">
+			<name>jun45.int</name>
+			<formulascale rank="2">(58/A)^(0.3)</formulascale>
+		</file>
+                <operator name="M1" J="1" mu_n="-1.339128" mu_p="1.954995" gl_n="0" gl_p="1"/>
+		<comment>Fit, M1 quenching factor 0.7, E2 use (0.5,1.5), try (0.8,1.8) </comment>
+		<reference>Phys. Rev. C 80, 064323 (2009)</reference>
+	</hamiltonian>
+	<hamiltonian name="jun45G" valencespace="f5pg9">
+		<file format="ascii">
+			<name>jun45G.int</name>
+			<formulascale rank="2">(58/A)^(0.3)</formulascale>
+		</file>
+		<comment>G-matrix interaction</comment>
+		<reference>>Phys. Rev. C 80, 064323 (2009)</reference>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj44pn">
+	<valencespace name="jj44pn">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="4"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="5"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="6"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="7"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="8"/>
+		<outercore name="100Sn" N="50" Z="50"/>
+	</valencespace>
+	<hamiltonian name="jj44pna" valencespace="jj44pn">
+		<file format="ascii">
+			<name>jj44pna.int</name>
+		</file>
+		<comment>T=1 interactions only from PRC70, 044314 (2004)</comment>
+	</hamiltonian>
+	<hamiltonian name="jj44bpn" valencespace="jj44pn">
+		<file format="ascii">
+			<name>jj44bpn.int</name>
+		</file>
+		<comment>pn version of jj44b</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="glepn">
+	<valencespace name="glepn">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="1"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="4"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="5"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="6"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="7"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="8"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="9"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="10"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="11"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="12"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="13"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="14"/>
+		<outercore name="124Sm" N="62" Z="62"/>
+	</valencespace>
+	<hamiltonian name="glepn" valencespace="glepn">
+		<file format="ascii">
+			<name>glepn.int</name>
+		</file>
+		<comment>H. Mach et al., PRC41, 226 (1990)</comment>
+	</hamiltonian>
+	<hamiltonian name="glbepn" valencespace="glepn">
+		<file format="ascii">
+			<name>glbepn.int</name>
+		</file>
+		<comment>H. Mach et al., PRC41, 226 (1990)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="glekpn">
+	<valencespace name="glekpn">
+		<core name="60Ca" N="40" Z="20"/>
+		<orbital name="p0f7" n="0" l="3" j="7/2" type="p" index="1"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="2"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="3"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="4"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="5"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="6"/>
+		<orbital name="n0g7" n="0" l="4" j="7/2" type="n" index="7"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="8"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="9"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="10"/>
+		<outercore name="120Sn" N="70" Z="50"/>
+	</valencespace>
+	<hamiltonian name="glekpn" valencespace="glekpn">
+		<file format="ascii">
+			<name>glekpn.int</name>
+		</file>
+		<comment>H. Mach et al., PRC41, 226 (1990)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="slg">
+	<valencespace name="slg">
+		<core name="76Sr" N="38" Z="38"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="1"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="2"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="3"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="4"/>
+		<outercore name="100Sn" N="50" Z="50"/>
+	</valencespace>
+	<hamiltonian name="slgm" valencespace="slg">
+		<file format="ascii">
+			<name>slgm.int</name>
+		</file>
+		<comment>&quot;seniority-fit total-energy&quot; PP and PN SLG int F.J.D.Serduke, R.D.Lawson and D.H.Gloeckner NPA256, 45 (1976) * NN INTERACTION FROM BAB</comment>
+	</hamiltonian>
+	<hamiltonian name="slgmt0" valencespace="slg">
+		<file format="ascii">
+			<name>slgmt0.int</name>
+		</file>
+		<comment>&quot;T=0&quot; PP and PN SLG int * NN INTERACTION FROM BAB</comment>
+	</hamiltonian>
+	<hamiltonian name="slgml" valencespace="slg">
+		<file format="ascii">
+			<name>slgml.int</name>
+		</file>
+		<comment>&quot;seniority-fit levels&quot; PP and PN SLG int * NN INTERACTION FROM BAB</comment>
+	</hamiltonian>
+	<hamiltonian name="slgo" valencespace="slg">
+		<file format="ascii">
+			<name>slgo.int</name>
+		</file>
+		<comment>PP AND PN SERDUKE-LAWSON-GLOECKNER INTERACTION * NN INTERACTION FROM ZP314, 205 (1983) (LAWSON PRIVATE COMMUNICATION)</comment>
+	</hamiltonian>
+	<hamiltonian name="slgtpn" valencespace="slg">
+		<file format="ascii">
+			<name>slgtpn.int</name>
+		</file>
+		<comment>SLGT INTERACTION</comment>
+	</hamiltonian>
+	<hamiltonian name="slgt0pn" valencespace="slg">
+		<file format="ascii">
+			<name>slgt0pn.int</name>
+		</file>
+		<comment>SLGT0 Herndl-Brown - NPA627, 35 (1997)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="slgt">
+	<valencespace name="slgt">
+		<core name="76Sr" N="38" Z="38"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="1"/>
+		<orbital name="0g9" n="0" l="4" j="9/2" type="pn" index="2"/>
+		<outercore name="100Sn" N="50" Z="50"/>
+	</valencespace>
+	<hamiltonian name="slgt" valencespace="slgt">
+		<file format="ascii">
+			<name>slgt.int</name>
+		</file>
+		<comment>SPACE SERDUKE-LAWSON-GLOECKNER INTERACTION</comment>
+	</hamiltonian>
+	<hamiltonian name="slgt0" valencespace="slgt">
+		<file format="ascii">
+			<name>slgt0.int</name>
+		</file>
+		<comment>Herndl-Brown - NPA627, 35 (1997)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="g9">
+  <valencespace name="g9">
+        <core name="80Zr" N="40" Z="40"/>
+        <orbital name="0g9" n="0" l="4" j="9/2" type="pn" index="1"/>
+        <outercore name="100Sn" N="50" Z="50"/>
+  </valencespace>
+  <hamiltonian name="g9" valencespace="g9">
+        <file format="ascii">
+                <name>g9.int</name>
+        </file>
+        <comment>Fit g9/2 interaction</comment>
+	<reference>Rev. Mod Phys. 48 (1976) 191</reference>
+  </hamiltonian>
+</modelspace>
+<modelspace name="sn">
+	<valencespace name="sn">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="4"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="5"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="6"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="7"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="8"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="9"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="10"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="11"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="12"/>
+		<orbital name="n0g7" n="0" l="4" j="7/2" type="n" index="13"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="14"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="15"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="16"/>
+		<outercore name="140Yb" N="70" Z="70"/>
+	</valencespace>
+	<hamiltonian name="snt" valencespace="sn">
+		<file format="ascii">
+			<name>snt.int</name>
+		</file>
+		<file format="ascii">
+			<name>sntpn.int</name>
+			<scale rank="2">0.700000</scale>
+		</file>
+		<comment>SNT Model Space P1F5/2,2P3/2,2p1/2,1G9/2,1G7/2,2d5/2,2D3/2,3S1/2 N1F5/2,2P3/2,2p1/2,1G9/2,1G7/2,2d5/2,2D3/2,3S1/2 N1H11/2</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sne">
+	<valencespace name="sne">
+		<core name="56Ni" N="28" Z="28"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="4"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="5"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="6"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="7"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="8"/>
+		<orbital name="n0f5" n="0" l="3" j="5/2" type="n" index="9"/>
+		<orbital name="n1p3" n="1" l="1" j="3/2" type="n" index="10"/>
+		<orbital name="n1p1" n="1" l="1" j="1/2" type="n" index="11"/>
+		<orbital name="n0g9" n="0" l="4" j="9/2" type="n" index="12"/>
+		<orbital name="n0g7" n="0" l="4" j="7/2" type="n" index="13"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="14"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="15"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="16"/>
+		<orbital name="n0h11" n="0" l="5" j="11/2" type="n" index="17"/>
+		<outercore name="152Yb" N="82" Z="70"/>
+	</valencespace>
+	<hamiltonian name="snet" valencespace="sne">
+		<file format="ascii">
+			<name>snet.int</name>
+		</file>
+		<file format="ascii">
+			<name>snetpn.int</name>
+			<scale rank="2">0.700000</scale>
+		</file>
+		<comment/>
+	</hamiltonian>
+</modelspace>
+<modelspace name="n82">
+	<valencespace name="n82">
+		<core name="132Sn" N="82" Z="50"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="1"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="3"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="4"/>
+		<orbital name="n0h11" n="0" l="5" j="11/2" type="n" index="5"/>
+		<orbital name="n1f7" n="1" l="3" j="7/2" type="n" index="6"/>
+		<outercore name="172Er" N="104" Z="68"/>
+	</valencespace>
+	<hamiltonian name="n82k" valencespace="n82">
+		<file format="ascii">
+			<name>n82k.int</name>
+		</file>
+		<comment>Kruse-Wildenthal, BAPS 27, 533 (1982) p. 725.</comment>
+	</hamiltonian>
+	<hamiltonian name="n82a" valencespace="n82">
+		<file format="ascii">
+			<name>n82a.int</name>
+		</file>
+		<file format="ascii">
+			<name>n82coul.int</name>
+			<scale rank="1">0.000010</scale>
+			<scale rank="2">0.000010</scale>
+		</file>
+		<comment>Bonn-A from Horjth-Jensen</comment>
+	</hamiltonian>
+	<hamiltonian name="n82b" valencespace="n82">
+		<file format="ascii">
+			<name>n82b.int</name>
+		</file>
+		<file format="ascii">
+			<name>n82coul.int</name>
+			<scale rank="1">0.000010</scale>
+			<scale rank="2">0.000010</scale>
+		</file>
+		<comment>Bonn-B from Horjth-Jensen</comment>
+	</hamiltonian>
+	<hamiltonian name="n82c" valencespace="n82">
+		<file format="ascii">
+			<name>n82c.int</name>
+		</file>
+		<file format="ascii">
+			<name>n82coul.int</name>
+			<scale rank="1">0.000010</scale>
+			<scale rank="2">0.000010</scale>
+		</file>
+		<comment>CD-Bonn from Horjth-Jensen</comment>
+	</hamiltonian>
+	<hamiltonian name="n82d" valencespace="n82">
+		<file format="ascii">
+			<name>n82d.int</name>
+		</file>
+		<file format="ascii">
+			<name>n82coul.int</name>
+			<scale rank="1">0.000010</scale>
+			<scale rank="2">0.000010</scale>
+		</file>
+		<comment>Nijmegen I from Horjth-Jensen</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj45pn">
+	<valencespace name="jj45pn">
+		<core name="78Ni" N="50" Z="28"/>
+		<orbital name="p0f5" n="0" l="3" j="5/2" type="p" index="1"/>
+		<orbital name="p1p3" n="1" l="1" j="3/2" type="p" index="2"/>
+		<orbital name="p1p1" n="1" l="1" j="1/2" type="p" index="3"/>
+		<orbital name="p0g9" n="0" l="4" j="9/2" type="p" index="4"/>
+		<orbital name="n0g7" n="0" l="4" j="7/2" type="n" index="5"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="6"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="7"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="8"/>
+		<orbital name="n0h11" n="0" l="5" j="11/2" type="n" index="9"/>
+		<outercore name="132Sn" N="82" Z="50"/>
+	</valencespace>
+	<hamiltonian name="jj45pna" valencespace="jj45pn">
+		<file format="ascii">
+			<name>jj45app.int</name>
+		</file>
+		<file format="ascii">
+			<name>jj45ann.int</name>
+			<scale rank="2">0.900000</scale>
+		</file>
+		<file format="ascii">
+			<name>jj45apn.int</name>
+		</file>
+		<file format="ascii">
+			<name>jj45aco.int</name>
+		</file>
+		<comment>G matrix for 132Sn from Horth-Jensen (2000) with spe adjusted to 132Sn region</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj55pn">
+	<valencespace name="jj55pn">
+		<core name="100Sn" N="50" Z="50"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="1"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="3"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="4"/>
+		<orbital name="p0h11" n="0" l="5" j="11/2" type="p" index="5"/>
+		<orbital name="n0g7" n="0" l="4" j="7/2" type="n" index="6"/>
+		<orbital name="n1d5" n="1" l="2" j="5/2" type="n" index="7"/>
+		<orbital name="n1d3" n="1" l="2" j="3/2" type="n" index="8"/>
+		<orbital name="n2s1" n="2" l="0" j="1/2" type="n" index="9"/>
+		<orbital name="n0h11" n="0" l="5" j="11/2" type="n" index="10"/>
+		<outercore name="164Pb" N="82" Z="82"/>
+	</valencespace>
+	<hamiltonian name="sn100pn" valencespace="jj55pn">
+		<file format="ascii">
+			<name>sn100pp.int</name>
+		</file>
+		<file format="ascii">
+			<name>sn100nn.int</name>
+			<scale rank="2">0.900000</scale>
+		</file>
+		<file format="ascii">
+			<name>sn100pn.int</name>
+		</file>
+		<file format="ascii">
+			<name>sn100co.int</name>
+		</file>
+		<comment>Phys. Rev. C 71, 044317 (2005)</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj56pn">
+	<valencespace name="jj56pn">
+		<core name="132Sn" N="82" Z="50"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="1"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="3"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="4"/>
+		<orbital name="p0h11" n="0" l="5" j="11/2" type="p" index="5"/>
+		<orbital name="n0h9" n="0" l="5" j="9/2" type="n" index="6"/>
+		<orbital name="n1f7" n="1" l="3" j="7/2" type="n" index="7"/>
+		<orbital name="n1f5" n="1" l="3" j="5/2" type="n" index="8"/>
+		<orbital name="n2p3" n="2" l="1" j="3/2" type="n" index="9"/>
+		<orbital name="n2p1" n="2" l="1" j="1/2" type="n" index="10"/>
+		<orbital name="n0i13" n="0" l="6" j="13/2" type="n" index="11"/>
+		<outercore name="208Pb" N="126" Z="82"/>
+	</valencespace>
+	<hamiltonian name="kh5082" valencespace="jj56pn">
+		<file format="ascii">
+			<name>kh5082.int</name>
+		</file>
+		<comment>KHH(PURE)*(208/132)**(1/3), for a A=132 CORE RATHER THAN 208; EXPT. SPE W.T.Chou and E.K.Warburton, PRC45, 1720 (1992).</comment>
+	</hamiltonian>
+	<hamiltonian name="cw5082" valencespace="jj56pn">
+		<file format="ascii">
+			<name>cw5082.int</name>
+		</file>
+		<comment>Z50n82 but with the pp tbme and the p spe replaced by the N82K values. W.T.Chou and E.K.Warburton, PRC45, 1720 (1992).</comment>
+	</hamiltonian>
+	<hamiltonian name="cwg" valencespace="jj56pn">
+		<file format="ascii">
+			<name>cwg.int</name>
+		</file>
+		<comment>Phys. Rev. C 71, 044317 (2005)</comment>
+	</hamiltonian>
+	<hamiltonian name="khhba" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhba.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE &apos;BARE&apos; G-MATRIX OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khhbu" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhbu.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE 1P1H &apos;BUBBLE&apos; OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khh" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khh.int</name>
+		</file>
+		<comment>PHYS. REV. C 43 (1991) 602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO Phys. Rev. C 24, 717 (1981). THE HOLE SPACE (BELOW 208PB), KHHBA+KPH*KHHBU: KPH(PP)=0.70,KPH(PN)=0.75,KPH(NN)=0.55</comment>
+	</hamiltonian>
+	<hamiltonian name="khhe" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhe.int</name>
+		</file>
+		<comment>THIS IS THE PREFERRED INTERACTION FOR THIS SPACE. PHYS. REV. C 43 (1991) 602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO Phys. Rev. C 24, 717 (1981). THE HOLE SPACE (BELOW 208PB), BARE+1.00*BUBBLE FOR PP  and  PN [ and SELECTED TBME TUNED TO 206TL  and  206HG AS PER NUCL.PHYS.A512, 217 (1990)], PB206JB FOR NN.</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="pb206">
+	<valencespace name="pb206">
+		<core name="208Pb" N="126" Z="82"/>
+		<orbital name="p0h9" n="0" l="5" j="9/2" type="p" index="1"/>
+		<orbital name="p1f7" n="1" l="3" j="7/2" type="p" index="2"/>
+		<orbital name="p1f5" n="1" l="3" j="5/2" type="p" index="3"/>
+		<orbital name="n2p3" n="2" l="1" j="3/2" type="n" index="4"/>
+		<orbital name="n2p1" n="2" l="1" j="1/2" type="n" index="5"/>
+		<orbital name="n0i13" n="0" l="6" j="13/2" type="n" index="6"/>
+		<outercore name="252Sg" N="146" Z="106"/>
+	</valencespace>
+	<hamiltonian name="pb206ba" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206ba.int</name>
+		</file>
+		<comment>THE KUO-HERLING BARE TBME</comment>
+	</hamiltonian>
+	<hamiltonian name="pb206bu" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206bu.int</name>
+		</file>
+		<comment>THE KUO-HERLING 1P-1H BUBBLE</comment>
+	</hamiltonian>
+	<hamiltonian name="pb206mc" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206mc.int</name>
+		</file>
+		<comment>G(bare)+0.75*G(cp), McGrory and Kuo, NPA247, 283 (1975). NOTE: Blomqvist-McGrory changed quite a few TBME to tune to 206Pb.</comment>
+	</hamiltonian>
+	<hamiltonian name="pb206jb" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206jb.int</name>
+		</file>
+		<comment>G(bare)+0.75*G(cp), McGrory and Kuo, NPA247, 283 (1975). NOTE: Blomqvist-McGrory changed quite a few TBME to tune to 206Pb. Other changes have been made- see heading of .int file. This is the preferred interaction in this space.</comment>
+	</hamiltonian>
+	<hamiltonian name="pb206wm" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206wm.int</name>
+		</file>
+		<comment>MSDI, D. Wang and M. T. McEllistrem, Phys. Rev. C42, 252 (1990)</comment>
+	</hamiltonian>
+	<hamiltonian name="pb206bm" valencespace="pb206">
+		<file format="ascii">
+			<name>pb206bm.int</name>
+		</file>
+		<comment>THE KH-MC BARE; PB206JB - 0.75*PB206BU</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj56pn">
+	<valencespace name="jj56pn">
+		<core name="132Sn" N="82" Z="50"/>
+		<orbital name="p0g7" n="0" l="4" j="7/2" type="p" index="1"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="2"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="3"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="4"/>
+		<orbital name="p0h11" n="0" l="5" j="11/2" type="p" index="5"/>
+		<orbital name="n0h9" n="0" l="5" j="9/2" type="n" index="6"/>
+		<orbital name="n1f7" n="1" l="3" j="7/2" type="n" index="7"/>
+		<orbital name="n1f5" n="1" l="3" j="5/2" type="n" index="8"/>
+		<orbital name="n2p3" n="2" l="1" j="3/2" type="n" index="9"/>
+		<orbital name="n2p1" n="2" l="1" j="1/2" type="n" index="10"/>
+		<orbital name="n0i13" n="0" l="6" j="13/2" type="n" index="11"/>
+		<outercore name="208Pb" N="126" Z="82"/>
+	</valencespace>
+	<hamiltonian name="kh5082" valencespace="jj56pn">
+		<file format="ascii">
+			<name>kh5082.int</name>
+		</file>
+		<comment>KHH(PURE)*(208/132)**(1/3), for a A=132 CORE RATHER THAN 208; EXPT. SPE W.T.Chou and E.K.Warburton, PRC45, 1720 (1992).</comment>
+	</hamiltonian>
+	<hamiltonian name="cw5082" valencespace="jj56pn">
+		<file format="ascii">
+			<name>cw5082.int</name>
+		</file>
+		<comment>Z50n82 but with the pp tbme and the p spe replaced by the N82K values. W.T.Chou and E.K.Warburton, PRC45, 1720 (1992).</comment>
+	</hamiltonian>
+	<hamiltonian name="cwg" valencespace="jj56pn">
+		<file format="ascii">
+			<name>cwg.int</name>
+		</file>
+		<comment>Phys. Rev. C 71, 044317 (2005)</comment>
+	</hamiltonian>
+	<hamiltonian name="khhba" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhba.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE &apos;BARE&apos; G-MATRIX OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khhbu" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhbu.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE 1P1H &apos;BUBBLE&apos; OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khh" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khh.int</name>
+		</file>
+		<comment>PHYS. REV. C 43 (1991) 602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO Phys. Rev. C 24, 717 (1981). THE HOLE SPACE (BELOW 208PB), KHHBA+KPH*KHHBU: KPH(PP)=0.70,KPH(PN)=0.75,KPH(NN)=0.55</comment>
+	</hamiltonian>
+	<hamiltonian name="khhe" valencespace="jj56pn">
+		<file format="ascii">
+			<name>khhe.int</name>
+		</file>
+		<comment>THIS IS THE PREFERRED INTERACTION FOR THIS SPACE. PHYS. REV. C 43 (1991) 602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO Phys. Rev. C 24, 717 (1981). THE HOLE SPACE (BELOW 208PB), BARE+1.00*BUBBLE FOR PP  and  PN [ and SELECTED TBME TUNED TO 206TL  and  206HG AS PER NUCL.PHYS.A512, 217 (1990)], PB206JB FOR NN.</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="jj67pn">
+	<valencespace name="jj67pn">
+		<core name="208Pb" N="126" Z="82"/>
+		<orbital name="p0h9" n="0" l="5" j="9/2" type="p" index="1"/>
+		<orbital name="p1f7" n="1" l="3" j="7/2" type="p" index="2"/>
+		<orbital name="p1f5" n="1" l="3" j="5/2" type="p" index="3"/>
+		<orbital name="p2p3" n="2" l="1" j="3/2" type="p" index="4"/>
+		<orbital name="p2p1" n="2" l="1" j="1/2" type="p" index="5"/>
+		<orbital name="p0i13" n="0" l="6" j="13/2" type="p" index="6"/>
+		<orbital name="n0i11" n="0" l="6" j="11/2" type="n" index="7"/>
+		<orbital name="n1g9" n="1" l="4" j="9/2" type="n" index="8"/>
+		<orbital name="n1g7" n="1" l="4" j="7/2" type="n" index="9"/>
+		<orbital name="n2d5" n="2" l="2" j="5/2" type="n" index="10"/>
+		<orbital name="n2d3" n="2" l="2" j="3/2" type="n" index="11"/>
+		<orbital name="n3s1" n="3" l="0" j="1/2" type="n" index="12"/>
+		<orbital name="n0j15" n="0" l="7" j="15/2" type="n" index="13"/>
+		<outercore name="310" N="184" Z="126"/>
+	</valencespace>
+	<hamiltonian name="khpba" valencespace="jj67pn">
+		<file format="ascii">
+			<name>khpba.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE &apos;BARE&apos; G-MATRIX OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khpbu" valencespace="jj67pn">
+		<file format="ascii">
+			<name>khpbu.int</name>
+		</file>
+		<comment>KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). THE 1P1H &apos;BUBBLE&apos; OF KUO and HERLING.</comment>
+	</hamiltonian>
+	<hamiltonian name="khp" valencespace="jj67pn">
+		<file format="ascii">
+			<name>khp.int</name>
+		</file>
+		<comment>PHYS. REV. C 43 (1991) 602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO PHYS. Rev. C 24, 717 (1981). THE PARTICLE SPACE (ABOVE 208PB), KHPBA+KPH*KHPBU KPH(PP)=0.92,KPH(PN)=0.90,KPH(NN)=1.07</comment>
+	</hamiltonian>
+	<hamiltonian name="khpe" valencespace="jj67pn">
+		<file format="ascii">
+			<name>khpe.int</name>
+		</file>
+		<comment>THIS IS THE PREFERRED INTERACTION FOR THIS SPACE.  PHYS. REV. C 43 (1991)  602. ADAPTED FROM KUO-HERLING: McGrory and Kuo, N.P. A247, 283 (1975). SEE ALSO PHYS. Rev. C 24, 717 (1981). THE PARTICLE SPACE (ABOVE 208PB), KHPBA+KPH*KHPBU KPH(PP)=0.92,KPH(PN)=0.90,KPH(NN)=1.07  and  MANY PNP TBME ADJUSTED. THE CHANGED PNP TBME ARE LABELED AS SUCH. &apos;E&apos; IS FOR EMPIRICAL. +49 AND +15 KeV HAS BEEN ADDED TO THE DIAGONAL PP AND NN TBME, RESPT.</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="pbpop">
+	<valencespace name="pbpop">
+		<core name="158Ce" N="100" Z="58"/>
+		<orbital name="p1d5" n="1" l="2" j="5/2" type="p" index="1"/>
+		<orbital name="p1d3" n="1" l="2" j="3/2" type="p" index="2"/>
+		<orbital name="p2s1" n="2" l="0" j="1/2" type="p" index="3"/>
+		<orbital name="p0h11" n="0" l="5" j="11/2" type="p" index="4"/>
+		<orbital name="p0h9" n="0" l="5" j="9/2" type="p" index="5"/>
+		<orbital name="p1f7" n="1" l="3" j="7/2" type="p" index="6"/>
+		<orbital name="p0i13" n="0" l="6" j="13/2" type="p" index="7"/>
+		<orbital name="n1f5" n="1" l="3" j="5/2" type="n" index="8"/>
+		<orbital name="n2p3" n="2" l="1" j="3/2" type="n" index="9"/>
+		<orbital name="n2p1" n="2" l="1" j="1/2" type="n" index="10"/>
+		<orbital name="n0i13" n="0" l="6" j="13/2" type="n" index="11"/>
+		<orbital name="n0i11" n="0" l="6" j="11/2" type="n" index="12"/>
+		<orbital name="n1g9" n="1" l="4" j="9/2" type="n" index="13"/>
+		<orbital name="n0j15" n="0" l="7" j="15/2" type="n" index="14"/>
+		<outercore name="278Uuq" N="164" Z="114"/>
+	</valencespace>
+	<hamiltonian name="pbpop" valencespace="pbpop">
+		<file format="ascii">
+			<name>pbpop.int</name>
+		</file>
+		<comment>Poppelier and Glaudemans, Z.Phys.A 329 (1988) 275 1P-1H INTERACTION</comment>
+	</hamiltonian>
+</modelspace>
+<modelspace name="sdeff">
+    <valencespace name="sdeff">
+        <core name="16O" N="8" Z="8"/>
+        <orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="2"/>
+        <orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="3"/>
+        <orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="1"/>
+        <outercore name="40Ca" N="20" Z="20"/>
+    </valencespace>
+    <hamiltonian name="jispeff18" valencespace="sdeff">
+        <file format="ascii">
+            <name>JISPA18cv.int</name>
+        </file>
+        <comment>Effective interaction Derived from JISP16 hω = 14MeV for sd shell for A=18. PRC 91, 064301(2015)</comment>
+        
+        <tagfile fileName="JISPA18.tag"/>
+        
+    </hamiltonian>
+    <hamiltonian name="jispeff19" valencespace="sdeff">
+        <file format="ascii">
+            <name>JISPA19cv.int</name>
+        </file>
+        <comment>Effective interaction Derived from JISP16 hω = 14MeV for sd shell for A=18. PRC 91, 064301(2015)</comment>
+        
+        <tagfile fileName="JISPA19.tag"/>
+        
+    </hamiltonian>
+    <hamiltonian name="nloeff18" valencespace="sdeff">
+        <file format="ascii">
+            <name>N3LOA18cv.int</name>
+        </file>
+        <comment>Effective interaction Derived from chiral N3LO hω = 14MeV for sd shell for A=18. PRC 91, 064301(2015)</comment>
+        <tagfile fileName="N3LOA18.tag"/>
+        
+    </hamiltonian>
+    <hamiltonian name="nloeff19" valencespace="sdeff">
+        <file format="ascii">
+            <name>N3LOA19cv.int</name>
+        </file>
+        <comment>Effective interaction Derived from chiral N3LO hω = 14MeV for sd shell for A=19. PRC 91, 064301(2015)</comment>
+        <tagfile fileName="N3LOA19.tag"/>
+        
+    </hamiltonian>
+</modelspace>
+<modelspace name="sdpft">
+    <valencespace name="sdpft">
+        <core name="16O" N="8" Z="8"/>
+        <orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+        <orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+        <orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+        <orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="4"/>
+        <orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="5"/>
+        <orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="6"/>
+        <orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="7"/>
+        <outercore name="80Zr" N="40" Z="40"/>
+    </valencespace>
+    <hamiltonian name="sdpft" valencespace="sdpft">
+        <file format="ascii">
+            <name>sdpfgx1a.int</name>
+            <formulascale rank="2">(18/A)^(1/3)</formulascale>
+        </file>
+        <file format="ascii">
+            <name>sdpfusdb.int</name>
+            <formulascale rank="2">(18/A)^(0.3)</formulascale>
+        </file>
+        <file format="ascii">
+            <name>speShifts.int</name>
+        </file>
+        <!--		<tagfile fileName="sdpfMon.tag"/>-->
+    </hamiltonian>
+</modelspace>
+</cosmo>
