@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as follows."
+title: "CoSMo: Shell Model Code"
+authors:
+  - family-names: "Volya"
+    given-names: "Alexander"
+    orcid: "https://orcid.org/0000-0002-1765-6466"  # Replace with your actual ORCID iD
+    affiliation: "Florida State University"
+version: "5.0.0"  # 
+doi: "10.5281/zenodo.14198442"  
+url: "https://github.com/alvolya/cosmo"
+repository-code: "https://github.com/alvolya/cosmo"
+license: "GPL-3.0"
+keywords:
+  - nuclear physics
+  - shell model
+  - configuration interaction
+  - quantum many-body problem
+abstract: "CoSMo is a comprehensive shell model code suite designed for nuclear shell model and configuration interaction calculations. Its highly structured and templated nature allows for flexibility and ease in applications, including those to open quantum systems with non-Hermitian Hamiltonians, clustering, and time-dependent dynamics."
+date-released: "2023-12-2"
+
