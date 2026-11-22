@@ -1,0 +1,86 @@
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfpb.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :140 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/spsdfp-fsu9.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :768 scale: 0.833734 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p1sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :12 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p3sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :20 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/0s0f1p0.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :1400 scale: 1 
+Scaling rank= 1 with 10
+Scaling rank= 2 with 10
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfcm.int
+Single-particle levels    :10 scale: 10 
+Lines in interaction file :452 scale: 10 
+generating 33Al_fsu9_M1T7-.HH
+dimension 23842
+
+VH: Starting: Sun Nov 22 16:03:07 2026
+VH:   0.65%   12.00 sec  ETA:     1.16 days       1     RATE=16.51VH:   1.30%   18.00 sec  ETA:   22.80 min        2     RATE=16.57VH:   1.95%   25.00 sec  ETA:   20.97 min        3     RATE=15.93VH:   2.60%   31.00 sec  ETA:   19.38 min        4     RATE=16.07VH:   3.25%   37.00 sec  ETA:   18.38 min        5     RATE=16.17VH:   3.90%   43.00 sec  ETA:   17.68 min        6     RATE=16.23VH:   4.55%   50.00 sec  ETA:   17.50 min        7     RATE=15.86VH:   5.19%   56.00 sec  ETA:   17.03 min        8     RATE=15.35VH:   5.84%    1.03 min  ETA:   16.65 min        9     RATE=14.32
+VH: Completed:    1.03 min   RATE=14.32 Sun Nov 22 16:04:09 2026
+Size: 23842
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 16:04:09 2026
+Status saved in the log file: D_1795381449.status
+ writing output to 33Al_fsu9_M1T7-.HH.EE
+-301.132 1.7053e-13 2.66621e-09
+-299.928 1.13687e-13 1.31383e-09
+-299.874 0 2.04481e-09
+-299.817 5.68434e-14 2.02825e-09
+-299.724 2.27374e-13 1.63794e-09
+-299.669 1.7053e-13 4.08994e-09
+-299.492 5.68434e-14 1.94229e-09
+-299.375 2.84217e-13 1.72776e-09
+-299.323 1.13687e-13 7.98839e-09
+-299.131 3.72898e-06 0.0169329
+my lowest eigenvalue is -301.131923
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 33Al_fsu9_M1T7-.HH.EE
+states found 10
+processing states 10
+State: 0 E= -301.131923 JJ= 0.000000
+ TT= 0.000000 
+State: 1 E= -299.927765 JJ= 15.000000
+ TT= 0.000000 
+State: 2 E= -299.874293 JJ= 8.000000
+ TT= 0.000000 
+State: 3 E= -299.817118 JJ= 3.000000
+ TT= 0.000000 
+State: 4 E= -299.723778 JJ= 0.000000
+ TT= 0.000000 
+State: 5 E= -299.668971 JJ= 24.000000
+ TT= 0.000000 
+State: 6 E= -299.491868 JJ= 35.000000
+ TT= 0.000000 
+State: 7 E= -299.374798 JJ= 24.000000
+ TT= 0.000000 
+State: 8 E= -299.323360 JJ= 15.000000
+ TT= 0.000000 
+State: 9 E= -299.131352 JJ= 8.105133
+ TT= 0.000000 

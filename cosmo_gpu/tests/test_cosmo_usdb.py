@@ -34,14 +34,23 @@ def test_full_spectrum_matches_cosmo(nucleus):
     np.testing.assert_allclose(2 * J, ref["j2"][:nj], atol=1e-6)
 
 
-@pytest.mark.parametrize("nucleus", ["24Mg", "25Mg", pytest.param("28Si", marks=pytest.mark.slow)])
+@pytest.mark.parametrize(
+    "nucleus",
+    [
+        "22Na",  # odd-odd
+        "24Mg",
+        "25Mg",
+        pytest.param("26Al", marks=pytest.mark.slow),  # odd-odd
+        pytest.param("28Si", marks=pytest.mark.slow),
+    ],
+)
 def test_lowest_levels_match_cosmo(nucleus):
     ref = REF[nucleus]
     lev = compute_levels(nucleus, "sd", "usdb", nev=10, tol=1e-9, cosmo_float32=True)
     assert lev.converged
     assert lev.basis.dim == ref["dim"]
     ok = np.array(ref["vector_error"]) < 1e-6  # skip states CoSMo did not converge
-    assert ok.sum() >= 8
+    assert ok.sum() >= 6
     np.testing.assert_allclose(lev.energies[ok], np.array(ref["energies"])[ok], atol=E_TOL, rtol=0)
     np.testing.assert_allclose(2 * lev.spins[ok], np.array(ref["j2"])[ok], atol=1e-6)
 

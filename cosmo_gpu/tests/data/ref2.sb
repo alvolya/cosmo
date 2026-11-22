@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -c 16 --mem=16G --time=2:00:00 -p general-short -C amd24 -o ref2-%j.out
+source ~/cosmo/cosmovar.sh ~/cosmo
+export OMP_NUM_THREADS=16
+D=/mnt/ffs24/home/beyerkyl/cosmo/cosmo_gpu/tests/data
+cd $D/cosmo_fsu9
+for f in 33Al_0hw+ 33Al_1hw- 20Ne_1hw-; do
+  XsysmbsOMP $f.xml </dev/null > mbs-$f.log 2>&1
+  DEXHVJTcsb $f.xml -n 10 -i 800 </dev/null > dex-$f.log 2>&1
+done
+Xlevels 33Al_0hw+.xml 33Al_1hw-.xml </dev/null > lev-33Al.log 2>&1
+cd $D/cosmo_usdb
+for f in 22Na_usdb+ 26Al_usdb+; do DEXHVJTcsb $f.xml -n 10 -i 800 </dev/null > dex-${f%%_*}.log 2>&1; done
+XsysmbsOMP 24Mg_rej+.xml </dev/null > mbs-24Mg_rej.log 2>&1
+rm -f core.* $D/cosmo_fsu9/core.*

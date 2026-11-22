@@ -1,0 +1,15 @@
+Program: XsysmbsOMP
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Processing system : 24Mg_usdb_M0T0+
+Valence particles N=4 Z=4
+The number of rejections to process is 1
+Rejection: 0 NMIN=0  NMAX=2 orbitals involved= 2
+12 - 12
+There are 15 partitions
+Done: 1/15	(6.66667%) MBS: 29            Done: 2/15	(13.3333%) MBS: 58            Done: 3/15	(20%) MBS: 130            Done: 4/15	(26.6667%) MBS: 159            Done: 5/15	(33.3333%) MBS: 297            Done: 6/15	(40%) MBS: 455            Done: 7/15	(46.6667%) MBS: 527            Done: 8/15	(53.3333%) MBS: 685            Done: 9/15	(60%) MBS: 895            Done: 10/15	(66.6667%) MBS: 1033            Done: 11/15	(73.3333%) MBS: 1243            Done: 12/15	(80%) MBS: 1429            Done: 13/15	(86.6667%) MBS: 1785            Done: 14/15	(93.3333%) MBS: 2141            Done: 15/15	(100%) MBS: 2829            
+
+number of mbs 2829
