@@ -1,0 +1,111 @@
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=3 Z=0
+
+MBS: Starting: MBSSun Nov 22 15:19:01 2026
+Status saved in the log file: MBS_1795378741.status
+states 37
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.983911 
+generating 19O_usdb_M1T3+.HH
+dimension 37
+Matrix is small for davidson. Using exact diagonalization
+
+VH: Starting: Sun Nov 22 15:19:01 2026
+VH:  10.81%    0.00 sec  ETA:     1.16 days       4     RATE=1.00VH:  27.03%    0.00 sec  ETA:     1.16 days      10     RATE=1.00VH:  37.84%    0.00 sec  ETA:     1.16 days      14     RATE=1.00VH:  64.86%    0.00 sec  ETA:     1.16 days      24     RATE=1.00
+VH: Completed:    0.00 sec   RATE=1.00 Sun Nov 22 15:19:01 2026
+-15.9558 -15.8377 -14.3891 -13.5861 -13.0724 -12.74 -12.1534 -10.8587 -10.7593 -9.87498 -8.75773 -8.09496 -8.08762 -7.97003 -7.11823 -6.49974 -6.36111 -6.18361 -5.59688 -5.2473 -5.21066 -5.15529 -4.71277 -4.67639 -4.00146 -3.37867 -3.34778 -1.3632 -0.854425 -0.392113 0.104992 0.755101 1.4005 1.4103 1.6888 2.0368 5.94603 
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 19O_usdb_M1T3+.HH.EE
+states found 37
+There are 37, how many do you want to process? processing states 32764
+State: 0 E= -15.955818 JJ= 8.000000
+ TT= 0.000000 
+State: 1 E= -15.837735 JJ= 3.000000
+ TT= 0.000000 
+State: 2 E= -14.389122 JJ= 0.000000
+ TT= 0.000000 
+State: 3 E= -13.586122 JJ= 24.000000
+ TT= 0.000000 
+State: 4 E= -13.072397 JJ= 15.000000
+ TT= 0.000000 
+State: 5 E= -12.739990 JJ= 8.000000
+ TT= 0.000000 
+State: 6 E= -12.153417 JJ= 3.000000
+ TT= 0.000000 
+State: 7 E= -10.858679 JJ= 24.000000
+ TT= 0.000000 
+State: 8 E= -10.759315 JJ= 8.000000
+ TT= 0.000000 
+State: 9 E= -9.874985 JJ= 3.000000
+ TT= 0.000000 
+State: 10 E= -8.757727 JJ= 15.000000
+ TT= 0.000000 
+State: 11 E= -8.094956 JJ= 0.000000
+ TT= 0.000000 
+State: 12 E= -8.087622 JJ= 8.000000
+ TT= 0.000000 
+State: 13 E= -7.970029 JJ= 35.000000
+ TT= 0.000000 
+State: 14 E= -7.118225 JJ= 3.000000
+ TT= 0.000000 
+State: 15 E= -6.499735 JJ= 15.000000
+ TT= 0.000000 
+State: 16 E= -6.361113 JJ= 8.000000
+ TT= 0.000000 
+State: 17 E= -6.183607 JJ= 24.000000
+ TT= 0.000000 
+State: 18 E= -5.596885 JJ= 3.000000
+ TT= 0.000000 
+State: 19 E= -5.247295 JJ= 24.000000
+ TT= 0.000000 
+State: 20 E= -5.210664 JJ= 15.000000
+ TT= 0.000000 
+State: 21 E= -5.155285 JJ= 8.000000
+ TT= 0.000000 
+State: 22 E= -4.712771 JJ= 0.000000
+ TT= 0.000000 
+State: 23 E= -4.676387 JJ= 3.000000
+ TT= 0.000000 
+State: 24 E= -4.001459 JJ= 8.000000
+ TT= 0.000000 
+State: 25 E= -3.378666 JJ= 3.000000
+ TT= 0.000000 
+State: 26 E= -3.347780 JJ= 15.000000
+ TT= 0.000000 
+State: 27 E= -1.363204 JJ= 8.000000
+ TT= 0.000000 
+State: 28 E= -0.854425 JJ= 24.000000
+ TT= 0.000000 
+State: 29 E= -0.392113 JJ= 15.000000
+ TT= 0.000000 
+State: 30 E= 0.104992 JJ= 0.000000
+ TT= 0.000000 
+State: 31 E= 0.755101 JJ= 0.000000
+ TT= 0.000000 
+State: 32 E= 1.400501 JJ= 3.000000
+ TT= 0.000000 
+State: 33 E= 1.410295 JJ= 8.000000
+ TT= 0.000000 
+State: 34 E= 1.688805 JJ= 8.000000
+ TT= 0.000000 
+State: 35 E= 2.036801 JJ= 3.000000
+ TT= 0.000000 
+State: 36 E= 5.946033 JJ= 3.000000
+ TT= 0.000000 
+terminate called after throwing an instance of 'rw::Read(double&, std::basic_ifstream<char, std::char_traits<char> >&)::CriticalErrorException'
+  what():  Error: Loss of stream integrity while reading 
+

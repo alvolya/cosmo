@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cosmo version="4.1">
+	<valencespace name="sd">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<hamiltonian name="usdb" valencespace="sd">
+		<file format="ascii">
+			<name>usdb.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>Phys. Rev. C74, 034315 (2006)</comment>
+		<reference doi="10.1103/PhysRevC.78.064302">PHYSICAL REVIEW C 78, 064302 (2008)</reference>
+	</hamiltonian>
+	<system Av="12" Nv="6" Zv="6" A="28" Tz="0" Jz="0" P="+" name="28Si_usdb_M0T0+">
+		<ManyBodyStates name="28Si_usdb_M0T0+.mbs" size="93710" creator="MakeMBS2"/>
+		<matrix name="28Si_usdb_M0T0+.HH" format="pp"/>
+		<state J="0" P="+" T="0" E="-135.861" dE="2.84217e-14" name="0+(1)" Ex="0">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="0"/>
+		</state>
+		<state J="2" P="+" T="0" E="-133.929" dE="0" name="2+(1)" Ex="1.932">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="1"/>
+		</state>
+		<state J="4" P="+" T="0" E="-131.254" dE="2.84217e-14" name="4+(1)" Ex="4.607">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="2"/>
+		</state>
+		<state J="0" P="+" T="0" E="-131.024" dE="5.68434e-14" name="0+(2)" Ex="4.837">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="3"/>
+		</state>
+		<state J="3" P="+" T="0" E="-129.531" dE="2.84217e-14" name="3+(1)" Ex="6.33">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="4"/>
+		</state>
+		<state J="4" P="+" T="0" E="-128.856" dE="2.27374e-13" name="4+(2)" Ex="7.005">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="5"/>
+		</state>
+		<state J="0" P="+" T="0" E="-128.534" dE="5.68434e-14" name="0+(3)" Ex="7.327">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="6"/>
+		</state>
+		<state J="2" P="+" T="0" E="-128.337" dE="1.7053e-13" name="2+(2)" Ex="7.524">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="7"/>
+		</state>
+		<state J="2" P="+" T="0" E="-127.96" dE="0" name="2+(3)" Ex="7.901">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="8"/>
+		</state>
+		<state J="3" P="+" T="0" E="-127.852" dE="7.10543e-14" name="3+(2)" Ex="8.009">
+			<wavefunction Jz="0" Tz="0" file="28Si_usdb_M0T0+.HH.EE" id="9"/>
+		</state>
+	</system>
+</cosmo>
