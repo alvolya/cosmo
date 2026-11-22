@@ -18,3 +18,5 @@ bench-psdpf/.seen
 # CoSMo reference runs for cosmo_gpu tests: keep XMLs and logs only
 cosmo_gpu/tests/data/cosmo_usdb/*.status
 core.*
+# uv project environment
+cosmo_gpu/.venv/

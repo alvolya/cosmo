@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -c 16 --mem=16G --time=1:00:00 -p general-short -C amd24 -o slow-%j.out
 cd /mnt/ffs24/home/beyerkyl/cosmo/cosmo_gpu
-export NUMBA_NUM_THREADS=16 PYTHONPATH=src
-python3 -m pytest -q -m slow 2>&1 | tail -5
-/usr/bin/time -v python3 -m cosmo_gpu levels 28Si sd usdb -n 10 2>&1 | grep -v -i warn | grep -E "^#|^ |Maximum resident|Elapsed"
-python3 -m cosmo_gpu levels 24Mg sd usdb -n 10 2>&1 | grep -v -i warn
+export NUMBA_NUM_THREADS=16
+uv run --locked pytest -q -m slow 2>&1 | tail -5
+/usr/bin/time -v uv run --locked cosmo-gpu levels 28Si sd usdb -n 10 2>&1 | grep -v -i warn | grep -E "^#|^ |Maximum resident|Elapsed"
+uv run --locked cosmo-gpu levels 24Mg sd usdb -n 10 2>&1 | grep -v -i warn

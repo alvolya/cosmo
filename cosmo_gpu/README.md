@@ -19,9 +19,13 @@ precision (`tests/test_cosmo_usdb.py`).
 
 ## Install and run
 
+The package is a [uv](https://docs.astral.sh/uv/) project. Python ≥ 3.12 is required, and
+`uv.lock` pins every dependency. From `cosmo_gpu/`:
+
 ```bash
-pip install -e "cosmo_gpu[dev]"
-python -m cosmo_gpu levels 24Mg sd usdb -n 10
+uv sync                                     # creates .venv with the package and dev tools
+uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu levels ...
+uv sync --extra gpu                         # add CuPy (also: mpi, io)
 ```
 
 Interaction files are found through `$SMINTPATH` (as set by CoSMo's `cosmovar.sh`), otherwise
@@ -32,13 +36,13 @@ in `$COSMO/interactions`, otherwise in this repository's `interactions/`.
 Run all of these from `cosmo_gpu/`. Every commit must pass them, and CI runs the same set:
 
 ```bash
-ruff check .          # lint (rules in pyproject.toml)
-ruff format --check . # formatting
-mypy                  # strict type checking
-pytest                # fast tests; `pytest -m slow` for the 28Si check (use a Slurm job)
+uv run ruff check .          # lint (rules in pyproject.toml)
+uv run ruff format --check . # formatting
+uv run mypy                  # strict type checking
+uv run pytest                # fast tests; `uv run pytest -m slow` for 28Si (use a Slurm job)
 ```
 
-`pre-commit install` at the repository root runs ruff and mypy on staged `cosmo_gpu` files.
+`uvx pre-commit install` at the repository root runs ruff and mypy on staged `cosmo_gpu` files.
 
 Conventions: angular momenta are stored doubled (`j2`, `m2`), so they are integers. Arrays carry
 their dtype in the type (`NDArray[np.uint64]`, `NDArray[np.int64]`, ...), because index widths

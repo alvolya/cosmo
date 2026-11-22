@@ -1,9 +1,10 @@
 # Hooks for the cosmo_gpu package only; the CoSMo C++ tree is untouched.
+# Install with `uvx pre-commit install` (no global pre-commit needed).
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.10
     hooks:
-      - id: ruff
+      - id: ruff-check
         args: [--fix]
         files: ^cosmo_gpu/
       - id: ruff-format
@@ -12,7 +13,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy (cosmo_gpu, strict)
-        entry: bash -c 'cd cosmo_gpu && mypy'
+        entry: bash -c 'cd cosmo_gpu && uv run --locked mypy'
         language: system
         pass_filenames: false
         files: ^cosmo_gpu/.*\.py$

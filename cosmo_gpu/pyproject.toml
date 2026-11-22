@@ -1,13 +1,13 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.11.20,<0.12"]
+build-backend = "uv_build"
 
 [project]
 name = "cosmo-gpu"
 version = "0.0.1"
 description = "M-scheme shell-model CI with a factorized on-the-fly matvec for CPU (Numba) and GPU (CuPy)"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = "GPL-3.0-or-later"
 dependencies = ["numpy>=1.26", "numba>=0.59", "scipy>=1.11"]
 
@@ -15,13 +15,17 @@ dependencies = ["numpy>=1.26", "numba>=0.59", "scipy>=1.11"]
 gpu = ["cupy>=13"]
 mpi = ["mpi4py>=3.1"]
 io = ["h5py>=3.9"]
-dev = ["pytest>=8", "ruff==0.11.10", "mypy==1.15.0", "pre-commit>=3"]
+
+[dependency-groups]
+# installed by `uv sync` by default
+dev = ["pytest>=8", "ruff==0.11.10", "mypy==1.15.0"]
 
 [project.scripts]
 cosmo-gpu = "cosmo_gpu.cli:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.uv.build-backend]
+module-name = "cosmo_gpu"
+module-root = "src"
 
 # ---------------------------------------------------------------- pytest
 [tool.pytest.ini_options]
@@ -32,7 +36,7 @@ filterwarnings = ["ignore:.*TBB.*:numba.core.errors.NumbaWarning"]
 
 # ---------------------------------------------------------------- ruff
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 src = ["src", "tests"]
 
@@ -73,12 +77,11 @@ quote-style = "double"
 
 # ---------------------------------------------------------------- mypy
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 warn_unreachable = true
 files = ["src/cosmo_gpu", "tests"]
 exclude = ["tests/data/"]
-plugins = ["numpy.typing.mypy_plugin"]
 
 [[tool.mypy.overrides]]
 module = ["numba.*", "cupy.*", "mpi4py.*", "scipy.*", "h5py.*"]
