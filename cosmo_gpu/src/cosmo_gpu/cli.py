@@ -12,11 +12,12 @@ import scipy.linalg as sla
 from numpy.typing import NDArray
 
 from cosmo_gpu.backend import NumpyBackend
-from cosmo_gpu.basis import MBasis, build_mbasis, build_species_basis
+from cosmo_gpu.basis import MBasis, build_basis
 from cosmo_gpu.interaction import read_interaction, to_mscheme
 from cosmo_gpu.lanczos import block_lanczos
 from cosmo_gpu.modelspace import load_hamiltonian_spec, load_model_space, parse_nucleus
 from cosmo_gpu.reference_csr import hamiltonian_csr, j_expectation, jplus_csr
+from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, parse_rejection
 
 DENSE_LIMIT = 2000
 BAD_SPIN_TOL = 1e-4
@@ -45,8 +46,15 @@ def compute_levels(
     block: int = 4,
     tol: float = 1e-8,
     cosmo_float32: bool = False,
+    hw: tuple[int, int] | None = None,
+    rejections: tuple[str, ...] = (),
 ) -> Levels:
-    """Build the basis and stored H, then diagonalize (dense below ``DENSE_LIMIT``)."""
+    """Build the basis and stored H, then diagonalize (dense below ``DENSE_LIMIT``).
+
+    ``hw`` is the Nħω window above the lowest configuration and ``rejections`` are occupation
+    windows in CoSMo's ``ORBS:TYPE:NMIN:NMAX`` form. ``parity`` is required in spaces that mix
+    parities.
+    """
     t: dict[str, float] = {}
     t0 = time.perf_counter()
     space = load_model_space(space_name)
@@ -57,9 +65,15 @@ def compute_levels(
     t["interaction"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    P = build_species_basis(space, zv)
-    Nb = build_species_basis(space, nv)
-    basis = build_mbasis(space, P, Nb, (zv + nv) % 2 if m2 is None else m2, parity)
+    rules: tuple[OccupationRule, ...] = tuple(parse_rejection(r, space) for r in rejections)
+    trunc = make_truncation(space, zv, nv, hw, rules) if (hw or rules) else None
+    if parity is None and len(set(space.orbit_parity.tolist())) > 1:
+        msg = f"valence space {space_name} mixes parities: give parity +1 or -1 (--parity)"
+        raise ValueError(msg)
+    basis = build_basis(space, zv, nv, m2, parity, trunc)
+    if basis.dim == 0:
+        msg = "the basis is empty: this parity/truncation admits no configuration"
+        raise ValueError(msg)
     t["basis"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
@@ -111,6 +125,20 @@ def main(argv: list[str] | None = None) -> int:
     lv.add_argument("-n", "--nev", type=int, default=10)
     lv.add_argument("--parity", type=int, choices=(-1, 1), default=None)
     lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
+    lv.add_argument(
+        "--hw",
+        type=parse_hw,
+        default=None,
+        metavar="MIN:MAX",
+        help="oscillator quanta above the lowest configuration, e.g. 1:1",
+    )
+    lv.add_argument(
+        "--rejection",
+        action="append",
+        default=[],
+        metavar="ORBS:TYPE:NMIN:NMAX",
+        help="occupation window, e.g. 0f5,1p3,1p1:pn:0:4 (repeatable)",
+    )
     lv.add_argument("--block", type=int, default=4)
     lv.add_argument("--tol", type=float, default=1e-8)
     lv.add_argument(
@@ -130,10 +158,14 @@ def main(argv: list[str] | None = None) -> int:
         args.block,
         args.tol,
         args.cosmo_float32,
+        args.hw,
+        tuple(args.rejection),
     )
     b = lev.basis
     sign = "+" if b.parity > 0 else "-"
+    trunc = b.truncation.describe() if b.truncation else "none"
     print(f"# {args.nucleus} {args.space} {args.hamiltonian}  2M={b.m2} parity={sign}")
+    print(f"# truncation {trunc}")
     print(f"# dimension {b.dim}  blocks {b.n_blocks}  matvecs {lev.n_matvec}")
     print("# timings " + "  ".join(f"{k}={v:.2f}s" for k, v in lev.timings.items()))
     print(f"# {'k':>3} {'E (MeV)':>14} {'Ex':>10} {'J':>6} {'residual':>10}")

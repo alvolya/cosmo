@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from math import sqrt
 
+import numba
 import numpy as np
 import scipy.sparse as sp
 from numpy.typing import NDArray
@@ -38,12 +39,54 @@ class OperatorTerms:
     tb_pn_v: NDArray[np.float64] = field(default_factory=lambda: _EMPTYV)
 
 
+IndexedTerms = tuple[NDArray[np.int64], NDArray[np.int32], NDArray[np.float64]]
+
+
+def _index_terms(
+    keys: NDArray[np.int64], created: NDArray[np.int32], vals: NDArray[np.float64], n_keys: int
+) -> IndexedTerms:
+    """Group terms into CSR over their annihilator key: ``(ptr, created, values)``."""
+    order = np.argsort(keys, kind="stable")
+    ptr = np.zeros(n_keys + 1, dtype=np.int64)
+    np.add.at(ptr, keys + 1, 1)
+    return (
+        np.cumsum(ptr),
+        np.ascontiguousarray(created[order], dtype=np.int32),
+        np.ascontiguousarray(vals[order], dtype=np.float64),
+    )
+
+
+def _one_body(rows: NDArray[np.int32], vals: NDArray[np.float64], nm: int) -> IndexedTerms:
+    rows = rows.reshape(-1, 2)
+    return _index_terms(rows[:, 1].astype(np.int64), rows[:, 0], vals, nm)
+
+
+def _two_body(rows: NDArray[np.int32], vals: NDArray[np.float64], nm: int) -> IndexedTerms:
+    """Like-particle rows ``(c1, c2, a1, a2)`` or pn rows ``(cp, ap, cn, an)`` -> indexed."""
+    rows = rows.reshape(-1, 4)
+    return _index_terms(
+        rows[:, 2].astype(np.int64) * nm + rows[:, 3], rows[:, [0, 1]], vals, nm * nm
+    )
+
+
+def _pn(rows: NDArray[np.int32], vals: NDArray[np.float64], nm: int) -> IndexedTerms:
+    rows = rows.reshape(-1, 4)
+    return _index_terms(
+        rows[:, 1].astype(np.int64) * nm + rows[:, 3], rows[:, [0, 2]], vals, nm * nm
+    )
+
+
+def _max_bucket(t: IndexedTerms) -> int:
+    return int(np.diff(t[0]).max(initial=0))
+
+
 def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_matrix:
     """Assemble the stored matrix of ``terms`` from basis ``src`` to basis ``dst``."""
     if dst.protons is not src.protons or dst.neutrons is not src.neutrons:
         msg = "source and destination bases must share their species bases"
         raise ValueError(msg)
     P, N = src.protons, src.neutrons
+    nm = src.space.n_morbits
     src_t = (
         src.block_offset,
         src.block_psub,
@@ -54,23 +97,44 @@ def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_mat
         N.dets,
     )
     dst_t = (dst.block_of, dst.block_offset)
-    lookup = (P.sorted_dets, P.det_sub, P.det_local, N.sorted_dets, N.det_sub, N.det_local)
+    lookup = (
+        P.sorted_dets,
+        P.det_sub,
+        P.det_local,
+        N.sorted_dets,
+        N.det_sub,
+        N.det_local,
+        N.sub_start,
+    )
+    ob_p = _one_body(terms.ob_p, terms.ob_p_v, nm)
+    ob_n = _one_body(terms.ob_n, terms.ob_n_v, nm)
+    tb_p = _two_body(terms.tb_p, terms.tb_p_v, nm)
+    tb_n = _two_body(terms.tb_n, terms.tb_n_v, nm)
+    tb_pn = _pn(terms.tb_pn, terms.tb_pn_v, nm)
+    z, n = P.n_particles, N.n_particles
+    buf = (
+        1
+        + z * _max_bucket(ob_p)
+        + n * _max_bucket(ob_n)
+        + z * (z - 1) // 2 * _max_bucket(tb_p)
+        + n * (n - 1) // 2 * _max_bucket(tb_n)
+        + z * n * _max_bucket(tb_pn)
+    )
+    n_chunks = max(1, min(src.dim, 64 * numba.get_num_threads()))
     indptr, indices, data = build_csc(
         src.dim,
+        nm,
+        buf,
+        n_chunks,
         src_t,
         dst_t,
         lookup,
         np.ascontiguousarray(terms.diag, dtype=np.float64),
-        np.ascontiguousarray(terms.ob_p, dtype=np.int32),
-        np.ascontiguousarray(terms.ob_p_v, dtype=np.float64),
-        np.ascontiguousarray(terms.ob_n, dtype=np.int32),
-        np.ascontiguousarray(terms.ob_n_v, dtype=np.float64),
-        np.ascontiguousarray(terms.tb_p, dtype=np.int32),
-        np.ascontiguousarray(terms.tb_p_v, dtype=np.float64),
-        np.ascontiguousarray(terms.tb_n, dtype=np.int32),
-        np.ascontiguousarray(terms.tb_n_v, dtype=np.float64),
-        np.ascontiguousarray(terms.tb_pn, dtype=np.int32),
-        np.ascontiguousarray(terms.tb_pn_v, dtype=np.float64),
+        ob_p,
+        ob_n,
+        tb_p,
+        tb_n,
+        tb_pn,
     )
     mat = sp.csc_matrix((data, indices, indptr), shape=(dst.dim, src.dim))
     return sp.csr_matrix(mat)
@@ -108,7 +172,9 @@ def jplus_terms(basis: MBasis) -> OperatorTerms:
 
 def jplus_csr(basis: MBasis) -> tuple[sp.csr_matrix, MBasis]:
     """J+ from ``basis`` (total 2M) to the basis with total 2M + 2, which is also returned."""
-    up = build_mbasis(basis.space, basis.protons, basis.neutrons, basis.m2 + 2, basis.parity)
+    up = build_mbasis(
+        basis.space, basis.protons, basis.neutrons, basis.m2 + 2, basis.parity, basis.truncation
+    )
     return build_operator(up, basis, jplus_terms(basis)), up
 
 
