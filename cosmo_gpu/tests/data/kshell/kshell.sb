@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name=kshell-ref
+#SBATCH --partition=general-short
+#SBATCH --constraint=amd24
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=16G
+#SBATCH --time=2:00:00
+#SBATCH --output=kshell-ref-%j.out
+# Regenerate tests/data/kshell/kshell_reference.json. Submit from cosmo_gpu/:
+#   sbatch tests/data/kshell/kshell.sb [case-name ...]
+set -euo pipefail
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_STACKSIZE=1g
+ulimit -s unlimited
+export KSHELL_DIR=${KSHELL_DIR:-$HOME/kshell}
+cat "$KSHELL_DIR/BUILD_INFO"
+uv run --locked python tests/data/kshell/run_kshell.py "$@"

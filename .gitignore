@@ -21,3 +21,5 @@ cosmo_gpu/tests/data/*.out
 core.*
 # uv project environment
 cosmo_gpu/.venv/
+cosmo_gpu/tests/data/kshell/runs/
+cosmo_gpu/kshell-ref-*.out
