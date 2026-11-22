@@ -21,6 +21,7 @@ energies and TBMEs of a file.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from math import factorial, sqrt
 from pathlib import Path
@@ -101,9 +102,86 @@ class CoupledInteraction:
             a, b, c, d = c, d, a, b
         return phase * self.tbme.get((a, b, c, d, J, T), 0.0)
 
+    def to_pn(self) -> PNCoupledInteraction:
+        """Return the same interaction in proton-neutron form.
+
+        Like-particle matrix elements are the ``T = 1`` ones. The pn product-state matrix
+        elements are ``V_pn(ab, cd; J) = 1/2 sqrt((1 + d_ab)(1 + d_cd)) sum_T V_JT(ab, cd)``.
+        """
+        orb = self.space.orbits
+        norb = len(orb)
+        like = {(a, b, c, d, J): v for (a, b, c, d, J, T), v in self.tbme.items() if T == 1}
+        pn: dict[tuple[int, int, int, int, int], float] = {}
+        for a in range(norb):
+            for b in range(norb):
+                for c in range(norb):
+                    for d in range(norb):
+                        if (a, b) > (c, d):
+                            continue
+                        jlo = max(abs(orb[a].j2 - orb[b].j2), abs(orb[c].j2 - orb[d].j2)) // 2
+                        jhi = min(orb[a].j2 + orb[b].j2, orb[c].j2 + orb[d].j2) // 2
+                        norm = 0.5 * sqrt((1 + (a == b)) * (1 + (c == d)))
+                        for J in range(jlo, jhi + 1):
+                            v = self.get(a, b, c, d, J, 1) + self.get(a, b, c, d, J, 0)
+                            if v != 0.0:
+                                pn[(a, b, c, d, J)] = norm * v
+        return PNCoupledInteraction(
+            space=self.space,
+            spe_p=self.spe.copy(),
+            spe_n=self.spe.copy(),
+            pp=like,
+            nn=dict(like),
+            pn=pn,
+        )
+
 
 def _exchange_phase(ja2: int, jb2: int, J: int, T: int) -> int:
     return -1 if ((ja2 + jb2) // 2 - J - T) % 2 else 1
+
+
+TBMEKey = tuple[int, int, int, int, int]
+
+
+@dataclass
+class PNCoupledInteraction:
+    """Single-particle energies and coupled TBMEs in proton-neutron form (as KSHELL ``.snt``).
+
+    Orbits are positions in ``ModelSpace.orbits``, shared by both species.
+
+    * ``pp`` and ``nn`` hold normalized antisymmetrized ``<ab; J|V|cd; J>`` with canonical keys
+      ``a <= b``, ``c <= d`` and ``(a, b) <= (c, d)``.
+    * ``pn`` holds product-state ``<a_p b_n; J|V|c_p d_n; J>``, where
+      ``|a_p b_n; JM> = sum CG(ja ma jb mb | J M) a+_(a,p) a+_(b,n) |0>`` (proton first), with
+      keys ``(a, b) <= (c, d)``.
+    """
+
+    space: ModelSpace
+    spe_p: NDArray[np.float64]
+    spe_n: NDArray[np.float64]
+    pp: dict[TBMEKey, float]
+    nn: dict[TBMEKey, float]
+    pn: dict[TBMEKey, float]
+
+    def get_like(self, proton: bool, a: int, b: int, c: int, d: int, J: int) -> float:
+        """Return ``<ab; J|V|cd; J>`` for protons or neutrons, any orbit order."""
+        orb = self.space.orbits
+        phase = 1
+        if a > b:
+            a, b = b, a
+            phase *= _exchange_phase(orb[a].j2, orb[b].j2, J, 1)
+        if c > d:
+            c, d = d, c
+            phase *= _exchange_phase(orb[c].j2, orb[d].j2, J, 1)
+        if (a, b) > (c, d):
+            a, b, c, d = c, d, a, b
+        table = self.pp if proton else self.nn
+        return phase * table.get((a, b, c, d, J), 0.0)
+
+    def get_pn(self, a: int, b: int, c: int, d: int, J: int) -> float:
+        """Return ``<a_p b_n; J|V|c_p d_n; J>``."""
+        if (a, b) > (c, d):
+            a, b, c, d = c, d, a, b
+        return self.pn.get((a, b, c, d, J), 0.0)
 
 
 def _read_oxbash(
@@ -186,12 +264,13 @@ def read_interaction(
 class MSchemeInteraction:
     """Hamiltonian in pn m-scheme form, indexed by m-orbit.
 
-    Like-particle terms are ``v a+_c1 a+_c2 a_a2 a_a1`` with ``c1 < c2`` and ``a1 < a2``.
-    Proton-neutron terms are ``v a+_cp a_ap a+_cn a_an``. Here ``c`` labels created and ``a``
-    annihilated m-orbits.
+    ``spe_p`` and ``spe_n`` are single-particle energies per m-orbit. Like-particle terms are
+    ``v a+_c1 a+_c2 a_a2 a_a1`` with ``c1 < c2`` and ``a1 < a2``. Proton-neutron terms are
+    ``v a+_cp a_ap a+_cn a_an``. Here ``c`` labels created and ``a`` annihilated m-orbits.
     """
 
-    spe: NDArray[np.float64]
+    spe_p: NDArray[np.float64]
+    spe_n: NDArray[np.float64]
     pp: NDArray[np.int32]
     pp_v: NDArray[np.float64]
     nn: NDArray[np.int32]
@@ -200,15 +279,21 @@ class MSchemeInteraction:
     pn_v: NDArray[np.float64]
 
 
-def _coupled_to_m(inter: CoupledInteraction, T: int) -> NDArray[np.float64]:
-    """Dense ``W[alpha, beta, gamma, delta]`` from the ``T`` channel, any species labels."""
-    space = inter.space
+PairGetter = Callable[[int, int, int, int, int], float]
+
+
+def _pairs_to_m(space: ModelSpace, get: PairGetter, like: bool) -> NDArray[np.float64]:
+    """Dense ``W[alpha, beta, gamma, delta] = <alpha beta|V|gamma delta>`` from coupled TBMEs.
+
+    ``get(a, b, c, d, J)`` returns the coupled matrix element. For like particles the pair
+    states are normalized, which brings the factor ``sqrt((1 + d_ab)(1 + d_cd))``; pn product
+    states need none.
+    """
     nm = space.n_morbits
     starts = np.concatenate([[0], np.cumsum([o.degeneracy for o in space.orbits])])
     m2s = [np.arange(-o.j2, o.j2 + 1, 2) for o in space.orbits]
     W = np.zeros((nm, nm, nm, nm))
     norb = space.n_orbits
-    jmax2 = 2 * max(o.j2 for o in space.orbits)
     cg_cache: dict[tuple[int, int, int], NDArray[np.float64]] = {}
 
     def cg_pair(a: int, b: int, J: int) -> NDArray[np.float64]:
@@ -226,21 +311,24 @@ def _coupled_to_m(inter: CoupledInteraction, T: int) -> NDArray[np.float64]:
     def m_total(a: int, b: int) -> NDArray[np.int64]:
         return np.asarray(np.add.outer(m2s[a], m2s[b]), dtype=np.int64)
 
+    orb = space.orbits
     for a in range(norb):
         for b in range(norb):
             for c in range(norb):
                 for d in range(norb):
-                    block = np.zeros((len(m2s[a]), len(m2s[b]), len(m2s[c]), len(m2s[d])))
-                    mask = None
-                    for J in range(0, jmax2 // 2 + 1):
-                        v = inter.get(a, b, c, d, J, T)
+                    jlo = max(abs(orb[a].j2 - orb[b].j2), abs(orb[c].j2 - orb[d].j2)) // 2
+                    jhi = min(orb[a].j2 + orb[b].j2, orb[c].j2 + orb[d].j2) // 2
+                    block = None
+                    for J in range(jlo, jhi + 1):
+                        v = get(a, b, c, d, J)
                         if v == 0.0:
                             continue
-                        if mask is None:
-                            mask = np.equal.outer(m_total(a, b), m_total(c, d))
-                        norm = sqrt((1 + (a == b)) * (1 + (c == d)))
+                        if block is None:
+                            block = np.zeros((len(m2s[a]), len(m2s[b]), len(m2s[c]), len(m2s[d])))
+                        norm = sqrt((1 + (a == b)) * (1 + (c == d))) if like else 1.0
                         block += norm * v * np.multiply.outer(cg_pair(a, b, J), cg_pair(c, d, J))
-                    if mask is not None:
+                    if block is not None:
+                        mask = np.equal.outer(m_total(a, b), m_total(c, d))
                         W[
                             starts[a] : starts[a + 1],
                             starts[b] : starts[b + 1],
@@ -250,29 +338,49 @@ def _coupled_to_m(inter: CoupledInteraction, T: int) -> NDArray[np.float64]:
     return W
 
 
-def to_mscheme(inter: CoupledInteraction) -> MSchemeInteraction:
-    """Expand an isospin-coupled interaction into pp, nn and pn m-scheme term lists."""
-    space = inter.space
-    nm = space.n_morbits
-    spe = inter.spe[space.morb_orbit].astype(np.float64)
-    W1 = _coupled_to_m(inter, 1)
-    W0 = _coupled_to_m(inter, 0)
-    Wpn = 0.5 * (W1 + W0)
+def like_to_m(inter: PNCoupledInteraction, proton: bool) -> NDArray[np.float64]:
+    """Dense antisymmetric m-scheme matrix elements of the pp (or nn) interaction."""
 
-    iu = [(i, j) for i in range(nm) for j in range(i + 1, nm)]
-    pp_rows: list[tuple[int, int, int, int]] = []
-    pp_vals: list[float] = []
-    for c1, c2 in iu:
-        for a1, a2 in iu:
-            v = W1[c1, c2, a1, a2]
-            if abs(v) > ZERO_TOL:
-                pp_rows.append((c1, c2, a1, a2))
-                pp_vals.append(v)
+    def get(a: int, b: int, c: int, d: int, J: int) -> float:
+        return inter.get_like(proton, a, b, c, d, J)
+
+    return _pairs_to_m(inter.space, get, like=True)
+
+
+def pn_to_m(inter: PNCoupledInteraction) -> NDArray[np.float64]:
+    """Dense m-scheme ``W[pi, nu, pi', nu'] = <pi nu|V|pi' nu'>`` of the pn interaction."""
+    return _pairs_to_m(inter.space, inter.get_pn, like=False)
+
+
+def _like_terms(W: NDArray[np.float64]) -> tuple[NDArray[np.int32], NDArray[np.float64]]:
+    nm = W.shape[0]
+    upper = np.triu(np.ones((nm, nm), dtype=bool), k=1)
+    keep = (np.abs(W) > ZERO_TOL) & upper[:, :, None, None] & upper[None, None, :, :]
+    idx = np.argwhere(keep)  # (c1, c2, a1, a2), lexicographic
+    rows = np.ascontiguousarray(idx, dtype=np.int32).reshape(-1, 4)
+    return rows, W[keep].astype(np.float64)
+
+
+def to_mscheme(inter: CoupledInteraction | PNCoupledInteraction) -> MSchemeInteraction:
+    """Expand a coupled interaction into pp, nn and pn m-scheme term lists."""
+    pn_inter = inter.to_pn() if isinstance(inter, CoupledInteraction) else inter
+    space = pn_inter.space
+    pp, pp_v = _like_terms(like_to_m(pn_inter, proton=True))
+    if pn_inter.nn == pn_inter.pp:
+        nn, nn_v = pp.copy(), pp_v.copy()
+    else:
+        nn, nn_v = _like_terms(like_to_m(pn_inter, proton=False))
+    Wpn = pn_to_m(pn_inter)
     idx = np.argwhere(np.abs(Wpn) > ZERO_TOL)  # (cp, cn, ap, an)
     pn = np.ascontiguousarray(idx[:, [0, 2, 1, 3]], dtype=np.int32)  # -> (cp, ap, cn, an)
     pn_v = Wpn[idx[:, 0], idx[:, 1], idx[:, 2], idx[:, 3]].astype(np.float64)
-    pp = np.array(pp_rows, dtype=np.int32).reshape(-1, 4)
-    pp_v = np.array(pp_vals, dtype=np.float64)
     return MSchemeInteraction(
-        spe=spe, pp=pp, pp_v=pp_v, nn=pp.copy(), nn_v=pp_v.copy(), pn=pn, pn_v=pn_v
+        spe_p=pn_inter.spe_p[space.morb_orbit].astype(np.float64),
+        spe_n=pn_inter.spe_n[space.morb_orbit].astype(np.float64),
+        pp=pp,
+        pp_v=pp_v,
+        nn=nn,
+        nn_v=nn_v,
+        pn=pn,
+        pn_v=pn_v,
     )

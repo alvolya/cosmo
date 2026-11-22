@@ -6,6 +6,7 @@ import argparse
 import sys
 import time
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 import scipy.linalg as sla
@@ -13,10 +14,16 @@ from numpy.typing import NDArray
 
 from cosmo_gpu.backend import NumpyBackend
 from cosmo_gpu.basis import MBasis, build_basis
-from cosmo_gpu.interaction import read_interaction, to_mscheme
+from cosmo_gpu.interaction import MSchemeInteraction, read_interaction, to_mscheme
 from cosmo_gpu.lanczos import block_lanczos
-from cosmo_gpu.modelspace import load_hamiltonian_spec, load_model_space, parse_nucleus
+from cosmo_gpu.modelspace import (
+    ModelSpace,
+    load_hamiltonian_spec,
+    load_model_space,
+    parse_nucleus,
+)
 from cosmo_gpu.reference_csr import hamiltonian_csr, j_expectation, jplus_csr
+from cosmo_gpu.snt import read_snt
 from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, parse_rejection
 
 DENSE_LIMIT = 2000
@@ -36,10 +43,36 @@ class Levels:
     timings: dict[str, float]
 
 
+def load_interaction(
+    nucleus: str,
+    space_name: str | None,
+    hamiltonian: str | None,
+    snt: Path | None = None,
+    cosmo_float32: bool = False,
+) -> tuple[ModelSpace, int, int, MSchemeInteraction]:
+    """Return the space, valence (Z, N) and m-scheme interaction, from CoSMo names or a .snt."""
+    Z, N = parse_nucleus(nucleus)
+    if snt is not None:
+        if space_name is not None or hamiltonian is not None:
+            msg = "give either a CoSMo space and Hamiltonian or a .snt file, not both"
+            raise ValueError(msg)
+        space, _ = read_snt(snt, 0)
+        zv, nv = Z - space.core_z, N - space.core_n
+        space, from_core = read_snt(snt, zv + nv)
+        return space, zv, nv, to_mscheme(from_core)
+    if space_name is None or hamiltonian is None:
+        msg = "give a CoSMo space and Hamiltonian, or a .snt file"
+        raise ValueError(msg)
+    space = load_model_space(space_name)
+    spec = load_hamiltonian_spec(hamiltonian, space_name)
+    zv, nv = Z - space.core_z, N - space.core_n
+    return space, zv, nv, to_mscheme(read_interaction(spec, space, zv + nv, cosmo_float32))
+
+
 def compute_levels(
     nucleus: str,
-    space_name: str,
-    hamiltonian: str,
+    space_name: str | None,
+    hamiltonian: str | None,
     nev: int = 10,
     parity: int | None = None,
     m2: int | None = None,
@@ -48,27 +81,25 @@ def compute_levels(
     cosmo_float32: bool = False,
     hw: tuple[int, int] | None = None,
     rejections: tuple[str, ...] = (),
+    snt: Path | None = None,
 ) -> Levels:
     """Build the basis and stored H, then diagonalize (dense below ``DENSE_LIMIT``).
 
     ``hw`` is the Nħω window above the lowest configuration and ``rejections`` are occupation
     windows in CoSMo's ``ORBS:TYPE:NMIN:NMAX`` form. ``parity`` is required in spaces that mix
-    parities.
+    parities. With ``snt`` the space and interaction come from a KSHELL file instead of the CoSMo
+    catalogue (``space_name`` and ``hamiltonian`` must then be None).
     """
     t: dict[str, float] = {}
     t0 = time.perf_counter()
-    space = load_model_space(space_name)
-    spec = load_hamiltonian_spec(hamiltonian, space_name)
-    Z, N = parse_nucleus(nucleus)
-    zv, nv = Z - space.core_z, N - space.core_n
-    inter = to_mscheme(read_interaction(spec, space, zv + nv, cosmo_float32))
+    space, zv, nv, inter = load_interaction(nucleus, space_name, hamiltonian, snt, cosmo_float32)
     t["interaction"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
     rules: tuple[OccupationRule, ...] = tuple(parse_rejection(r, space) for r in rejections)
     trunc = make_truncation(space, zv, nv, hw, rules) if (hw or rules) else None
     if parity is None and len(set(space.orbit_parity.tolist())) > 1:
-        msg = f"valence space {space_name} mixes parities: give parity +1 or -1 (--parity)"
+        msg = f"valence space {space.name} mixes parities: give parity +1 or -1 (--parity)"
         raise ValueError(msg)
     basis = build_basis(space, zv, nv, m2, parity, trunc)
     if basis.dim == 0:
@@ -120,8 +151,9 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     lv = sub.add_parser("levels", help="lowest levels of a nucleus")
     lv.add_argument("nucleus", help="e.g. 24Mg")
-    lv.add_argument("space", help="CoSMo valence space, e.g. sd")
-    lv.add_argument("hamiltonian", help="CoSMo Hamiltonian name, e.g. usdb")
+    lv.add_argument("space", nargs="?", help="CoSMo valence space, e.g. sd")
+    lv.add_argument("hamiltonian", nargs="?", help="CoSMo Hamiltonian name, e.g. usdb")
+    lv.add_argument("--snt", type=Path, default=None, help="KSHELL .snt file instead")
     lv.add_argument("-n", "--nev", type=int, default=10)
     lv.add_argument("--parity", type=int, choices=(-1, 1), default=None)
     lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
@@ -160,11 +192,13 @@ def main(argv: list[str] | None = None) -> int:
         args.cosmo_float32,
         args.hw,
         tuple(args.rejection),
+        args.snt,
     )
     b = lev.basis
     sign = "+" if b.parity > 0 else "-"
     trunc = b.truncation.describe() if b.truncation else "none"
-    print(f"# {args.nucleus} {args.space} {args.hamiltonian}  2M={b.m2} parity={sign}")
+    source = str(args.snt) if args.snt else f"{args.space} {args.hamiltonian}"
+    print(f"# {args.nucleus} {source}  2M={b.m2} parity={sign}")
     print(f"# truncation {trunc}")
     print(f"# dimension {b.dim}  blocks {b.n_blocks}  matvecs {lev.n_matvec}")
     print("# timings " + "  ".join(f"{k}={v:.2f}s" for k, v in lev.timings.items()))

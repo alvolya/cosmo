@@ -77,7 +77,8 @@ def _column(
     src: tuple,  # type: ignore[type-arg]
     dst: tuple,  # type: ignore[type-arg]
     lookup: tuple,  # type: ignore[type-arg]
-    diag: NDArray[np.float64],
+    diag_p: NDArray[np.float64],
+    diag_n: NDArray[np.float64],
     ob_p: tuple,  # type: ignore[type-arg]
     ob_n: tuple,  # type: ignore[type-arg]
     tb_p: tuple,  # type: ignore[type-arg]
@@ -102,12 +103,12 @@ def _column(
             occ_n[zn] = b
             zn += 1
 
-    if diag.shape[0] > 0:
+    if diag_p.shape[0] > 0:
         e = 0.0
         for i in range(zp):
-            e += diag[occ_p[i]]
+            e += diag_p[occ_p[i]]
         for i in range(zn):
-            e += diag[occ_n[i]]
+            e += diag_n[occ_n[i]]
         k = _emit(_index(p, n, lookup, dst), e, k, out_idx, out_val)
 
     # one-body, protons then neutrons
@@ -230,7 +231,8 @@ def build_csc(
     src: tuple,  # type: ignore[type-arg]
     dst: tuple,  # type: ignore[type-arg]
     lookup: tuple,  # type: ignore[type-arg]
-    diag: NDArray[np.float64],
+    diag_p: NDArray[np.float64],
+    diag_n: NDArray[np.float64],
     ob_p: tuple,  # type: ignore[type-arg]
     ob_n: tuple,  # type: ignore[type-arg]
     tb_p: tuple,  # type: ignore[type-arg]
@@ -249,7 +251,7 @@ def build_csc(
         bv = np.empty(buf, dtype=np.float64)
         for c in range(ch * step, min(n_cols, (ch + 1) * step)):
             counts[c + 1] = _column(
-                c, nm, src, dst, lookup, diag, ob_p, ob_n, tb_p, tb_n, tb_pn, bi, bv
+                c, nm, src, dst, lookup, diag_p, diag_n, ob_p, ob_n, tb_p, tb_n, tb_pn, bi, bv
             )
     indptr = np.cumsum(counts)
     indices = np.empty(indptr[-1], dtype=np.int64)
@@ -258,7 +260,9 @@ def build_csc(
         bi = np.empty(buf, dtype=np.int64)
         bv = np.empty(buf, dtype=np.float64)
         for c in range(ch * step, min(n_cols, (ch + 1) * step)):
-            m = _column(c, nm, src, dst, lookup, diag, ob_p, ob_n, tb_p, tb_n, tb_pn, bi, bv)
+            m = _column(
+                c, nm, src, dst, lookup, diag_p, diag_n, ob_p, ob_n, tb_p, tb_n, tb_pn, bi, bv
+            )
             indices[indptr[c] : indptr[c] + m] = bi[:m]
             data[indptr[c] : indptr[c] + m] = bv[:m]
     return indptr, indices, data

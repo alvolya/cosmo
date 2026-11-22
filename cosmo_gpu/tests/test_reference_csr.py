@@ -70,8 +70,8 @@ def _brute_force_h(s):
     inter = s.inter
     H = np.zeros((len(states), len(states)))
     for j, (p, n) in enumerate(states):
-        H[j, j] += sum(inter.spe[k] for k in range(64) if (p >> k) & 1)
-        H[j, j] += sum(inter.spe[k] for k in range(64) if (n >> k) & 1)
+        H[j, j] += sum(inter.spe_p[k] for k in range(64) if (p >> k) & 1)
+        H[j, j] += sum(inter.spe_n[k] for k in range(64) if (n >> k) & 1)
         for (c1, c2, a1, a2), v in zip(inter.pp, inter.pp_v, strict=True):
             ops = [("a", a1), ("a", a2), ("c", c2), ("c", c1)]
             p2, g = apply(p, ops)

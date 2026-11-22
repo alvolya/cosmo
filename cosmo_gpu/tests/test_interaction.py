@@ -3,7 +3,7 @@ from math import sqrt
 import numpy as np
 import pytest
 
-from cosmo_gpu.interaction import _coupled_to_m, clebsch_gordan, read_interaction
+from cosmo_gpu.interaction import clebsch_gordan, like_to_m, read_interaction
 from cosmo_gpu.modelspace import load_hamiltonian_spec
 from tests.systems import build_system
 
@@ -56,7 +56,7 @@ def test_exchange_symmetry(sd_space):
 
 def test_mscheme_antisymmetry_and_hermiticity():
     inter = build_system("20Ne").coupled
-    W = _coupled_to_m(inter, 1)
+    W = like_to_m(inter.to_pn(), proton=True)
     np.testing.assert_allclose(W, -W.transpose(1, 0, 2, 3), atol=1e-12)
     np.testing.assert_allclose(W, -W.transpose(0, 1, 3, 2), atol=1e-12)
     np.testing.assert_allclose(W, W.transpose(2, 3, 0, 1), atol=1e-12)

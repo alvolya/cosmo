@@ -26,7 +26,8 @@ _EMPTYV = np.zeros(0, dtype=np.float64)
 class OperatorTerms:
     """Second-quantized terms of an operator in pn m-scheme form (see ``reference_kernels``)."""
 
-    diag: NDArray[np.float64] = field(default_factory=lambda: _EMPTYV)
+    diag_p: NDArray[np.float64] = field(default_factory=lambda: _EMPTYV)
+    diag_n: NDArray[np.float64] = field(default_factory=lambda: _EMPTYV)
     ob_p: NDArray[np.int32] = field(default_factory=lambda: _EMPTY2)
     ob_p_v: NDArray[np.float64] = field(default_factory=lambda: _EMPTYV)
     ob_n: NDArray[np.int32] = field(default_factory=lambda: _EMPTY2)
@@ -82,6 +83,9 @@ def _max_bucket(t: IndexedTerms) -> int:
 
 def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_matrix:
     """Assemble the stored matrix of ``terms`` from basis ``src`` to basis ``dst``."""
+    if terms.diag_p.shape != terms.diag_n.shape:
+        msg = "diag_p and diag_n must both be given or both be empty"
+        raise ValueError(msg)
     if dst.protons is not src.protons or dst.neutrons is not src.neutrons:
         msg = "source and destination bases must share their species bases"
         raise ValueError(msg)
@@ -129,7 +133,8 @@ def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_mat
         src_t,
         dst_t,
         lookup,
-        np.ascontiguousarray(terms.diag, dtype=np.float64),
+        np.ascontiguousarray(terms.diag_p, dtype=np.float64),
+        np.ascontiguousarray(terms.diag_n, dtype=np.float64),
         ob_p,
         ob_n,
         tb_p,
@@ -143,7 +148,8 @@ def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_mat
 def hamiltonian_csr(basis: MBasis, inter: MSchemeInteraction) -> sp.csr_matrix:
     """Build the stored Hamiltonian on ``basis``."""
     terms = OperatorTerms(
-        diag=inter.spe,
+        diag_p=inter.spe_p,
+        diag_n=inter.spe_n,
         tb_p=inter.pp,
         tb_p_v=inter.pp_v,
         tb_n=inter.nn,
