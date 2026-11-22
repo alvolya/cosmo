@@ -1,0 +1,18 @@
+# Hooks for the cosmo_gpu package only; the CoSMo C++ tree is untouched.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.10
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^cosmo_gpu/
+      - id: ruff-format
+        files: ^cosmo_gpu/
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy (cosmo_gpu, strict)
+        entry: bash -c 'cd cosmo_gpu && mypy'
+        language: system
+        pass_filenames: false
+        files: ^cosmo_gpu/.*\.py$
