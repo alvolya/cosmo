@@ -1,0 +1,87 @@
+Program: /mnt/home/beyerkyl/cosmo/bin-O3/DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 20 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfpb.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :140 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/spsdfp-fsu9.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :768 scale: 0.917315 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p1sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :12 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p3sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :20 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/0s0f1p0.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :1400 scale: 1 
+Scaling rank= 1 with 10
+Scaling rank= 2 with 10
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfcm.int
+Single-particle levels    :10 scale: 10 
+Lines in interaction file :452 scale: 10 
+generating 24Mg_fsu9_M0T0-.HH
+dimension 978948
+
+VH: Starting: Fri Nov 20 12:40:40 2026
+VH:   0.10%   16.00 sec  ETA:     1.16 days       1     RATE=16.35VH:   0.20%   25.00 sec  ETA:    3.43 hr         2     RATE=15.68VH:   0.30%   33.00 sec  ETA:    3.01 hr         3     RATE=15.80VH:   0.40%   41.00 sec  ETA:    2.80 hr         4     RATE=15.81VH:   0.51%   49.00 sec  ETA:    2.68 hr         5     RATE=15.91VH:   0.61%   57.00 sec  ETA:    2.59 hr         6     RATE=15.97VH:   0.71%    1.08 min  ETA:    2.53 hr         7     RATE=16.00VH:   0.81%    1.22 min  ETA:    2.49 hr         8     RATE=16.05VH:   0.91%    1.35 min  ETA:    2.45 hr         9     RATE=16.08VH:   1.01%    1.50 min  ETA:    2.45 hr        10     RATE=15.91VH:   1.11%    1.62 min  ETA:    2.40 hr        11     RATE=16.04VH:   1.21%    1.77 min  ETA:    2.40 hr        12     RATE=15.92VH:   1.31%    1.90 min  ETA:    2.38 hr        13     RATE=15.95VH:   1.42%    2.03 min  ETA:    2.36 hr        14     RATE=15.98VH:   1.52%    2.17 min  ETA:    2.34 hr        15     RATE=15.99VH:   1.62%    2.30 min  ETA:    2.33 hr        16     RATE=16.00VH:   1.72%    2.43 min  ETA:    2.32 hr        17     RATE=16.00VH:   1.82%    2.57 min  ETA:    2.31 hr        18     RATE=15.97VH:   1.92%    2.70 min  ETA:    2.30 hr        19     RATE=15.96VH:   2.02%    2.83 min  ETA:    2.29 hr        20     RATE=15.97VH:   2.12%    2.97 min  ETA:    2.28 hr        21     RATE=15.98VH:   2.22%    3.10 min  ETA:    2.27 hr        22     RATE=16.00VH:   2.33%    3.23 min  ETA:    2.26 hr        23     RATE=16.00VH:   2.43%    3.37 min  ETA:    2.26 hr        24     RATE=16.00VH:   2.53%    3.50 min  ETA:    2.25 hr        25     RATE=16.00VH:   2.63%    3.63 min  ETA:    2.24 hr        26     RATE=15.97VH:   2.73%    3.77 min  ETA:    2.24 hr        27     RATE=15.96VH:   2.83%    3.90 min  ETA:    2.23 hr        28     RATE=15.97VH:   2.93%    4.03 min  ETA:    2.23 hr        29     RATE=15.98VH:   3.03%    4.17 min  ETA:    2.22 hr        30     RATE=15.99VH:   3.13%    4.30 min  ETA:    2.21 hr        31     RATE=15.99VH:   3.24%    4.43 min  ETA:    2.21 hr        32     RATE=15.99VH:   3.34%    4.57 min  ETA:    2.20 hr        33     RATE=15.98VH:   3.44%    4.70 min  ETA:    2.20 hr        34     RATE=15.98VH:   3.54%    4.83 min  ETA:    2.20 hr        35     RATE=15.98VH:   3.64%    4.95 min  ETA:    2.18 hr        36     RATE=16.02VH:   3.74%    5.08 min  ETA:    2.18 hr        37     RATE=16.00VH:   3.84%    5.22 min  ETA:    2.18 hr        38     RATE=16.00VH:   3.94%    5.35 min  ETA:    2.17 hr        39     RATE=16.01VH:   4.04%    5.50 min  ETA:    2.17 hr        40     RATE=15.98VH:   4.15%    5.63 min  ETA:    2.17 hr        41     RATE=15.99VH:   4.25%    5.77 min  ETA:    2.17 hr        42     RATE=16.00VH:   4.35%    5.90 min  ETA:    2.16 hr        43     RATE=16.01VH:   4.45%    6.05 min  ETA:    2.17 hr        44     RATE=15.98VH:   4.55%    6.18 min  ETA:    2.16 hr        45     RATE=15.98VH:   4.65%    6.32 min  ETA:    2.16 hr        46     RATE=15.98VH:   4.75%    6.45 min  ETA:    2.15 hr        47     RATE=15.99VH:   4.85%    6.58 min  ETA:    2.15 hr        48     RATE=15.99VH:   4.95%    6.72 min  ETA:    2.15 hr        49     RATE=16.00VH:   5.06%    6.87 min  ETA:    2.15 hr        50     RATE=15.98VH:   5.16%    7.00 min  ETA:    2.15 hr        51     RATE=15.99VH:   5.26%    7.13 min  ETA:    2.14 hr        52     RATE=15.98VH:   5.36%    7.27 min  ETA:    2.14 hr        53     RATE=15.94VH:   5.46%    7.40 min  ETA:    2.14 hr        54     RATE=15.87VH:   5.56%    7.53 min  ETA:    2.13 hr        55     RATE=15.78VH:   5.66%    7.67 min  ETA:    2.13 hr        56     RATE=15.69VH:   5.76%    7.80 min  ETA:    2.13 hr        57     RATE=15.59VH:   5.86%    7.93 min  ETA:    2.12 hr        58     RATE=15.48VH:   5.97%    8.08 min  ETA:    2.12 hr        59     RATE=15.31VH:   6.07%    8.22 min  ETA:    2.12 hr        60     RATE=15.13VH:   6.17%    8.35 min  ETA:    2.12 hr        61     RATE=14.91
+VH: Completed:    8.35 min   RATE=14.91 Fri Nov 20 12:49:01 2026
+Size: 978948
+
+Davidson: Block: 10 Iterations: 400 Eigenvalues: 10
+
+D: Starting: Fri Nov 20 12:49:02 2026
+Status saved in the log file: D_1795196942.status
+ writing output to 24Mg_fsu9_M0T0-.HH.EE
+-225.018 8.52651e-14 1.416e-07
+-223.852 3.37366e-10 0.000157738
+-223.804 1.23833e-09 0.000379138
+-223.366 6.43425e-08 0.00278002
+-223.219 5.46294e-10 0.00023351
+-223.104 9.54476e-07 0.00842513
+-222.891 5.11996e-07 0.00817708
+-222.835 3.37339e-06 0.015675
+-222.701 1.627e-05 0.0367651
+-222.359 2.89838e-05 0.0525025
+my lowest eigenvalue is -225.017656
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 24Mg_fsu9_M0T0-.HH.EE
+states found 10
+processing states 10
+State: 0 E= -225.017656 JJ= 12.000000
+ TT= 0.000000 
+State: 1 E= -223.851614 JJ= 2.000000
+ TT= 0.000000 
+State: 2 E= -223.803623 JJ= 12.000000
+ TT= 0.000000 
+State: 3 E= -223.366463 JJ= 2.000014
+ TT= 0.000000 
+State: 4 E= -223.218544 JJ= 20.000000
+ TT= 0.000000 
+State: 5 E= -223.103578 JJ= 6.000060
+ TT= 0.000000 
+State: 6 E= -222.891293 JJ= 6.000482
+ TT= 0.000000 
+State: 7 E= -222.834574 JJ= 29.992504
+ TT= 0.000000 
+State: 8 E= -222.700714 JJ= 0.018171
+ TT= 0.000000 
+State: 9 E= -222.359441 JJ= 6.048007
+ TT= 0.000000 
+WALL 856.86 RSS_KB 3512556

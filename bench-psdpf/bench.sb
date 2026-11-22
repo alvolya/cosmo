@@ -1,0 +1,37 @@
+#!/bin/bash
+# Default vs optimized CoSMo DEXHVJTcsb timing on spsdpf/fsu9 1hw systems.
+# Usage: sbatch bench.sb "22Na 24Mg" [threads in job = cpus-per-task]
+#SBATCH --job-name=cosmo-bench
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --output=%x-%j.out
+set -eo pipefail
+CASES=${1:-"20Ne 22Na 24Mg"}
+BUILDS=${2:-"bin bin-O3"}
+NS=${NS:-10}
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16} OMP_PROC_BIND=close OMP_PLACES=cores
+source ~/cosmo/cosmovar.sh ~/cosmo >/dev/null
+B=$SLURM_SUBMIT_DIR
+echo "node $(hostname) $(lscpu | grep -m1 'Model name' | sed 's/.*: *//') threads $OMP_NUM_THREADS"
+for c in $CASES; do
+  for b in $BUILDS; do
+    W=$B/runs/${c}_${b}_t${OMP_NUM_THREADS}; rm -rf $W; mkdir -p $W
+    cp $B/${c}_1hw-.xml $W/sys.xml; cp $B/${c}_fsu9_*-.mbs $W/
+    cd $W
+    /usr/bin/time -f "WALL %e RSS_KB %M" ~/cosmo/$b/DEXHVJTcsb sys.xml -n $NS -l 1 </dev/null > run.log 2>&1 || echo "FAILED $c $b"
+    L=$(tr '\r' '\n' < run.log)
+    VH=$(grep 'VH: Completed' <<<"$L" | tail -1 | awk '{print $3, $4}')
+    D=$(cat D_*.status 2>/dev/null | tr '\r' '\n' | grep 'D: Completed' | tail -1 | awk '{print $3, $4}')
+    IT=$(cat D_*.status 2>/dev/null | tr '\r' '\n' | grep '^D: ' | grep -v Completed | tail -1 | awk '{print $(NF-1)}')
+    CONV=$(grep -A$NS 'writing output' <<<"$L" | tail -$NS | awk '{printf "%s/%s ", $1, $3}')
+    WR=$(grep '^WALL' <<<"$L")
+    E0=$(grep -A1 'writing output' <<<"$L" | tail -1)
+    echo "RESULT case=$c build=$b build_H=[$VH] davidson=[$D] last_iter=$IT $WR"
+    echo "STATES case=$c build=$b E/eigvec_err: $CONV"
+    if [ "${MATVEC:-1}" = 1 ]; then
+      /usr/bin/time -f "WALL %e RSS_KB %M" $B/csbbench_$b sys.xml 20 > bench.log 2>&1 || echo "BENCH FAILED $c $b"
+      echo "MATVEC case=$c build=$b $(tr '\r' '\n' < bench.log | grep -a BENCH) $(grep -a '^WALL' bench.log)"
+    fi
+    cd $B
+  done
+done

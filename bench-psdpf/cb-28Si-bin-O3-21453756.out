@@ -1,0 +1,15 @@
+
+Currently Loaded Modules:
+  1) GCCcore/12.3.0                     9) hwloc/2.9.1-GCCcore-12.3.0
+  2) zlib/1.2.13-GCCcore-12.3.0        10) OpenSSL/1.1
+  3) binutils/2.40-GCCcore-12.3.0      11) libevent/2.1.12-GCCcore-12.3.0
+  4) GCC/12.3.0                        12) UCX/1.18.0-GCCcore-12.3.0
+  5) numactl/2.0.16-GCCcore-12.3.0     13) PMIx/4.2.4-GCCcore-12.3.0
+  6) XZ/5.4.2-GCCcore-12.3.0           14) UCC/1.3.0-GCCcore-12.3.0
+  7) libxml2/2.11.4-GCCcore-12.3.0     15) OpenMPI/4.1.5-GCC-12.3.0
+  8) libpciaccess/0.17-GCCcore-12.3.0  16) Miniforge3/25.11.0-1
+
+ 
+
+node agg-023 AMD EPYC 9654 96-Core Processor threads 16
+[2026-11-20T13:28:24.618] error: *** JOB 21453756 ON agg-023 CANCELLED AT 2026-11-20T13:28:24 DUE to SIGNAL Terminated ***

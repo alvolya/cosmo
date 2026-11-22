@@ -1,0 +1,17 @@
+
+Currently Loaded Modules:
+  1) GCCcore/12.3.0                     9) hwloc/2.9.1-GCCcore-12.3.0
+  2) zlib/1.2.13-GCCcore-12.3.0        10) OpenSSL/1.1
+  3) binutils/2.40-GCCcore-12.3.0      11) libevent/2.1.12-GCCcore-12.3.0
+  4) GCC/12.3.0                        12) UCX/1.18.0-GCCcore-12.3.0
+  5) numactl/2.0.16-GCCcore-12.3.0     13) PMIx/4.2.4-GCCcore-12.3.0
+  6) XZ/5.4.2-GCCcore-12.3.0           14) UCC/1.3.0-GCCcore-12.3.0
+  7) libxml2/2.11.4-GCCcore-12.3.0     15) OpenMPI/4.1.5-GCC-12.3.0
+  8) libpciaccess/0.17-GCCcore-12.3.0  16) Miniforge3/25.11.0-1
+
+ 
+
+node agg-018 AMD EPYC 9654 96-Core Processor threads 16
+RESULT case=24Mg build=bin build_H=[32.68 min] davidson=[23.20 min] last_iter=399 WALL 3559.16 RSS_KB 3513232
+STATES case=24Mg build=bin E/eigvec_err: -225.018/1.57528e-07 -223.851/0.0323891 -223.804/0.00547572 -223.365/0.0725956 -223.218/0.0246348 -222.889/0.0590971 -222.606/0.569981 -219.257/0.059286 -218.86/0.293489 -218.819/1.46573 
+MATVEC case=24Mg build=bin BENCH D=978948 threads=16 nnz_stored=223615788 nnz_full~4.463e+08 nnz_per_row~455.8 build_s=2066.261 matvec_s=0.10301 ns_per_stored_nz=0.461 ns_per_full_nz=0.231 build_us_per_full_nz=4.6302 WALL 2070.77 RSS_KB 2988768

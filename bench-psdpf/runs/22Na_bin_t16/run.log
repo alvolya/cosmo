@@ -1,0 +1,87 @@
+Program: /mnt/home/beyerkyl/cosmo/bin/DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfpb.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :140 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/spsdfp-fsu9.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :768 scale: 0.941575 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p1sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :12 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p3sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :20 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/0s0f1p0.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :1400 scale: 1 
+Scaling rank= 1 with 10
+Scaling rank= 2 with 10
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfcm.int
+Single-particle levels    :10 scale: 10 
+Lines in interaction file :452 scale: 10 
+generating 22Na_fsu9_M0T0-.HH
+dimension 218924
+
+VH: Starting: Fri Nov 20 12:40:42 2026
+VH:   0.21%   22.00 sec  ETA:     1.16 days       1     RATE=16.30VH:   0.43%   33.00 sec  ETA:    2.14 hr         2     RATE=16.18VH:   0.64%   44.00 sec  ETA:    1.89 hr         3     RATE=16.22VH:   0.85%   55.00 sec  ETA:    1.77 hr         4     RATE=16.20VH:   1.07%    1.10 min  ETA:    1.70 hr         5     RATE=16.13VH:   1.28%    1.30 min  ETA:    1.67 hr         6     RATE=15.95VH:   1.50%    1.48 min  ETA:    1.63 hr         7     RATE=16.01VH:   1.71%    1.67 min  ETA:    1.60 hr         8     RATE=16.04VH:   1.92%    1.85 min  ETA:    1.57 hr         9     RATE=16.07VH:   2.14%    2.05 min  ETA:    1.56 hr        10     RATE=15.97VH:   2.35%    2.23 min  ETA:    1.55 hr        11     RATE=15.98VH:   2.56%    2.42 min  ETA:    1.53 hr        12     RATE=15.99VH:   2.78%    2.60 min  ETA:    1.52 hr        13     RATE=16.02VH:   2.99%    2.78 min  ETA:    1.50 hr        14     RATE=16.05VH:   3.21%    2.98 min  ETA:    1.50 hr        15     RATE=15.98VH:   3.42%    3.17 min  ETA:    1.49 hr        16     RATE=16.00VH:   3.63%    3.35 min  ETA:    1.48 hr        17     RATE=16.01VH:   3.85%    3.53 min  ETA:    1.47 hr        18     RATE=16.02VH:   4.06%    3.72 min  ETA:    1.46 hr        19     RATE=16.04VH:   4.27%    3.92 min  ETA:    1.46 hr        20     RATE=15.98VH:   4.49%    4.10 min  ETA:    1.45 hr        21     RATE=15.98VH:   4.70%    4.28 min  ETA:    1.45 hr        22     RATE=15.98VH:   4.91%    4.47 min  ETA:    1.44 hr        23     RATE=15.99VH:   5.13%    4.65 min  ETA:    1.43 hr        24     RATE=16.00VH:   5.34%    4.83 min  ETA:    1.43 hr        25     RATE=15.98VH:   5.56%    5.02 min  ETA:    1.42 hr        26     RATE=15.86VH:   5.77%    5.20 min  ETA:    1.42 hr        27     RATE=15.71VH:   5.98%    5.40 min  ETA:    1.41 hr        28     RATE=15.37VH:   6.20%    5.58 min  ETA:    1.41 hr        29     RATE=14.97
+VH: Completed:    5.58 min   RATE=14.97 Fri Nov 20 12:46:17 2026
+Size: 218924
+
+Davidson: Block: 10 Iterations: 400 Eigenvalues: 10
+
+D: Starting: Fri Nov 20 12:46:19 2026
+Status saved in the log file: D_1795196779.status
+ writing output to 22Na_fsu9_M0T0-.HH.EE
+-200.75 2.84217e-14 4.72355e-09
+-200.532 2.84217e-14 2.38027e-07
+-199.6 1.42109e-13 4.03884e-08
+-198.95 1.20508e-10 0.000104741
+-198.797 1.76212e-09 0.000433254
+-198.749 4.4445e-09 0.00061885
+-198.547 8.44125e-12 3.47096e-05
+-198.003 5.08095e-10 0.000286239
+-197.714 1.89715e-09 0.000480508
+-197.626 4.96638e-07 0.0061463
+my lowest eigenvalue is -200.750103
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 22Na_fsu9_M0T0-.HH.EE
+states found 10
+processing states 10
+State: 0 E= -200.750103 JJ= 2.000000
+ TT= 0.000000 
+State: 1 E= -200.531599 JJ= 6.000000
+ TT= 0.000000 
+State: 2 E= -199.600199 JJ= 12.000000
+ TT= 0.000000 
+State: 3 E= -198.950063 JJ= 6.000000
+ TT= 0.000000 
+State: 4 E= -198.797453 JJ= 0.000001
+ TT= 0.000000 
+State: 5 E= -198.748701 JJ= 19.999997
+ TT= 0.000000 
+State: 6 E= -198.546794 JJ= 2.000000
+ TT= 0.000000 
+State: 7 E= -198.002897 JJ= 12.000000
+ TT= 0.000000 
+State: 8 E= -197.714272 JJ= 29.999999
+ TT= 0.000000 
+State: 9 E= -197.625706 JJ= 12.000000
+ TT= 0.000000 
+WALL 642.98 RSS_KB 669328

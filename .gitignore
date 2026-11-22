@@ -1,0 +1,17 @@
+# CoSMo build outputs and local deps
+bin/
+bin-O3/
+eigen/
+# CoSMo run side files
+*.mbs
+*.HH.EE
+# benchmark binaries
+bench-psdpf/csbbench_bin*
+bench-psdpf/smoke/
+# Python
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+bench-psdpf/.seen
