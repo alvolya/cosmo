@@ -7,15 +7,20 @@ design and staged plan are in [`docs/design-plan.md`](docs/design-plan.md).
 
 ## Status
 
-Stage 1 (CPU reference), first slice:
+Stage 1 (CPU reference) in progress:
 
-- valence spaces and OXBASH isospin interactions from CoSMo's `int.xml`, including mass scaling;
-- M-scheme basis as proton × neutron blocks of (partition, M) sub-blocks;
+- valence spaces and OXBASH isospin interactions (multi-file, scaled, mass-dependent) from
+  CoSMo's `int.xml`;
+- Nħω and orbit-occupation truncations with CoSMo's semantics, and mixed-parity spaces;
+- M-scheme basis as proton × neutron blocks of (partition, M) sub-blocks, built partition by
+  partition so a truncated space is never enumerated in full;
 - stored-CSR Hamiltonian and J+ built from bitstrings (the reference path, not for production);
 - block thick-restart Lanczos behind a vector-backend interface.
 
-USDB energies and spins for 18O, 19O, 20Ne, 24Mg, 25Mg and 28Si agree with CoSMo to its printed
-precision (`tests/test_cosmo_usdb.py`).
+Agreement with CoSMo, to its printed precision (`tests/test_cosmo_*.py`):
+- sd USDB: 18O, 19O, 20Ne, 22Na, 24Mg, 25Mg, 26Al and 28Si;
+- psdpf (`spsdpf`) FSU9: 33Al at 0ħω and 1ħω, 20Ne at 1ħω, and 22Na at 1ħω (slow test);
+- basis dimensions up to 28Si at 1ħω (3,834,452).
 
 ## Install and run
 
@@ -25,6 +30,7 @@ The package is a [uv](https://docs.astral.sh/uv/) project. Python ≥ 3.12 is re
 ```bash
 uv sync                                     # creates .venv with the package and dev tools
 uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu levels ...
+uv run cosmo-gpu levels 33Al spsdpf fsu9 --parity -1 --hw 1:1 -n 10
 uv sync --extra gpu                         # add CuPy (also: mpi, io)
 ```
 
