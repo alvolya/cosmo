@@ -8,10 +8,11 @@ KSHELL as numerical oracles. The design and staged plan are in
 
 ## Status
 
-Stage 1 (CPU reference) in progress:
+Stage 1 (CPU reference) is complete; stage 2 (operator layer) is next. Stage 1 has:
 
 - valence spaces and OXBASH isospin interactions (multi-file, scaled, mass-dependent) from
-  CoSMo's `int.xml`, and KSHELL `.snt` proton-neutron interactions (`--snt`);
+  CoSMo's `int.xml`, KSHELL `.snt` proton-neutron interactions (`--snt`), and CoSMo system
+  XML files (nucleus, space, Hamiltonian and truncations of a CoSMo job);
 - Nħω and orbit-occupation truncations with CoSMo's semantics, and mixed-parity spaces;
 - M-scheme basis as proton × neutron blocks of (partition, M) sub-blocks, built partition by
   partition so a truncated space is never enumerated in full;
@@ -37,6 +38,7 @@ uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu lev
 uv run cosmo-gpu levels 33Al spsdpf fsu9 --parity -1 --hw 1:1 -n 10
 uv sync --extra gpu                         # add CuPy (also: mpi, io)
 uv run cosmo-gpu levels 24Mg --snt tests/data/kshell/snt/usdb_from_int.snt  # a KSHELL file
+uv run cosmo-gpu levels tests/data/cosmo_fsu9/33Al_1hw-.xml   # rerun a CoSMo system file
 ```
 
 Interaction files are found through `$SMINTPATH` (as set by CoSMo's `cosmovar.sh`), otherwise
