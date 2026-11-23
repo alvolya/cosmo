@@ -29,3 +29,6 @@ cosmo_gpu/slow-*.out
 cosmo_gpu/.venv-gpu/
 cosmo_gpu/gpu-smoke-*.out
 cosmo_gpu/remote-frac-*.out
+cosmo_gpu/stage3-bench-*.out
+cosmo_gpu/k48cr-*.out
+cosmo_gpu/tests/data/kshell/runs/*_bench/

@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH --job-name=stage3-bench
+#SBATCH --partition=general-short
+#SBATCH --constraint=amd24
+#SBATCH --exclusive
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=64G
+#SBATCH --time=3:00:00
+#SBATCH --output=stage3-bench-%j.out
+# Stage-3 timings and solver comparison (ours and KSHELL, 16 threads each, one node).
+# Submit from cosmo_gpu/: sbatch tools/stage3_bench.sb [case ...]
+set -euo pipefail
+export NUMBA_NUM_THREADS=16 OMP_NUM_THREADS=16 OMP_STACKSIZE=1g
+ulimit -s unlimited
+export KSHELL_DIR=${KSHELL_DIR:-$HOME/kshell}
+lscpu | grep -E "Model name|^CPU\(s\)"
+uv run --locked python tools/stage3_bench.py "$@" 2>&1 | grep -v -i "numbawarning\|warnings.warn\|tbb"

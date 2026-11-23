@@ -90,27 +90,32 @@ def write_partition(kshell_bin: Path, snt: Path, case: Case, out: Path) -> None:
         ms.write_ptn_combined(fpout)
 
 
-def write_input(case: Case, path: Path, ptn: Path, wav: Path) -> None:
-    """KSHELL namelist: thick-restart Lanczos, tight tolerance, no Lawson term of its own."""
+def write_input(
+    case: Case, path: Path, ptn: Path, wav: Path, settings: dict[str, object] | None = None
+) -> None:
+    """KSHELL namelist: thick-restart Lanczos, tight tolerance, no Lawson term of its own.
+
+    ``settings`` overrides namelist entries (e.g. ``n_block``, ``max_lanc_vec``).
+    """
     mtot = (case.z_val + case.n_val) % 2
-    path.write_text(
-        f"""&input
-  beta_cm = 0.0
-  fn_int = "{SNT / case.snt}"
-  fn_ptn = "{ptn.name}"
-  fn_save_wave = "{wav.name}"
-  hw_type = 1
-  is_double_j = .false.
-  max_lanc_vec = 200
-  maxiter = 2000
-  mode_lv_hdd = 0
-  mtot = {mtot}
-  n_eigen = {case.n_eigen}
-  n_restart_vec = {max(15, case.n_eigen + 5)}
-  tol = {TOL}
-&end
-"""
-    )
+    entries: dict[str, object] = {
+        "beta_cm": 0.0,
+        "fn_int": f'"{SNT / case.snt}"',
+        "fn_ptn": f'"{ptn.name}"',
+        "fn_save_wave": f'"{wav.name}"',
+        "hw_type": 1,
+        "is_double_j": ".false.",
+        "max_lanc_vec": 200,
+        "maxiter": 2000,
+        "mode_lv_hdd": 0,
+        "mtot": mtot,
+        "n_eigen": case.n_eigen,
+        "n_restart_vec": max(15, case.n_eigen + 5),
+        "tol": TOL,
+    }
+    entries.update(settings or {})
+    body = "\n".join(f"  {k} = {v}" for k, v in entries.items())
+    path.write_text(f"&input\n{body}\n&end\n")
 
 
 def read_wav_header(wav: Path) -> tuple[int, list[float], list[int]]:
@@ -241,6 +246,70 @@ def run_case(kshell_bin: Path, case: Case) -> dict[str, object]:
         "seconds": round(seconds, 2),
         "kshell_commit": KSHELL_COMMIT,
         **extra,
+    }
+
+
+BLOCK_ITER = re.compile(r"^H\s+tr-b-lan\s+(\d+)\s+(\d+)\s+(\d+)\s+(.*)$")
+OPERATE = re.compile(r"^\s*operate\s+([\d.]+)\s+(\d+)\s+([\d.]+)")
+
+
+def parse_solver_log(text: str) -> dict[str, object]:
+    """Block-Lanczos history and operate timing from a kshell.exe log (``n_block > 0``).
+
+    Each ``H tr-b-lan`` line is one block iteration (one ``operate`` call on ``n_block``
+    vectors) with the current Ritz values. The first timing summary is the eigensolver's.
+    """
+    history = []
+    for line in text.splitlines():
+        m = BLOCK_ITER.match(line)
+        if m:
+            vals = [float(x) for x in m.group(4).split()]
+            history.append([int(m.group(1)), [v for v in vals if v < 9999.0]])
+    op = OPERATE.search(text.split("summary of time")[1]) if "summary of time" in text else None
+    if op is None:
+        op = next((OPERATE.match(ln) for ln in text.splitlines() if OPERATE.match(ln)), None)
+    return {
+        "history": history,
+        "operate_seconds": float(op.group(1)) if op else None,
+        "operate_calls": int(op.group(2)) if op else None,
+        "seconds_per_call": float(op.group(3)) if op else None,
+    }
+
+
+def run_solver(
+    kshell_bin: Path, case: Case, settings: dict[str, object], tag: str
+) -> dict[str, object]:
+    """Run ``case`` with namelist overrides in ``runs/<name>_<tag>/``; return its solver data."""
+    work = RUN / f"{case.name}_{tag}"
+    work.mkdir(parents=True, exist_ok=True)
+    ptn, wav, inp, log = (work / f"{case.name}.{ext}" for ext in ("ptn", "wav", "input", "log"))
+    for f in (ptn, wav):
+        f.unlink(missing_ok=True)
+    write_partition(kshell_bin, SNT / case.snt, case, ptn)
+    write_input(case, inp, ptn, wav, settings)
+    t0 = time.perf_counter()
+    with log.open("w") as out:
+        subprocess.run(
+            [str(kshell_bin / "kshell.exe"), inp.name],
+            cwd=work,
+            stdout=out,
+            stderr=subprocess.STDOUT,
+            check=True,
+            env={**os.environ, "GFORTRAN_UNBUFFERED_PRECONNECTED": "y"},
+        )
+    seconds = time.perf_counter() - t0
+    for tmp in work.glob("tmp_*"):
+        tmp.unlink()
+    text = log.read_text()
+    m2, evals, jj = read_wav_header(wav)
+    dim = re.search(r"total m-scheme dimension\s+(\d+)", text)
+    return {
+        "settings": settings,
+        "dimension": int(dim.group(1)) if dim else None,
+        "energies": evals,
+        "jj": jj,
+        "seconds": round(seconds, 2),
+        **parse_solver_log(text),
     }
 
 

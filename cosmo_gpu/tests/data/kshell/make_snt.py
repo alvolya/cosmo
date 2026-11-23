@@ -26,7 +26,7 @@ OUT = HERE / "snt"
 TARGETS: list[tuple[str, str, tuple[int, ...] | None]] = [
     ("usdb", "sd", None),
     ("kb3g", "fp", None),
-    ("fsu9", "spsdpf", (20, 22, 33)),
+    ("fsu9", "spsdpf", (20, 22, 24, 28, 33)),
 ]
 
 
