@@ -55,6 +55,7 @@ CASES = [
     Case("28Si", "28Si", "usdb_from_int.snt", 6, 6, 1, slow=True),
     Case("44Ti", "44Ti", "kb3g_from_int.snt", 2, 2, 1, transit=True),
     Case("46Ti", "46Ti", "kb3g_from_int.snt", 2, 4, 1, slow=True),
+    Case("48Cr", "48Cr", "kb3g_from_int.snt", 4, 4, 1, slow=True),
     Case("33Al_0hw+", "33Al", "fsu9_A33.snt", 13, 20, 1, (0, 0), transit=True),
     Case("33Al_1hw-", "33Al", "fsu9_A33.snt", 13, 20, -1, (1, 1)),
     Case("20Ne_1hw-", "20Ne", "fsu9_A20.snt", 10, 10, -1, (1, 1)),

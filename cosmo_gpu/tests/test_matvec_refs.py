@@ -60,3 +60,54 @@ def test_stored_h_reproduces_reference(name: str):
     Y = np.asarray((H @ ref["X"].T).T)
     scale = np.asarray((abs(H) @ np.abs(ref["X"]).T).T)
     assert rel_error(Y, ref["Y"], scale) < TOL
+
+
+@cache
+def _operator(name: str) -> Any:
+    from cosmo_gpu.onthefly import hamiltonian_operator
+
+    basis, inter, _ = _case(name)
+    return hamiltonian_operator(basis, inter)
+
+
+@cache
+def _scale(name: str) -> np.ndarray:
+    basis, inter, ref = _case(name)
+    H = hamiltonian_csr(basis, inter)
+    return np.asarray((abs(H) @ np.abs(ref["X"]).T).T)
+
+
+@pytest.mark.parametrize("name", CASES)
+def test_kernel_one_call(name: str):
+    _, _, ref = _case(name)
+    Y = _operator(name).matvec(ref["X"])
+    assert rel_error(Y, ref["Y"], _scale(name)) < TOL
+
+
+@pytest.mark.parametrize("name", CASES)
+@pytest.mark.parametrize("n_src_chunks", [2, 3])
+def test_kernel_source_chunks(name: str, n_src_chunks: int):
+    """A matvec split by source block range: first call overwrites, the rest accumulate."""
+    basis, _, ref = _case(name)
+    op = _operator(name)
+    X = ref["X"]
+    cuts = np.linspace(0, basis.n_blocks, n_src_chunks + 1).astype(int)
+    Y = np.full_like(ref["Y"], np.nan)
+    for k in range(n_src_chunks):
+        s0, s1 = int(cuts[k]), int(cuts[k + 1])
+        lo, hi = basis.block_offset[s0], basis.block_offset[s1]
+        op.apply(np.ascontiguousarray(X[:, lo:hi]), Y, src_range=(s0, s1), accumulate=k > 0)
+    assert rel_error(Y, ref["Y"], _scale(name)) < TOL
+
+
+@pytest.mark.parametrize("name", CASES)
+def test_kernel_destination_range_leaves_the_rest(name: str):
+    basis, _, ref = _case(name)
+    op = _operator(name)
+    d0, d1 = basis.n_blocks // 3, 2 * basis.n_blocks // 3
+    Y = np.full_like(ref["Y"], 7.0)
+    op.apply(ref["X"], Y, dst_range=(d0, d1))
+    lo, hi = basis.block_offset[d0], basis.block_offset[d1]
+    assert rel_error(Y[:, lo:hi], ref["Y"][:, lo:hi], _scale(name)[:, lo:hi]) < TOL
+    assert np.all(Y[:, :lo] == 7.0)
+    assert np.all(Y[:, hi:] == 7.0)

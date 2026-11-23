@@ -89,7 +89,7 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 # Numba kernel modules (*_kernels.py): @njit is untyped; typed wrappers carry the public API
-module = ["cosmo_gpu.bits_kernels", "cosmo_gpu.reference_kernels", "cosmo_gpu.operator_tables_kernels"]
+module = ["cosmo_gpu.bits_kernels", "cosmo_gpu.reference_kernels", "cosmo_gpu.operator_tables_kernels", "cosmo_gpu.onthefly_kernels"]
 disallow_untyped_decorators = false
 warn_return_any = false
 
