@@ -2,15 +2,16 @@
 
 An M-scheme shell-model CI code written in Python, with a factorized on-the-fly matvec: Numba on
 CPU and CuPy on GPU. It lives inside a fork of [CoSMo](https://github.com/alvolya/cosmo). It reads
-CoSMo's interaction catalogue (`../interactions`) and uses CoSMo as its numerical oracle. The
-design and staged plan are in [`docs/design-plan.md`](docs/design-plan.md).
+CoSMo's interaction catalogue (`../interactions`) and KSHELL `.snt` files, and uses CoSMo and
+KSHELL as numerical oracles. The design and staged plan are in
+[`docs/design-plan.md`](docs/design-plan.md).
 
 ## Status
 
 Stage 1 (CPU reference) in progress:
 
 - valence spaces and OXBASH isospin interactions (multi-file, scaled, mass-dependent) from
-  CoSMo's `int.xml`;
+  CoSMo's `int.xml`, and KSHELL `.snt` proton-neutron interactions (`--snt`);
 - Nħω and orbit-occupation truncations with CoSMo's semantics, and mixed-parity spaces;
 - M-scheme basis as proton × neutron blocks of (partition, M) sub-blocks, built partition by
   partition so a truncated space is never enumerated in full;
@@ -22,6 +23,9 @@ Agreement with CoSMo, to its printed precision (`tests/test_cosmo_*.py`):
 - psdpf (`spsdpf`) FSU9: 33Al at 0ħω and 1ħω, 20Ne at 1ħω, and 22Na at 1ħω (slow test);
 - basis dimensions up to 28Si at 1ħω (3,834,452).
 
+Agreement with KSHELL on the same `.snt` input, to 1e-8 MeV (`tests/test_kshell.py`): sd USDB,
+pf KB3G (44Ti, 46Ti) and psdpf FSU9 cases; see the KSHELL section below.
+
 ## Install and run
 
 The package is a [uv](https://docs.astral.sh/uv/) project. Python ≥ 3.12 is required, and
@@ -32,6 +36,7 @@ uv sync                                     # creates .venv with the package and
 uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu levels ...
 uv run cosmo-gpu levels 33Al spsdpf fsu9 --parity -1 --hw 1:1 -n 10
 uv sync --extra gpu                         # add CuPy (also: mpi, io)
+uv run cosmo-gpu levels 24Mg --snt tests/data/kshell/snt/usdb_from_int.snt  # a KSHELL file
 ```
 
 Interaction files are found through `$SMINTPATH` (as set by CoSMo's `cosmovar.sh`), otherwise
@@ -54,3 +59,19 @@ Conventions: angular momenta are stored doubled (`j2`, `m2`), so they are intege
 their dtype in the type (`NDArray[np.uint64]`, `NDArray[np.int64]`, ...), because index widths
 are part of the kernel ABI. Numba kernels live in `*_kernels.py`, and typed wrappers carry the
 public API.
+
+## KSHELL references
+
+KSHELL (fork GaffaSnobb/kshell, pinned commit) is the second oracle: double precision, the same
+`.snt` input, and the same thick-restart block Lanczos family. Its license is unclear, so it is
+built outside this repository and only its outputs are committed.
+
+```bash
+tools/kshell/build_kshell.sh                                 # clone + build into ~/kshell
+uv run python tests/data/kshell/make_snt.py                  # repo .int -> snt/ (KSHELL's nushell2snt)
+sbatch tests/data/kshell/kshell.sb                           # run kshell.exe -> kshell_reference.json
+```
+
+`KSHELL_DIR` overrides `~/kshell`. `run_kshell.py` writes partitions with KSHELL's
+`gen_partition`, so truncated dimensions are KSHELL's own, and reads eigenvalues at full
+precision from the `.wav` header (the log prints only 5–6 decimals).
