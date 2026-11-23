@@ -1,0 +1,19 @@
+#!/bin/bash
+# Stage-0b GPU smoke test on one GPU. Submit from cosmo_gpu/, one job per GPU type:
+#   for g in v100 v100s a100 l40s h200; do sbatch --gpus=$g:1 tools/gpu/gpu_smoke.sb; done
+# Each job appends one JSON line to tools/gpu/smoke_results.jsonl.
+#SBATCH --job-name=gpu-smoke
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=24G
+#SBATCH --time=0:20:00
+#SBATCH --output=gpu-smoke-%j.out
+set -euo pipefail
+echo "job $SLURM_JOB_ID on $(hostname): ${SLURM_JOB_GPUS:-?}"
+nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
+# separate environment with the gpu extra, created once on the login node:
+#   UV_PROJECT_ENVIRONMENT=.venv-gpu uv sync --locked --extra gpu
+export UV_PROJECT_ENVIRONMENT=.venv-gpu
+# jobs run concurrently, so append under a lock
+uv run --no-sync python -m cosmo_gpu.gpu_smoke \
+    | flock tools/gpu/smoke_results.jsonl tee -a tools/gpu/smoke_results.jsonl
