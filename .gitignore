@@ -37,3 +37,5 @@ cosmo_gpu/stage4-bench-*.out
 cosmo_gpu/cpu-fullnode-*.out
 cosmo_gpu/tests/data/kshell/runs/*_benchfullnode/
 cosmo_gpu/tests/data/kshell/runs/*_bencht16/
+cosmo_gpu/tests/data/kshell/runs/*_bencht16_28si/
+cosmo_gpu/block-sweep-*.out

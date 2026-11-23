@@ -73,7 +73,7 @@ def _kshell_driver() -> ModuleType:
 
 
 TAG = os.environ.get("BENCH_TAG", "")
-SOLVE = {n for n in os.environ.get("BENCH_SOLVE", "").split(",") if n}
+SOLVE = {n for n in os.environ.get("BENCH_SOLVE", "").replace(":", ",").split(",") if n}
 
 
 def _solve(b: Bench) -> bool:

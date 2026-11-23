@@ -8,7 +8,7 @@ KSHELL as numerical oracles. The design and staged plan are in
 
 ## Status
 
-Stages 1 (CPU reference), 0b (GPU smoke test), 2 (operator layer) and 3 (on-the-fly CPU kernel) are complete; stage 4 (GPU kernel) is next. The code has:
+Stages 1 (CPU reference), 0b (GPU smoke test), 2 (operator layer), 3 (on-the-fly CPU kernel) and 4 (GPU kernel) are complete; stage 5 (multi-GPU) is next. The code has:
 
 - valence spaces and OXBASH isospin interactions (multi-file, scaled, mass-dependent) from
   CoSMo's `int.xml`, KSHELL `.snt` proton-neutron interactions (`--snt`), and CoSMo system
@@ -23,6 +23,9 @@ Stages 1 (CPU reference), 0b (GPU smoke test), 2 (operator layer) and 3 (on-the-
 - an on-the-fly matvec (Numba) that applies H and J+ from those tables without storing H, with
   the kernel ABI's source/destination ranges and accumulate flag (`--matvec otf`, automatic above
   2 x 10^5 states); 48Cr in the pf shell (D = 1,963,461) matches KSHELL to 1e-8 MeV;
+- the same matvec as one CUDA kernel with the Lanczos solve on the GPU (`--matvec gpu`, needs the
+  `gpu` extra): 28Si spsdpf 1ħω (D = 3.8 x 10^6, 10 states) in 18 s on one H200, against 607 s
+  for our CPU kernel and 661 s for KSHELL on 16 cores;
 - E2, M1, Gamow-Teller, occupations, one-body densities and spectroscopic factors with reduced
   matrix elements, and Lanczos strength functions.
 
@@ -49,6 +52,7 @@ uv sync                                     # creates .venv with the package and
 uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu levels ...
 uv run cosmo-gpu levels 33Al spsdpf fsu9 --parity -1 --hw 1:1 -n 10
 uv run cosmo-gpu levels 48Cr fp kb3g --matvec otf -n 10   # H never stored (use a Slurm job)
+uv run cosmo-gpu levels 48Cr fp kb3g --matvec gpu -n 10   # on a GPU node, with the gpu extra
 uv sync --extra gpu                         # add CuPy (also: mpi, io)
 uv run cosmo-gpu levels 24Mg --snt tests/data/kshell/snt/usdb_from_int.snt  # a KSHELL file
 uv run cosmo-gpu levels tests/data/cosmo_fsu9/33Al_1hw-.xml   # rerun a CoSMo system file
