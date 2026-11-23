@@ -164,43 +164,78 @@ def _catalogue(interactions_dir: Path | None) -> ET.Element:
     return ET.parse(base / "int.xml").getroot()
 
 
+def spin2(text: str) -> int:
+    """Doubled angular momentum of a spin string such as ``7/2`` or ``0``."""
+    return _j2(text)
+
+
 def _j2(text: str) -> int:
     return int(2 * Fraction(text))
+
+
+def parse_valence_space(vs: ET.Element, interactions_dir: Path | None = None) -> ModelSpace:
+    """Build a ``ModelSpace`` from a ``<valencespace>`` element (``int.xml`` or a system XML)."""
+    name = vs.get("name", "")
+    core = vs.find("core")
+    if core is None:
+        msg = f"valence space {name} has no core"
+        raise ValueError(msg)
+    orbits = []
+    for o in vs.findall("orbital"):
+        if o.get("type", "pn") != "pn":
+            msg = f"valence space {name}: only type='pn' orbitals are supported"
+            raise NotImplementedError(msg)
+        orbits.append(
+            Orbit(
+                name=o.get("name", ""),
+                n=int(o.get("n", "0")),
+                l=int(o.get("l", "0")),
+                j2=_j2(o.get("j", "0")),
+                index=int(o.get("index", "0")),
+            )
+        )
+    return ModelSpace(
+        name=name,
+        orbits=tuple(orbits),
+        core_z=int(core.get("Z", "0")),
+        core_n=int(core.get("N", "0")),
+        interactions_dir=interactions_dir,
+    )
 
 
 def load_model_space(name: str, interactions_dir: Path | None = None) -> ModelSpace:
     """Read valence space ``name`` from the CoSMo catalogue ``int.xml``."""
     root = _catalogue(interactions_dir)
     for vs in root.iter("valencespace"):
-        if vs.get("name") != name:
-            continue
-        core = vs.find("core")
-        if core is None:
-            msg = f"valence space {name} has no core"
-            raise ValueError(msg)
-        orbits = []
-        for o in vs.findall("orbital"):
-            if o.get("type", "pn") != "pn":
-                msg = f"valence space {name}: only type='pn' orbitals are supported"
-                raise NotImplementedError(msg)
-            orbits.append(
-                Orbit(
-                    name=o.get("name", ""),
-                    n=int(o.get("n", "0")),
-                    l=int(o.get("l", "0")),
-                    j2=_j2(o.get("j", "0")),
-                    index=int(o.get("index", "0")),
-                )
-            )
-        return ModelSpace(
-            name=name,
-            orbits=tuple(orbits),
-            core_z=int(core.get("Z", "0")),
-            core_n=int(core.get("N", "0")),
-            interactions_dir=interactions_dir,
-        )
+        if vs.get("name") == name:
+            return parse_valence_space(vs, interactions_dir)
     msg = f"valence space {name!r} not found in int.xml"
     raise KeyError(msg)
+
+
+def parse_hamiltonian(h: ET.Element, interactions_dir: Path | None = None) -> HamiltonianSpec:
+    """Build a ``HamiltonianSpec`` from a ``<hamiltonian>`` element.
+
+    ``<scale rank="1|2">`` factors are kept; ``<formulascale>`` is ignored, as CoSMo does.
+    """
+    name = h.get("name", "")
+    files = []
+    for f in h.findall("file"):
+        fname = (f.findtext("name") or "").strip()
+        scales = {1: 1.0, 2: 1.0}
+        for s in f.findall("scale"):
+            scales[int(s.get("rank", "0"))] *= float((s.text or "1").strip())
+        files.append(
+            InteractionFile(
+                path=find_interaction_file(fname, interactions_dir),
+                spe_scale=scales[1],
+                tbme_scale=scales[2],
+            )
+        )
+    if not files:
+        msg = f"hamiltonian {name}: only OXBASH <file> entries are supported"
+        raise NotImplementedError(msg)
+    return HamiltonianSpec(name=name, valence_space=h.get("valencespace", ""), files=tuple(files))
 
 
 def load_hamiltonian_spec(
@@ -211,26 +246,9 @@ def load_hamiltonian_spec(
     for h in root.iter("hamiltonian"):
         if h.get("name") != name:
             continue
-        vs = h.get("valencespace", "")
-        if valence_space is not None and vs != valence_space:
+        if valence_space is not None and h.get("valencespace", "") != valence_space:
             continue
-        files = []
-        for f in h.findall("file"):
-            fname = (f.findtext("name") or "").strip()
-            scales = {1: 1.0, 2: 1.0}
-            for s in f.findall("scale"):
-                scales[int(s.get("rank", "0"))] *= float((s.text or "1").strip())
-            files.append(
-                InteractionFile(
-                    path=find_interaction_file(fname, interactions_dir),
-                    spe_scale=scales[1],
-                    tbme_scale=scales[2],
-                )
-            )
-        if not files:
-            msg = f"hamiltonian {name}: only OXBASH <file> entries are supported"
-            raise NotImplementedError(msg)
-        return HamiltonianSpec(name=name, valence_space=vs, files=tuple(files))
+        return parse_hamiltonian(h, interactions_dir)
     msg = f"hamiltonian {name!r} (valence space {valence_space}) not found in int.xml"
     raise KeyError(msg)
 

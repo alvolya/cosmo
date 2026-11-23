@@ -1,4 +1,4 @@
-"""Command line: ``python -m cosmo_gpu levels 24Mg sd usdb -n 10``."""
+"""Command line: ``cosmo-gpu levels 24Mg sd usdb -n 10``, a ``.snt`` file or a CoSMo XML."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ from numpy.typing import NDArray
 
 from cosmo_gpu.backend import NumpyBackend
 from cosmo_gpu.basis import MBasis, build_basis
+from cosmo_gpu.cosmo_xml import CosmoSystem, read_cosmo_xml
 from cosmo_gpu.interaction import MSchemeInteraction, read_interaction, to_mscheme
 from cosmo_gpu.lanczos import block_lanczos
 from cosmo_gpu.modelspace import (
@@ -82,21 +83,38 @@ def compute_levels(
     hw: tuple[int, int] | None = None,
     rejections: tuple[str, ...] = (),
     snt: Path | None = None,
+    system: CosmoSystem | None = None,
 ) -> Levels:
     """Build the basis and stored H, then diagonalize (dense below ``DENSE_LIMIT``).
 
     ``hw`` is the Nħω window above the lowest configuration and ``rejections`` are occupation
     windows in CoSMo's ``ORBS:TYPE:NMIN:NMAX`` form. ``parity`` is required in spaces that mix
     parities. With ``snt`` the space and interaction come from a KSHELL file instead of the CoSMo
-    catalogue (``space_name`` and ``hamiltonian`` must then be None).
+    catalogue (``space_name`` and ``hamiltonian`` must then be None). With ``system`` (from
+    ``read_cosmo_xml``) the space, Hamiltonian, valence numbers, truncations and, unless given,
+    parity and M come from a CoSMo system file; ``nucleus`` is then ignored.
     """
     t: dict[str, float] = {}
     t0 = time.perf_counter()
-    space, zv, nv, inter = load_interaction(nucleus, space_name, hamiltonian, snt, cosmo_float32)
+    rules: tuple[OccupationRule, ...]
+    if system is not None:
+        if space_name or hamiltonian or snt or hw or rejections:
+            msg = "a CoSMo system file sets the space, Hamiltonian and truncations itself"
+            raise ValueError(msg)
+        space, zv, nv = system.space, system.z_val, system.n_val
+        coupled = read_interaction(system.hamiltonian, space, zv + nv, cosmo_float32)
+        inter = to_mscheme(coupled)
+        parity = system.parity if parity is None else parity
+        m2 = system.m2 if m2 is None else m2
+        hw, rules = system.hw, system.occupation
+    else:
+        space, zv, nv, inter = load_interaction(
+            nucleus, space_name, hamiltonian, snt, cosmo_float32
+        )
+        rules = tuple(parse_rejection(r, space) for r in rejections)
     t["interaction"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    rules: tuple[OccupationRule, ...] = tuple(parse_rejection(r, space) for r in rejections)
     trunc = make_truncation(space, zv, nv, hw, rules) if (hw or rules) else None
     if parity is None and len(set(space.orbit_parity.tolist())) > 1:
         msg = f"valence space {space.name} mixes parities: give parity +1 or -1 (--parity)"
@@ -150,10 +168,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="cosmo-gpu")
     sub = parser.add_subparsers(dest="command", required=True)
     lv = sub.add_parser("levels", help="lowest levels of a nucleus")
-    lv.add_argument("nucleus", help="e.g. 24Mg")
+    lv.add_argument("nucleus", help="e.g. 24Mg, or a CoSMo system file ending in .xml")
     lv.add_argument("space", nargs="?", help="CoSMo valence space, e.g. sd")
     lv.add_argument("hamiltonian", nargs="?", help="CoSMo Hamiltonian name, e.g. usdb")
     lv.add_argument("--snt", type=Path, default=None, help="KSHELL .snt file instead")
+    lv.add_argument("--system", default=None, help="system name in a multi-system CoSMo XML")
     lv.add_argument("-n", "--nev", type=int, default=10)
     lv.add_argument("--parity", type=int, choices=(-1, 1), default=None)
     lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
@@ -180,6 +199,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    system = None
+    if args.nucleus.endswith(".xml"):
+        system = read_cosmo_xml(Path(args.nucleus), args.system)
+    elif args.system is not None:
+        parser.error("--system needs a CoSMo XML file")
     lev = compute_levels(
         args.nucleus,
         args.space,
@@ -193,19 +217,32 @@ def main(argv: list[str] | None = None) -> int:
         args.hw,
         tuple(args.rejection),
         args.snt,
+        system,
     )
     b = lev.basis
     sign = "+" if b.parity > 0 else "-"
     trunc = b.truncation.describe() if b.truncation else "none"
-    source = str(args.snt) if args.snt else f"{args.space} {args.hamiltonian}"
-    print(f"# {args.nucleus} {source}  2M={b.m2} parity={sign}")
+    if system is not None:
+        source = f"{system.name} ({system.space.name} {system.hamiltonian.name})"
+    elif args.snt:
+        source = f"{args.nucleus} {args.snt}"
+    else:
+        source = f"{args.nucleus} {args.space} {args.hamiltonian}"
+    print(f"# {source}  2M={b.m2} parity={sign}")
     print(f"# truncation {trunc}")
-    print(f"# dimension {b.dim}  blocks {b.n_blocks}  matvecs {lev.n_matvec}")
+    dim_note = ""
+    if system is not None and system.cosmo_dimension is not None:
+        same = "matches" if system.cosmo_dimension == b.dim else "DIFFERS FROM"
+        dim_note = f"  ({same} CoSMo {system.cosmo_dimension})"
+    print(f"# dimension {b.dim}{dim_note}  blocks {b.n_blocks}  matvecs {lev.n_matvec}")
     print("# timings " + "  ".join(f"{k}={v:.2f}s" for k, v in lev.timings.items()))
-    print(f"# {'k':>3} {'E (MeV)':>14} {'Ex':>10} {'J':>6} {'residual':>10}")
+    cosmo_e = [st.energy for st in system.cosmo_states] if system is not None else []
+    extra = f" {'CoSMo E':>11}" if cosmo_e else ""
+    print(f"# {'k':>3} {'E (MeV)':>14} {'Ex':>10} {'J':>6} {'residual':>10}{extra}")
     for i, (e, j, r) in enumerate(zip(lev.energies, lev.spins, lev.residuals, strict=True)):
         ex = e - lev.energies[0]
-        print(f"  {i + 1:>3} {e:14.6f} {ex:10.4f} {_format_j(j) + sign:>6} {r:10.2e}")
+        col = f" {cosmo_e[i]:11.3f}" if i < len(cosmo_e) else ""
+        print(f"  {i + 1:>3} {e:14.6f} {ex:10.4f} {_format_j(j) + sign:>6} {r:10.2e}{col}")
     if not lev.converged:
         print("# WARNING: not all requested states converged", file=sys.stderr)
         return 1
