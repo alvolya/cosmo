@@ -1,0 +1,70 @@
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=3 Z=3
+
+MBS: Starting: MBSSun Nov 22 16:06:11 2026
+Status saved in the log file: MBS_1795381571.status
+states 6116
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.941575 
+generating 22Na_usdb_M0T0+.HH
+dimension 6116
+
+VH: Starting: Sun Nov 22 16:06:11 2026
+VH:   1.28%    0.00 sec  ETA:     1.16 days       1     RATE=1.00VH:   3.85%    0.00 sec  ETA:     1.16 days       3     RATE=1.00
+VH: Completed:    0.00 sec   RATE=1.00 Sun Nov 22 16:06:11 2026
+Size: 6116
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 16:06:11 2026
+Status saved in the log file: D_1795381571.status
+ writing output to 22Na_usdb_M0T0+.HH.EE
+-58.4429 0 5.56012e-10
+-58.1046 0 1.30994e-09
+-57.5782 3.55271e-14 4.33287e-09
+-57.487 0 3.44473e-09
+-56.9049 0 7.30694e-10
+-56.5442 6.39488e-14 6.64432e-10
+-56.4014 7.10543e-15 2.15652e-09
+-56.2153 7.10543e-15 3.62034e-07
+-55.494 4.9738e-14 1.6099e-09
+-55.265 1.42109e-14 8.15505e-09
+my lowest eigenvalue is -58.442856
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 22Na_usdb_M0T0+.HH.EE
+states found 10
+processing states 10
+State: 0 E= -58.442856 JJ= 12.000000
+ TT= 0.000000 
+State: 1 E= -58.104551 JJ= 2.000000
+ TT= 0.000000 
+State: 2 E= -57.578164 JJ= 0.000000
+ TT= 2.000000 
+State: 3 E= -57.486983 JJ= 20.000000
+ TT= 0.000000 
+State: 4 E= -56.904937 JJ= 30.000000
+ TT= 0.000000 
+State: 5 E= -56.544190 JJ= 12.000000
+ TT= 0.000000 
+State: 6 E= -56.401420 JJ= 2.000000
+ TT= 0.000000 
+State: 7 E= -56.215261 JJ= 6.000000
+ TT= 2.000000 
+State: 8 E= -55.494032 JJ= 12.000000
+ TT= 0.000000 
+State: 9 E= -55.265025 JJ= 6.000000
+ TT= 0.000000 

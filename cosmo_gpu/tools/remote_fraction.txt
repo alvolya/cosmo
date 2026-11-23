@@ -1,0 +1,45 @@
+## 24Mg spsdpf fsu9 1hw-: D = 978,948, blocks = 12,448
+species dims p = 9,647, n = 9,647
+basis 0.0 s, tables 9.7 s, tasks = 4,825,868
+table bytes: tasks 82.1 MB, jumps 20.8 MB, couplings 0.8 MB, same_species 26.7 MB
+total tables 130.5 MB; gather multiply-adds per vector 7.013e+08 (stored H at 12 B per nonzero would be about 8.4 GB)
+| ranks | max received states | max remote fraction | mean remote fraction | max cost share |
+| --- | --- | --- | --- | --- |
+| 2 | 488,961 | 0.499 | 0.498 | 0.500 |
+| 4 | 735,342 | 0.751 | 0.739 | 0.250 |
+| 8 | 851,704 | 0.870 | 0.848 | 0.125 |
+
+## 28Si spsdpf fsu9 1hw-: D = 3,834,452, blocks = 21,816
+species dims p = 21,516, n = 21,516
+basis 0.0 s, tables 2.7 s, tasks = 9,509,624
+table bytes: tasks 161.8 MB, jumps 52.8 MB, couplings 0.8 MB, same_species 75.5 MB
+total tables 291.0 MB; gather multiply-adds per vector 3.551e+09 (stored H at 12 B per nonzero would be about 42.6 GB)
+| ranks | max received states | max remote fraction | mean remote fraction | max cost share |
+| --- | --- | --- | --- | --- |
+| 2 | 1,906,762 | 0.497 | 0.497 | 0.500 |
+| 4 | 2,870,778 | 0.749 | 0.736 | 0.250 |
+| 8 | 3,337,895 | 0.871 | 0.843 | 0.125 |
+
+	Command being timed: "uv run --locked python tools/remote_fraction.py 24Mg 28Si"
+	User time (seconds): 24.26
+	System time (seconds): 1.23
+	Percent of CPU this job got: 142%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:17.87
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1529628
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 204
+	Minor (reclaiming a frame) page faults: 304571
+	Voluntary context switches: 4641
+	Involuntary context switches: 403
+	Swaps: 0
+	File system inputs: 665904
+	File system outputs: 1792
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

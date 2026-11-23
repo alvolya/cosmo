@@ -1,0 +1,53 @@
+{
+ "gpu": "NVIDIA A100-SXM4-80GB",
+ "24Mg_sd": {
+  "baseline": 0.47,
+  "lean": 0.415,
+  "lean_packed": 0.412,
+  "lean_packed_t128_mb6": 0.418,
+  "lean_packed_t128_mb8": 0.417,
+  "lean_packed_t256_mb3": 0.382,
+  "lean_packed_t256_mb4": 0.389,
+  "default": 0.387
+ },
+ "28Si_sd": {
+  "baseline": 1.149,
+  "lean": 0.837,
+  "lean_packed": 0.978,
+  "lean_packed_t128_mb6": 0.817,
+  "lean_packed_t128_mb8": 0.805,
+  "lean_packed_t256_mb3": 0.852,
+  "lean_packed_t256_mb4": 0.818,
+  "default": 0.825
+ },
+ "48Cr_kb3g": {
+  "baseline": 49.197,
+  "lean": 35.403,
+  "lean_packed": 39.822,
+  "lean_packed_t128_mb6": 33.096,
+  "lean_packed_t128_mb8": 29.957,
+  "lean_packed_t256_mb3": 30.981,
+  "lean_packed_t256_mb4": 28.863,
+  "default": 28.837
+ },
+ "24Mg_1hw-": {
+  "baseline": 20.204,
+  "lean": 15.181,
+  "lean_packed": 17.448,
+  "lean_packed_t128_mb6": 14.203,
+  "lean_packed_t128_mb8": 12.695,
+  "lean_packed_t256_mb3": 13.709,
+  "lean_packed_t256_mb4": 12.371,
+  "default": 12.39
+ },
+ "28Si_1hw-": {
+  "baseline": 98.781,
+  "lean": 74.44,
+  "lean_packed": 84.763,
+  "lean_packed_t128_mb6": 70.286,
+  "lean_packed_t128_mb8": 63.897,
+  "lean_packed_t256_mb3": 65.501,
+  "lean_packed_t256_mb4": 60.859,
+  "default": 60.836
+ }
+}

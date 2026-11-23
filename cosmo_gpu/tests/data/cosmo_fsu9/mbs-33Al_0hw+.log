@@ -1,0 +1,15 @@
+Program: XsysmbsOMP
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Processing system : 33Al_fsu9_M1T7+
+Valence particles N=20 Z=13
+Process hw rejection 0 0
+Core neutron quanta 30 Core proton quanta 16
+The number of rejections to process is 0
+There are 14 partitions
+Done: 1/14	(7.14286%) MBS: 1            Done: 2/14	(14.2857%) MBS: 2            Done: 3/14	(21.4286%) MBS: 5            Done: 4/14	(28.5714%) MBS: 11            Done: 5/14	(35.7143%) MBS: 28            Done: 6/14	(42.8571%) MBS: 36            Done: 7/14	(50%) MBS: 59            Done: 8/14	(57.1429%) MBS: 60            Done: 9/14	(64.2857%) MBS: 69            Done: 10/14	(71.4286%) MBS: 70            Done: 11/14	(78.5714%) MBS: 79            Done: 12/14	(85.7143%) MBS: 84            Done: 13/14	(92.8571%) MBS: 110            Done: 14/14	(100%) MBS: 119            
+
+number of mbs 119

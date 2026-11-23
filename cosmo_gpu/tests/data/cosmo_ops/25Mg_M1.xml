@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cosmo version="4.1">
+	<valencespace name="sd">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<operator name="M1" J="1" mu_n="-1.91304" mu_p="2.79285" gl_n="0" gl_p="1"/>
+	<hamiltonian name="usdb" valencespace="sd">
+		<file format="ascii">
+			<name>usdb.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>Phys. Rev. C74, 034315 (2006)</comment>
+		<reference doi="10.1103/PhysRevC.78.064302">PHYSICAL REVIEW C 78, 064302 (2008)</reference>
+	</hamiltonian>
+	<system Av="9" Nv="5" Zv="4" A="25" Tz="1/2" Jz="1/2" P="+" name="25Mg_usdb_M1T1+">
+		<ManyBodyStates name="25Mg_usdb_M1T1+.mbs" size="44133" creator="MakeMBS2"/>
+		<matrix name="25Mg_usdb_M1T1+.HH" format="pp"/>
+		<state J="5/2" P="+" T="1/2" E="-94.4013" dE="1.42109e-14" name="5/2+(1)" Ex="0">
+			<moment name="M1" m="-0.848657"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="0"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.240715"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.00371686"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.709385"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.00247246"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.0146487"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.000985332"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.00640351"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.00823573"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.00283141"/>
+		</state>
+		<state J="1/2" P="+" T="1/2" E="-93.7959" dE="2.84217e-14" name="1/2+(1)" Ex="0.6054">
+			<moment name="M1" m="-0.448255"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="1"/>
+			<transition name="B(M1)" final="1/2+(1)" E="-93.7959" B="0.143907"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.0481479"/>
+			<transition name="B(M1)" final="1/2+(2)" E="-91.8182" B="0.538776"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.0518193"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.770665"/>
+		</state>
+		<state J="3/2" P="+" T="1/2" E="-93.304" dE="1.42109e-14" name="3/2+(1)" Ex="1.0973">
+			<moment name="M1" m="0.748097"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="2"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.00557529"/>
+			<transition name="B(M1)" final="1/2+(1)" E="-93.7959" B="0.024074"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.222677"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.0170935"/>
+			<transition name="B(M1)" final="1/2+(2)" E="-91.8182" B="0.129732"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.00120572"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.219333"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.353994"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.734963"/>
+		</state>
+		<state J="7/2" P="+" T="1/2" E="-92.6807" dE="4.26326e-14" name="7/2+(1)" Ex="1.7206">
+			<moment name="M1" m="0.373383"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="3"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.532038"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.0427922"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.000770324"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.00172068"/>
+			<transition name="B(M1)" final="9/2+(1)" E="-90.9538" B="0.848762"/>
+			<transition name="B(M1)" final="9/2+(2)" E="-90.5044" B="0.0904426"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.0102952"/>
+			<transition name="B(M1)" final="9/2+(3)" E="-89.6664" B="0.00107192"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.000701948"/>
+		</state>
+		<state J="5/2" P="+" T="1/2" E="-92.4058" dE="0" name="5/2+(2)" Ex="1.9955">
+			<moment name="M1" m="0.276592"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="4"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.00247246"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.0113957"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.0010271"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.0255694"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.609762"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.0160302"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.0399145"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.00205488"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.148663"/>
+		</state>
+		<state J="1/2" P="+" T="1/2" E="-91.8182" dE="4.26326e-14" name="1/2+(2)" Ex="2.5831">
+			<moment name="M1" m="-0.536165"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="5"/>
+			<transition name="B(M1)" final="1/2+(1)" E="-93.7959" B="0.538776"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.259463"/>
+			<transition name="B(M1)" final="1/2+(2)" E="-91.8182" B="0.205888"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.0320098"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.0829843"/>
+		</state>
+		<state J="3/2" P="+" T="1/2" E="-91.5901" dE="2.84217e-14" name="3/2+(2)" Ex="2.8112">
+			<moment name="M1" m="1.28209"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="6"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.0219731"/>
+			<transition name="B(M1)" final="1/2+(1)" E="-93.7959" B="0.0259096"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.00120572"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.914643"/>
+			<transition name="B(M1)" final="1/2+(2)" E="-91.8182" B="0.0160049"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.654027"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.447771"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="1.21055e-05"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.0298302"/>
+		</state>
+		<state J="7/2" P="+" T="1/2" E="-91.5" dE="5.68434e-14" name="7/2+(2)" Ex="2.9013">
+			<moment name="M1" m="1.33272"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="7"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.000738999"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.00172068"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.0120227"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.545176"/>
+			<transition name="B(M1)" final="9/2+(1)" E="-90.9538" B="0.0239932"/>
+			<transition name="B(M1)" final="9/2+(2)" E="-90.5044" B="8.3179e-05"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.277254"/>
+			<transition name="B(M1)" final="9/2+(3)" E="-89.6664" B="0.0080475"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.0119436"/>
+		</state>
+		<state J="9/2" P="+" T="1/2" E="-90.9538" dE="1.42109e-14" name="9/2+(1)" Ex="3.4475">
+			<moment name="M1" m="1.29079"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="8"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.67901"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.0191946"/>
+			<transition name="B(M1)" final="9/2+(1)" E="-90.9538" B="0.486153"/>
+			<transition name="B(M1)" final="9/2+(2)" E="-90.5044" B="0.106513"/>
+			<transition name="B(M1)" final="9/2+(3)" E="-89.6664" B="0.00866596"/>
+		</state>
+		<state J="9/2" P="+" T="1/2" E="-90.5044" dE="1.13687e-13" name="9/2+(2)" Ex="3.8969">
+			<moment name="M1" m="0.380873"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="9"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.0723541"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="6.65432e-05"/>
+			<transition name="B(M1)" final="9/2+(1)" E="-90.9538" B="0.106513"/>
+			<transition name="B(M1)" final="9/2+(2)" E="-90.5044" B="0.0423275"/>
+			<transition name="B(M1)" final="9/2+(3)" E="-89.6664" B="0.00476749"/>
+		</state>
+		<state J="5/2" P="+" T="1/2" E="-90.4925" dE="4.26326e-14" name="5/2+(3)" Ex="3.9088">
+			<moment name="M1" m="0.711239"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="10"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.00640351"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.146222"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.0137269"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.0399145"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.298514"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.369672"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.169072"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.0357704"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.0221371"/>
+		</state>
+		<state J="3/2" P="+" T="1/2" E="-90.0688" dE="1.42109e-13" name="3/2+(3)" Ex="4.3325">
+			<moment name="M1" m="0.620354"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="11"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.0123536"/>
+			<transition name="B(M1)" final="1/2+(1)" E="-93.7959" B="0.385333"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.353994"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.00308232"/>
+			<transition name="B(M1)" final="1/2+(2)" E="-91.8182" B="0.0414921"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="1.21055e-05"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.0536556"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.153123"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.00498081"/>
+		</state>
+		<state J="9/2" P="+" T="1/2" E="-89.6664" dE="7.10543e-14" name="9/2+(3)" Ex="4.7349">
+			<moment name="M1" m="1.25482"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="12"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.000857537"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.006438"/>
+			<transition name="B(M1)" final="9/2+(1)" E="-90.9538" B="0.00866596"/>
+			<transition name="B(M1)" final="9/2+(2)" E="-90.5044" B="0.00476749"/>
+			<transition name="B(M1)" final="9/2+(3)" E="-89.6664" B="0.459439"/>
+		</state>
+		<state J="5/2" P="+" T="1/2" E="-89.6613" dE="0" name="5/2+(4)" Ex="4.74">
+			<moment name="M1" m="0.693636"/>
+			<wavefunction Jz="1/2" Tz="1/2" file="25Mg_usdb_M1T1+.HH.EE" id="13"/>
+			<transition name="B(M1)" final="5/2+(1)" E="-94.4013" B="0.00283141"/>
+			<transition name="B(M1)" final="3/2+(1)" E="-93.304" B="0.489976"/>
+			<transition name="B(M1)" final="7/2+(1)" E="-92.6807" B="0.00093593"/>
+			<transition name="B(M1)" final="5/2+(2)" E="-92.4058" B="0.148663"/>
+			<transition name="B(M1)" final="3/2+(2)" E="-91.5901" B="0.0198868"/>
+			<transition name="B(M1)" final="7/2+(2)" E="-91.5" B="0.0159248"/>
+			<transition name="B(M1)" final="5/2+(3)" E="-90.4925" B="0.0221371"/>
+			<transition name="B(M1)" final="3/2+(3)" E="-90.0688" B="0.00332054"/>
+			<transition name="B(M1)" final="5/2+(4)" E="-89.6613" B="0.160806"/>
+		</state>
+	</system>
+</cosmo>

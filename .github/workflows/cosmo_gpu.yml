@@ -1,0 +1,37 @@
+name: cosmo_gpu
+
+on:
+  push:
+    paths: ["cosmo_gpu/**", "interactions/**", ".github/workflows/cosmo_gpu.yml"]
+  pull_request:
+    paths: ["cosmo_gpu/**", "interactions/**", ".github/workflows/cosmo_gpu.yml"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    defaults:
+      run:
+        working-directory: cosmo_gpu
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.20"
+          enable-cache: true
+          cache-dependency-glob: cosmo_gpu/uv.lock
+      - name: Install
+        run: uv sync --locked
+      - name: Lint
+        run: uv run ruff check .
+      - name: Format
+        run: uv run ruff format --check .
+      - name: Type check
+        run: uv run mypy
+      - name: Tests
+        run: uv run pytest

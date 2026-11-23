@@ -1,0 +1,14 @@
+#!/bin/bash
+# Build H once (as DEXHVJTcsb does) and time the stored matvec. Usage: sbatch matvec_only.sb CASE BUILD
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --output=%x-%j.out
+set -eo pipefail
+c=$1; b=$2
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16} OMP_PROC_BIND=close OMP_PLACES=cores
+source ~/cosmo/cosmovar.sh ~/cosmo >/dev/null
+B=$SLURM_SUBMIT_DIR; W=$B/runs/${c}_${b}_t${OMP_NUM_THREADS}_mv; rm -rf $W; mkdir -p $W
+cp $B/${c}_1hw-.xml $W/sys.xml; cp $B/${c}_fsu9_*-.mbs $W/; cd $W
+echo "node $(hostname) $(lscpu | grep -m1 'Model name' | sed 's/.*: *//') threads $OMP_NUM_THREADS"
+/usr/bin/time -f "WALL %e RSS_KB %M" $B/csbbench_$b sys.xml 20 > bench.log 2>&1 || echo "BENCH FAILED $c $b"
+echo "MATVEC case=$c build=$b $(tr '\r' '\n' < bench.log | grep -a BENCH) $(grep -a '^WALL' bench.log)"

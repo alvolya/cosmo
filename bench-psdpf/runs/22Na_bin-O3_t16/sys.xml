@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cosmo version="4.1">
+	<valencespace name="spsdpf">
+		<core name="0n" N="0" Z="0"/>
+		<orbital name="0s1" n="0" l="0" j="1/2" type="pn" index="1"/>
+		<orbital name="0p3" n="0" l="1" j="3/2" type="pn" index="2"/>
+		<orbital name="0p1" n="0" l="1" j="1/2" type="pn" index="3"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="4"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="5"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="6"/>
+		<orbital name="0f7" n="0" l="3" j="7/2" type="pn" index="7"/>
+		<orbital name="0f5" n="0" l="3" j="5/2" type="pn" index="8"/>
+		<orbital name="1p3" n="1" l="1" j="3/2" type="pn" index="9"/>
+		<orbital name="1p1" n="1" l="1" j="1/2" type="pn" index="10"/>
+		<outercore name="80Zr" N="40" Z="40"/>
+	</valencespace>
+	<hamiltonian name="fsu9" valencespace="spsdpf">
+		<file format="ascii">
+			<name>spsdpfpb.int</name>
+			<comment>Unchanged from WBP</comment>
+		</file>
+		<file format="ascii">
+			<name>fsu9/spsdfp-fsu9.int</name>
+			<formulascale rank="2">(18/A)^0.3</formulascale>
+		</file>
+		<file format="ascii">
+			<name>fsu9/0p1sd.int</name>
+		</file>
+		<file format="ascii">
+			<name>fsu9/0p3sd.int</name>
+		</file>
+		<file format="ascii">
+			<name>0s0f1p0.int</name>
+		</file>
+		<file format="ascii">
+			<name>spsdpfcm.int</name>
+			<scale rank="1">10.000000</scale>
+			<scale rank="2">10.000000</scale>
+			<comment>Center-of-mass</comment>
+		</file>
+		<comment>Interaction fitted to particle-hole excitations</comment>
+		<reference doi="10.1103/PhysRevResearch.2.043342">R. S. Lubna, et al.  Phys. Rev. Research 2, 043342 (2020)</reference>
+		<reference>R. S. Lubna, et al. Phys. Rev. C 100, 034308 (2019)</reference>
+		<reference>R. S. Lubna, Ph.D. thesis, Florida State University (2019)</reference>
+	</hamiltonian>
+	<system Av="22" Nv="11" Zv="11" A="22" Tz="0" Jz="0" P="-" name="22Na_fsu9_M0T0-">
+		<hwrejection HWMAX="1" HWMIN="1"/>
+		<?ManyBodyStates name="22Na_fsu9_M0T0-.mbs" size="218924" creator="sysmbsOMP"?>
+		<matrix name="22Na_fsu9_M0T0-.HH" format="pp"/>
+		<state J="1" P="-" T="0" E="-200.75" dE="2.84217e-14" name="1-(1)" Ex="0">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="0"/>
+		</state>
+		<state J="2" P="-" T="0" E="-200.532" dE="1.42109e-13" name="2-(1)" Ex="0.218">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="1"/>
+		</state>
+		<state J="3" P="-" T="0" E="-199.6" dE="8.52651e-14" name="3-(1)" Ex="1.15">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="2"/>
+		</state>
+		<state J="2" P="-" T="0" E="-198.95" dE="4.08988e-11" name="2-(2)" Ex="1.8">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="3"/>
+		</state>
+		<state J="0" P="-" T="0" E="-198.797" dE="1.62458e-10" name="0-(1)" Ex="1.953">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="4"/>
+		</state>
+		<state J="4" P="-" T="0" E="-198.749" dE="1.06758e-09" name="4-(1)" Ex="2.001">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="5"/>
+		</state>
+		<state J="1" P="-" T="0" E="-198.547" dE="8.52651e-14" name="1-(2)" Ex="2.203">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="6"/>
+		</state>
+		<state J="2" P="-" T="0" E="-198.141" dE="8.87145e-05" name="2-(3)" Ex="2.609">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="7"/>
+		</state>
+		<state J="3" P="-" T="0" E="-198.003" dE="2.64805e-10" name="3-(2)" Ex="2.747">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="8"/>
+		</state>
+		<state J="5" P="-" T="0" E="-197.714" dE="1.24501e-09" name="5-(1)" Ex="3.036">
+			<wavefunction Jz="0" Tz="0" file="22Na_fsu9_M0T0-.HH.EE" id="9"/>
+		</state>
+	</system>
+</cosmo>

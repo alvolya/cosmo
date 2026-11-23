@@ -1,0 +1,21 @@
+#!/bin/bash
+# Full-node CPU baselines for stage 4 (ours on the fly and KSHELL, all 192 cores of an amd24
+# node), with end-to-end solves of the psdpf 1hw cases. Submit from cosmo_gpu/:
+#   sbatch tools/cpu_fullnode.sb
+#SBATCH --job-name=cpu-fullnode
+#SBATCH --partition=general-short
+#SBATCH --constraint=amd24
+#SBATCH --exclusive
+#SBATCH --cpus-per-task=192
+#SBATCH --mem=0
+#SBATCH --time=4:00:00
+#SBATCH --output=cpu-fullnode-%j.out
+set -euo pipefail
+export NUMBA_NUM_THREADS=192 OMP_NUM_THREADS=192 OMP_STACKSIZE=128m
+# KSHELL calls BLAS inside its OpenMP threads; the conda OpenBLAS is built for <= 128 threads
+# and segfaults at 192 unless it runs single-threaded
+export OPENBLAS_NUM_THREADS=1
+ulimit -s unlimited
+export KSHELL_DIR=${KSHELL_DIR:-$HOME/kshell} BENCH_TAG=fullnode BENCH_SOLVE=24Mg_1hw-:28Si_1hw-
+lscpu | grep -E "Model name|^CPU\(s\)"
+uv run --locked python tools/stage3_bench.py "$@" 2>&1 | grep --line-buffered -v -i "numbawarning\|warnings.warn\|tbb"

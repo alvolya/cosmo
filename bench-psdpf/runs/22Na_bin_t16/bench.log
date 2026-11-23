@@ -1,0 +1,32 @@
+Maximum value for <spsint> 65535
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfpb.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :140 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/spsdfp-fsu9.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :768 scale: 0.941575 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p1sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :12 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/fsu9/0p3sd.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :20 scale: 1 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/0s0f1p0.int
+Single-particle levels    :10 scale: 1 
+Lines in interaction file :1400 scale: 1 
+Scaling rank= 1 with 10
+Scaling rank= 2 with 10
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/spsdpf/spsdpfcm.int
+Single-particle levels    :10 scale: 10 
+Lines in interaction file :452 scale: 10 
+BENCH D=218924 threads=16 nnz_stored=38292954 nnz_full~7.637e+07 nnz_per_row~348.8 build_s=337.809 matvec_s=0.01992 ns_per_stored_nz=0.520 ns_per_full_nz=0.261 build_us_per_full_nz=4.4235
+WALL 340.24 RSS_KB 534216

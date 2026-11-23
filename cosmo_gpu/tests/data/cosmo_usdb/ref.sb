@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH -c 16 --mem=16G --time=1:00:00 -p general-short -C amd24 -o ref-%j.out
+source ~/cosmo/cosmovar.sh ~/cosmo
+export OMP_NUM_THREADS=16
+for f in 18O_usdb+.xml 19O_usdb+.xml 20Ne_usdb+.xml; do echo "== $f"; DEXHVJTcsb $f -n 1000 </dev/null | tail -n 40; done
+for f in 24Mg_usdb+.xml 25Mg_usdb+.xml 28Si_usdb+.xml; do echo "== $f"; DEXHVJTcsb $f -n 10 -i 800 </dev/null | tail -n 14; done
+Xlevels 20Ne_usdb+.xml </dev/null | head -30
+Xlevels 24Mg_usdb+.xml </dev/null
+Xlevels 25Mg_usdb+.xml </dev/null
+Xlevels 28Si_usdb+.xml </dev/null

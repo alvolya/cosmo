@@ -1,0 +1,48 @@
+# CoSMo build outputs and local deps
+bin/
+bin-O3/
+eigen/
+# CoSMo run side files
+*.mbs
+*.HH.EE
+# benchmark binaries
+bench-psdpf/csbbench_bin*
+bench-psdpf/smoke/
+# Python
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+bench-psdpf/.seen
+# CoSMo reference runs for cosmo_gpu tests: keep XMLs and logs only
+cosmo_gpu/tests/data/**/*.status
+cosmo_gpu/tests/data/*.out
+core.*
+# uv project environment
+cosmo_gpu/.venv/
+cosmo_gpu/tests/data/kshell/runs/**/*.wav
+cosmo_gpu/tests/data/kshell/runs/**/*.ptn
+cosmo_gpu/tests/data/kshell/runs/**/tmp_*
+cosmo_gpu/kshell-ref-*.out
+cosmo_gpu/slow-*.out
+cosmo_gpu/.venv-gpu/
+cosmo_gpu/gpu-smoke-*.out
+cosmo_gpu/remote-frac-*.out
+cosmo_gpu/stage3-bench-*.out
+cosmo_gpu/k48cr-*.out
+cosmo_gpu/tests/data/kshell/runs/*_bench/
+cosmo_gpu/gpu-tests-*.out
+cosmo_gpu/stage4-bench-*.out
+cosmo_gpu/cpu-fullnode-*.out
+cosmo_gpu/tests/data/kshell/runs/*_benchfullnode/
+cosmo_gpu/tests/data/kshell/runs/*_bencht16/
+cosmo_gpu/tests/data/kshell/runs/*_bencht16_28si/
+cosmo_gpu/block-sweep-*.out
+cosmo_gpu/gpu-profile-*.out
+cosmo_gpu/tools/gpu/profiles/*.ncu-rep
+cosmo_gpu/tools/gpu/profiles/*.nsys-rep
+cosmo_gpu/tools/gpu/profiles/*.sqlite
+cosmo_gpu/variant-bench-*.out
+cosmo_gpu/gpu-final-*.out
+cosmo_gpu/ab-bench-*.out

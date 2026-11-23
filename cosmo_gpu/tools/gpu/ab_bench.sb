@@ -1,0 +1,13 @@
+#!/bin/bash
+#   sbatch --gpus=h200:1 tools/gpu/ab_bench.sb
+#SBATCH --job-name=ab-bench
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=1:00:00
+#SBATCH --output=ab-bench-%j.out
+set -uo pipefail
+nvidia-smi --query-gpu=name,clocks.max.sm,power.limit --format=csv,noheader
+export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+uv run --no-sync python tools/gpu/ab_bench.py 2>&1 | grep --line-buffered -v -i "numbawarning\|warnings.warn\|tbb"
+nvidia-smi --query-gpu=clocks.sm,clocks.max.sm,temperature.gpu,power.draw --format=csv,noheader

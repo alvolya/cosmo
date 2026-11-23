@@ -1,0 +1,31 @@
+#!/bin/bash
+# Nsight Compute profile of the matvec kernel. Submit from cosmo_gpu/:
+#   sbatch --gpus=h200:1 tools/gpu/profile.sb
+#SBATCH --job-name=gpu-profile
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=64G
+#SBATCH --time=1:00:00
+#SBATCH --output=gpu-profile-%j.out
+set -uo pipefail
+module load CUDA/12.9.1 >/dev/null 2>&1 || module load CUDA/12.6.0
+nvidia-smi --query-gpu=name --format=csv,noheader
+export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+GPU=$(nvidia-smi --query-gpu=name --format=csv,noheader | awk '{print tolower($NF)}' | cut -d- -f1)
+mkdir -p tools/gpu/profiles
+for c in 28Si_1hw- 24Mg_1hw- 48Cr_kb3g; do
+  ncu --kernel-name apply_tables --launch-skip 1 --launch-count 1 \
+      --section SpeedOfLight --section MemoryWorkloadAnalysis --section MemoryWorkloadAnalysis_Tables \
+      --section Occupancy --section LaunchStats --section WarpStateStats --section SchedulerStats \
+      --section InstructionStats --section ComputeWorkloadAnalysis \
+      --export tools/gpu/profiles/${c}_${GPU} --force-overwrite \
+      uv run --no-sync python tools/gpu/profile_kernel.py $c 4 1 2>&1 | grep -v -i "numbawarning\|warnings.warn\|tbb"
+  ncu --import tools/gpu/profiles/${c}_${GPU}.ncu-rep --page details --print-units base 2>&1 | head -260 > tools/gpu/profiles/${c}_${GPU}.txt
+done
+nsys profile -o tools/gpu/profiles/solve28si_${GPU} --force-overwrite true --stats=true \
+  uv run --no-sync python -c "
+from pathlib import Path
+from cosmo_gpu.cli import compute_levels
+lev = compute_levels('28Si', None, None, nev=10, parity=-1, hw=(1, 1), tol=1e-8, snt=Path('tests/data/kshell/snt/fsu9_A28.snt'), matvec='gpu')
+print('solve', lev.timings, lev.n_matvec)
+" 2>&1 | grep -v -i "numbawarning\|warnings.warn\|tbb" | tail -60

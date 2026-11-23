@@ -1,0 +1,82 @@
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=4 Z=4
+
+MBS: Starting: MBSSun Nov 22 22:12:08 2026
+Status saved in the log file: MBS_1795403528.status
+states 28503
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.917315 
+generating 24Mg_usdb_M0T0+.HH
+dimension 28503
+
+VH: Starting: Sun Nov 22 22:12:08 2026
+VH:   0.59%    0.00 sec  ETA:     1.16 days       1     RATE=1.00VH:   1.78%    0.00 sec  ETA:     1.16 days       3     RATE=1.00VH:   4.14%    0.00 sec  ETA:     1.16 days       7     RATE=1.00
+VH: Completed:    0.00 sec   RATE=1.00 Sun Nov 22 22:12:08 2026
+Size: 28503
+
+Davidson: Block: 14 Iterations: 1200 Eigenvalues: 14
+
+D: Starting: Sun Nov 22 22:12:08 2026
+Status saved in the log file: D_1795403528.status
+ writing output to 24Mg_usdb_M0T0+.HH.EE
+-87.1044 2.84217e-14 2.53264e-10
+-85.6021 2.84217e-14 9.05317e-10
+-82.9883 1.42109e-14 1.14422e-09
+-82.732 4.26326e-14 9.1881e-10
+-82.0341 2.84217e-14 2.66806e-09
+-81.2219 9.9476e-14 2.69794e-09
+-79.7662 8.52651e-14 2.70097e-09
+-79.6227 2.84217e-14 3.80785e-09
+-79.3076 2.84217e-14 6.55623e-10
+-79.2863 0 3.16057e-09
+-78.8349 5.68434e-14 7.43664e-09
+-78.795 2.84217e-14 4.01513e-09
+-78.1371 2.84217e-14 8.00922e-09
+-77.7056 9.9476e-14 9.37433e-09
+my lowest eigenvalue is -87.104448
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+reading file 24Mg_usdb_M0T0+.HH.EE
+states found 14
+processing states 14
+State: 0 E= -87.104448 JJ= 0.000000
+ TT= 0.000000 
+State: 1 E= -85.602147 JJ= 6.000000
+ TT= 0.000000 
+State: 2 E= -82.988298 JJ= 6.000000
+ TT= 0.000000 
+State: 3 E= -82.732013 JJ= 20.000000
+ TT= 0.000000 
+State: 4 E= -82.034078 JJ= 12.000000
+ TT= 0.000000 
+State: 5 E= -81.221868 JJ= 20.000000
+ TT= 0.000000 
+State: 6 E= -79.766173 JJ= 0.000000
+ TT= 0.000000 
+State: 7 E= -79.622747 JJ= 6.000000
+ TT= 0.000000 
+State: 8 E= -79.307555 JJ= 30.000000
+ TT= 0.000000 
+State: 9 E= -79.286266 JJ= 2.000000
+ TT= 0.000000 
+State: 10 E= -78.834949 JJ= 42.000000
+ TT= 0.000000 
+State: 11 E= -78.795046 JJ= 20.000000
+ TT= 0.000000 
+State: 12 E= -78.137145 JJ= 6.000000
+ TT= 0.000000 
+State: 13 E= -77.705591 JJ= 20.000000
+ TT= 2.000000 

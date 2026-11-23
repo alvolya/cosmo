@@ -1,0 +1,72 @@
+{
+ "gpu": "NVIDIA A100-SXM4-80GB",
+ "48Cr_kb3g": {
+  "4": {
+   "total_s": 6.88,
+   "solve_s": 5.83,
+   "matvecs": 516,
+   "converged": true,
+   "e0": -100.53485544994065
+  },
+  "8": {
+   "total_s": 14.03,
+   "solve_s": 13.42,
+   "matvecs": 1208,
+   "converged": true,
+   "e0": -100.53485544994082
+  },
+  "16": {
+   "total_s": 17.56,
+   "solve_s": 16.97,
+   "matvecs": 1680,
+   "converged": true,
+   "e0": -100.53485544994071
+  }
+ },
+ "24Mg_1hw-": {
+  "4": {
+   "total_s": 6.0,
+   "solve_s": 4.42,
+   "matvecs": 948,
+   "converged": true,
+   "e0": -225.01765687989092
+  },
+  "8": {
+   "total_s": 13.65,
+   "solve_s": 12.12,
+   "matvecs": 2840,
+   "converged": true,
+   "e0": -225.01765687989075
+  },
+  "16": {
+   "total_s": 16.34,
+   "solve_s": 14.77,
+   "matvecs": 3696,
+   "converged": true,
+   "e0": -225.0176568798911
+  }
+ },
+ "28Si_1hw-": {
+  "4": {
+   "total_s": 29.97,
+   "solve_s": 26.53,
+   "matvecs": 1188,
+   "converged": true,
+   "e0": -273.7726078120475
+  },
+  "8": {
+   "total_s": 78.75,
+   "solve_s": 75.43,
+   "matvecs": 3536,
+   "converged": true,
+   "e0": -273.7726078120475
+  },
+  "16": {
+   "total_s": 87.85,
+   "solve_s": 84.51,
+   "matvecs": 4416,
+   "converged": true,
+   "e0": -273.77260781204706
+  }
+ }
+}

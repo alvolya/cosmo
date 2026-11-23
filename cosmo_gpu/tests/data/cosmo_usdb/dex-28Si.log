@@ -1,0 +1,133 @@
+28Si_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=6 Z=6
+
+MBS: Starting: MBSSun Nov 22 15:17:19 2026
+Status saved in the log file: MBS_1795378639.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.875859 
+generating 28Si_usdb_M0T0+.HH
+dimension 93710
+
+VH: Starting: Sun Nov 22 15:17:19 2026
+
+VH:   0.33%    0.00 sec  ETA:     1.16 days       1     RATE=1.00
+VH:   0.98%    0.00 sec  ETA:     1.16 days       3     RATE=1.00
+VH:   2.29%    1.00 sec  ETA:     1.16 days       7     RATE=16.47
+VH:   3.59%    1.00 sec  ETA:     1.16 days      11     RATE=22.79
+VH:   6.21%    2.00 sec  ETA:   30.21 sec       19     RATE=13.05
+VH: Completed:    2.00 sec   RATE=13.05 Sun Nov 22 15:17:21 2026
+Size: 93710
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 15:17:21 2026
+Status saved in the log file: D_1795378641.status
+ writing output to 28Si_usdb_M0T0+.HH.EE
+my lowest eigenvalue is -135.860731
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+states found 10
+processing states 10
+State: 0 E= -135.860731 JJ= 0.000000
+ TT= 0.000000 
+State: 1 E= -133.929040 JJ= 6.000000
+ TT= 0.000000 
+State: 2 E= -131.253546 JJ= 20.000000
+ TT= 0.000000 
+State: 3 E= -131.024386 JJ= 0.000000
+ TT= 0.000000 
+State: 4 E= -129.530587 JJ= 12.000000
+ TT= 0.000000 
+State: 5 E= -128.855781 JJ= 20.000000
+ TT= 0.000000 
+State: 6 E= -128.533979 JJ= 0.000000
+ TT= 0.000000 
+State: 7 E= -128.337068 JJ= 6.000000
+ TT= 0.000000 
+State: 8 E= -127.959659 JJ= 6.000000
+ TT= 0.000000 
+State: 9 E= -127.851708 JJ= 12.000000
+ TT= 0.000000 
+states 93710
+-135.861 2.84217e-14 1.60668e-09
+-133.929 0 2.70797e-09
+-131.254 2.84217e-14 1.75905e-09
+-131.024 5.68434e-14 2.90576e-09
+-129.531 2.84217e-14 1.46591e-09
+-128.856 2.27374e-13 2.65087e-09
+-128.534 5.68434e-14 3.5428e-09
+-128.337 1.7053e-13 1.35806e-09
+-127.96 0 2.71074e-09
+-127.852 7.10543e-14 8.88729e-09
+reading file 28Si_usdb_M0T0+.HH.EE
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :20Ne_usdb+.xml systems 1
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :24Mg_usdb+.xml systems 1
+Model space :24Mg_usdb_M0T0+
+Include this space (y/n)[y]<>0+(1) T=0 0 -87.1044
+2+(1) T=0 1.5023 -85.6021
+2+(2) T=0 4.1161 -82.9883
+4+(1) T=0 4.3724 -82.732
+3+(1) T=0 5.0722 -82.0322
+4+(2) T=0 5.8825 -81.2219
+0+(2) T=0 7.3382 -79.7662
+2+(3) T=0 7.4817 -79.6227
+5+(1) T=0 7.7968 -79.3076
+1+(1) T=0 7.8181 -79.2863
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :25Mg_usdb+.xml systems 1
+Model space :25Mg_usdb_M1T1+
+Include this space (y/n)[y]<>5/2+(1) T=1/2 0 -94.4013
+1/2+(1) T=1/2 0.6054 -93.7959
+3/2+(1) T=1/2 1.0973 -93.304
+7/2+(1) T=1/2 1.7206 -92.6807
+5/2+(2) T=1/2 1.9955 -92.4058
+1/2+(2) T=1/2 2.5831 -91.8182
+3/2+(2) T=1/2 2.8112 -91.5901
+7/2+(2) T=1/2 2.9013 -91.5
+9/2+(1) T=1/2 3.4475 -90.9538
+9/2+(2) T=1/2 3.8969 -90.5044
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :28Si_usdb+.xml systems 1
+Model space :28Si_usdb_M0T0+
+Include this space (y/n)[y]<>0+(1) T=0 0 -135.861
+2+(1) T=0 1.932 -133.929
+4+(1) T=0 4.607 -131.254
+0+(2) T=0 4.837 -131.024
+3+(1) T=0 6.33 -129.531
+4+(2) T=0 7.005 -128.856
+0+(3) T=0 7.327 -128.534
+2+(2) T=0 7.524 -128.337
+2+(3) T=0 7.901 -127.96
+3+(2) T=0 8.009 -127.852

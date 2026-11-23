@@ -1,0 +1,6 @@
+#!/bin/bash
+#SBATCH -c 16 --mem=32G --time=1:00:00 -p general-short -C amd24 -o k48cr-%j.out
+# 48Cr kb3g on the fly against KSHELL. Submit from cosmo_gpu/.
+export NUMBA_NUM_THREADS=16
+/usr/bin/time -v uv run --locked pytest -q -m slow tests/test_kshell.py -k "48Cr" --durations=3 2>&1 \
+    | grep -v -i "numbawarning\|warnings.warn\|tbb"

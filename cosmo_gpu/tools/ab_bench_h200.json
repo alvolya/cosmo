@@ -1,0 +1,30 @@
+{
+ "gpu": "NVIDIA H200",
+ "48Cr_kb3g": {
+  "original_ms": 24.283,
+  "default_ms": 15.575,
+  "speedup_median": 1.56,
+  "speedup_min_max": [
+   1.557,
+   1.561
+  ]
+ },
+ "24Mg_1hw-": {
+  "original_ms": 11.587,
+  "default_ms": 7.348,
+  "speedup_median": 1.576,
+  "speedup_min_max": [
+   1.575,
+   1.579
+  ]
+ },
+ "28Si_1hw-": {
+  "original_ms": 51.149,
+  "default_ms": 32.192,
+  "speedup_median": 1.589,
+  "speedup_min_max": [
+   1.588,
+   1.59
+  ]
+ }
+}

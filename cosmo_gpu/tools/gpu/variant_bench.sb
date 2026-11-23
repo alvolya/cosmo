@@ -1,0 +1,14 @@
+#!/bin/bash
+# GPU tests, then the kernel-variant benchmark. Submit from cosmo_gpu/:
+#   sbatch --gpus=h200:1 tools/gpu/variant_bench.sb
+#SBATCH --job-name=variant-bench
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=2:00:00
+#SBATCH --output=variant-bench-%j.out
+set -uo pipefail
+nvidia-smi --query-gpu=name --format=csv,noheader
+export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+uv run --no-sync pytest -q -p no:cacheprovider tests/test_gpu.py 2>&1 | grep -v -i "numbawarning\|warnings.warn\|tbb" | tail -5
+uv run --no-sync python tools/gpu/variant_bench.py 2>&1 | grep --line-buffered -v -i "numbawarning\|warnings.warn\|tbb"

@@ -1,0 +1,372 @@
+
+Currently Loaded Modules:
+  1) GCCcore/12.3.0                     9) hwloc/2.9.1-GCCcore-12.3.0
+  2) zlib/1.2.13-GCCcore-12.3.0        10) OpenSSL/1.1
+  3) binutils/2.40-GCCcore-12.3.0      11) libevent/2.1.12-GCCcore-12.3.0
+  4) GCC/12.3.0                        12) UCX/1.18.0-GCCcore-12.3.0
+  5) numactl/2.0.16-GCCcore-12.3.0     13) PMIx/4.2.4-GCCcore-12.3.0
+  6) XZ/5.4.2-GCCcore-12.3.0           14) UCC/1.3.0-GCCcore-12.3.0
+  7) libxml2/2.11.4-GCCcore-12.3.0     15) OpenMPI/4.1.5-GCC-12.3.0
+  8) libpciaccess/0.17-GCCcore-12.3.0  16) Miniforge3/25.11.0-1
+
+ 
+
+Shell Model Path: /mnt/home/beyerkyl/cosmo
+Default Makefile: /mnt/home/beyerkyl/cosmo/Makefile
+== 18O_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=2 Z=0
+
+MBS: Starting: MBSSun Nov 22 15:16:37 2026
+Status saved in the log file: MBS_1795378597.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 1 
+generating 18O_usdb_M0T2+.HH
+dimension 14
+
+VH: Starting: Sun Nov 22 15:16:37 2026
+
+VH: Completed:    0.00 sec   RATE=0.00 Sun Nov 22 15:16:37 2026
+DEXHVJTcsb: /mnt/home/beyerkyl/cosmo/eigen/Eigen/src/Core/DenseCoeffsBase.h:152: constexpr Eigen::DenseCoeffsBase<Derived, 0>::CoeffReturnType Eigen::DenseCoeffsBase<Derived, 0>::operator[](Eigen::Index) const [with Derived = Eigen::Matrix<double, -1, 1>; CoeffReturnType = const double&; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+states 14
+Matrix is small for davidson. Using exact diagonalization
+== 19O_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=3 Z=0
+
+MBS: Starting: MBSSun Nov 22 15:16:37 2026
+Status saved in the log file: MBS_1795378597.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.983911 
+generating 19O_usdb_M1T3+.HH
+dimension 37
+
+VH: Starting: Sun Nov 22 15:16:37 2026
+VH:  40.54%    0.00 sec  ETA:     1.16 days      15     RATE=1.00VH:  45.95%    0.00 sec  ETA:     1.16 days      17     RATE=1.00VH:  94.59%    0.00 sec  ETA:     1.16 days      35     RATE=1.00
+VH: Completed:    0.00 sec   RATE=1.00 Sun Nov 22 15:16:37 2026
+DEXHVJTcsb: /mnt/home/beyerkyl/cosmo/eigen/Eigen/src/Core/DenseCoeffsBase.h:152: constexpr Eigen::DenseCoeffsBase<Derived, 0>::CoeffReturnType Eigen::DenseCoeffsBase<Derived, 0>::operator[](Eigen::Index) const [with Derived = Eigen::Matrix<double, -1, 1>; CoeffReturnType = const double&; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+states 37
+Matrix is small for davidson. Using exact diagonalization
+== 20Ne_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=2 Z=2
+
+MBS: Starting: MBSSun Nov 22 15:16:37 2026
+Status saved in the log file: MBS_1795378597.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.968886 
+generating 20Ne_usdb_M0T0+.HH
+dimension 640
+
+VH: Starting: Sun Nov 22 15:16:37 2026
+VH:   2.50%    0.00 sec  ETA:     1.16 days      16     RATE=1.00VH:   5.16%    0.00 sec  ETA:     1.16 days      33     RATE=1.00VH:   7.66%    0.00 sec  ETA:     1.16 days      49     RATE=1.00VH:  10.16%    0.00 sec  ETA:     1.16 days      65     RATE=1.00VH:  12.66%    0.00 sec  ETA:     1.16 days      81     RATE=1.00VH:  18.75%    0.00 sec  ETA:     1.16 days     120     RATE=1.00VH:  28.75%    0.00 sec  ETA:     1.16 days     184     RATE=1.00VH:  48.91%    0.00 sec  ETA:     1.16 days     313     RATE=1.00VH:  90.62%    0.00 sec  ETA:     1.16 days     580     RATE=1.00
+VH: Completed:    0.00 sec   RATE=1.00 Sun Nov 22 15:16:37 2026
+DEXHVJTcsb: /mnt/home/beyerkyl/cosmo/eigen/Eigen/src/Core/DenseCoeffsBase.h:152: constexpr Eigen::DenseCoeffsBase<Derived, 0>::CoeffReturnType Eigen::DenseCoeffsBase<Derived, 0>::operator[](Eigen::Index) const [with Derived = Eigen::Matrix<double, -1, 1>; CoeffReturnType = const double&; Eigen::Index = long int]: Assertion `index >= 0 && index < size()' failed.
+states 640
+Matrix is small for davidson. Using exact diagonalization
+-40.4723 -38.7256 -36.2971 -33.7742 -32.9294 -31.9252 -30.527 -30.5142 -29.9874 -29.9792 -29.9187 -29.7579 -29.6849 -29.6626 -29.3066 -28.9584 -28.8608 -28.8206 -28.7542 -28.7249 -28.5641 -28.1994 -28.1104 -28.0458 -27.8364 -27.7719 -27.6433 -27.3014 -27.2051 -27.0338 -26.9867 -26.9457 -26.6458 -26.6305 -26.5654 -26.5249 -26.4933 -26.4754 -26.3633 -26.0888 -26.0414 -25.9111 -25.8753 -25.8596 -25.8071 -25.7335 -25.6299 -25.5008 -25.4905 -25.3539 -25.3123 -25.2498 -25.2343 -25.0601 -24.9658 -24.922 -24.7366 -24.7285 -24.7092 -24.5957 -24.5841 -24.5584 -24.5041 -24.4333 -24.355 -24.3381 -24.2041 -24.1608 -24.0842 -23.9108 -23.8519 -23.8394 -23.7153 -23.712 -23.6429 -23.6321 -23.6309 -23.5659 -23.459 -23.4054 -23.342 -23.1969 -23.1111 -23.0842 -23.0703 -23.0377 -23.0153 -23.0105 -23.0032 -22.9215 -22.8849 -22.8679 -22.7572 -22.6631 -22.6377 -22.6029 -22.5474 -22.4498 -22.4084 -22.3974 -22.3937 -22.3599 -22.2542 -22.2454 -22.2439 -22.132 -22.1152 -21.9419 -21.9211 -21.886 -21.7883 -21.7162 -21.7113 -21.5606 -21.5344 -21.5298 -21.4685 -21.3899 -21.3621 -21.3414 -21.316 -21.2976 -21.2965 -21.1979 -21.1785 -21.1467 -21.1254 -21.1167 -21.0561 -21.039 -20.8197 -20.8145 -20.7427 -20.7341 -20.6988 -20.649 -20.6338 -20.6135 -20.5858 -20.5093 -20.4433 -20.3595 -20.3465 -20.2902 -20.2786 -20.1492 -20.1365 -20.1268 -20.1033 -20.0134 -19.9637 -19.9563 -19.9189 -19.8217 -19.812 -19.8079 -19.6955 -19.6898 -19.5631 -19.4777 -19.4611 -19.4418 -19.441 -19.425 -19.3998 -19.3911 -19.3712 -19.1773 -19.1395 -19.1132 -19.0895 -19.0698 -19.046 -19.0003 -18.9663 -18.8926 -18.8549 -18.7704 -18.7689 -18.7034 -18.6768 -18.5776 -18.5535 -18.5529 -18.5178 -18.5145 -18.4792 -18.4751 -18.4231 -18.4107 -18.3634 -18.3495 -18.3402 -18.2802 -18.2751 -18.2545 -18.2371 -18.2355 -18.2175 -18.1816 -18.1796 -18.1209 -18.0536 -18.0412 -17.9977 -17.8757 -17.8692 -17.7926 -17.7114 -17.702 -17.6526 -17.6386 -17.6344 -17.6122 -17.583 -17.4848 -17.4226 -17.4153 -17.3873 -17.3586 -17.3477 -17.3391 -17.3292 -17.3232 -17.3011 -17.2863 -17.1646 -17.0839 -17.0784 -17.0782 -17.0493 -16.9938 -16.9548 -16.934 -16.873 -16.7881 -16.7721 -16.7138 -16.6885 -16.6155 -16.6118 -16.5919 -16.5696 -16.5229 -16.4147 -16.3972 -16.292 -16.2821 -16.2479 -16.2448 -16.2209 -16.218 -16.198 -16.1932 -16.1632 -16.127 -16.0281 -15.987 -15.9586 -15.9581 -15.9546 -15.9451 -15.9055 -15.8697 -15.8685 -15.8641 -15.8073 -15.735 -15.7242 -15.7116 -15.6878 -15.6416 -15.5955 -15.5814 -15.5601 -15.5166 -15.5085 -15.4985 -15.4931 -15.4553 -15.3802 -15.3686 -15.3449 -15.3122 -15.2647 -15.1985 -15.1905 -15.1902 -15.1743 -15.0878 -15.0731 -15.0518 -15.051 -14.9961 -14.9701 -14.9656 -14.9329 -14.8646 -14.7473 -14.7313 -14.6916 -14.6851 -14.6789 -14.676 -14.6632 -14.6171 -14.5854 -14.5294 -14.4996 -14.4812 -14.4212 -14.3834 -14.3668 -14.3659 -14.3372 -14.2948 -14.2862 -14.2771 -14.145 -14.1261 -14.0459 -14.0041 -14.0028 -13.9764 -13.9626 -13.8957 -13.8926 -13.7781 -13.7684 -13.7539 -13.6921 -13.6561 -13.6533 -13.5755 -13.5704 -13.5243 -13.5201 -13.4947 -13.4419 -13.3765 -13.3639 -13.3488 -13.2519 -13.2476 -13.2408 -13.2342 -13.2293 -13.177 -13.1619 -13.1471 -13.0304 -13.0235 -12.9846 -12.9663 -12.956 -12.9276 -12.9095 -12.8737 -12.8091 -12.7767 -12.7242 -12.7167 -12.6519 -12.6264 -12.5905 -12.5193 -12.5187 -12.5079 -12.4578 -12.4422 -12.4288 -12.3949 -12.3385 -12.3136 -12.2312 -12.1967 -12.1335 -12.122 -12.1159 -12.1132 -12.0857 -12.0605 -12.0242 -11.991 -11.9395 -11.8715 -11.8606 -11.8493 -11.7925 -11.7511 -11.6996 -11.6586 -11.6371 -11.6307 -11.5868 -11.5725 -11.5403 -11.4881 -11.4584 -11.4256 -11.4202 -11.3801 -11.3369 -11.2804 -11.2668 -11.2212 -11.1834 -11.1796 -11.1715 -11.1216 -11.0835 -11.0808 -11.0735 -11.0702 -11.0465 -11.0195 -10.9301 -10.9301 -10.8944 -10.8252 -10.8118 -10.8067 -10.756 -10.7525 -10.7437 -10.7144 -10.5981 -10.5703 -10.5487 -10.5441 -10.5275 -10.504 -10.4824 -10.4505 -10.3975 -10.305 -10.2433 -10.2052 -10.1473 -10.1072 -10.0936 -10.0512 -10.0222 -9.97141 -9.89136 -9.87772 -9.86312 -9.86213 -9.78377 -9.78299 -9.72123 -9.69192 -9.67538 -9.64003 -9.59475 -9.53284 -9.46627 -9.46292 -9.35933 == 24Mg_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=4 Z=4
+
+MBS: Starting: MBSSun Nov 22 15:16:47 2026
+Status saved in the log file: MBS_1795378607.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.917315 
+generating 24Mg_usdb_M0T0+.HH
+dimension 28503
+
+VH: Starting: Sun Nov 22 15:16:47 2026
+VH:   0.59%    0.00 sec  ETA:     1.16 days       1     RATE=1.00VH:   1.78%    0.00 sec  ETA:     1.16 days       3     RATE=1.00VH:   4.14%    1.00 sec  ETA:     1.16 days       7     RATE=4.95
+VH: Completed:    1.00 sec   RATE=4.95 Sun Nov 22 15:16:48 2026
+Size: 28503
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 15:16:48 2026
+Status saved in the log file: D_1795378608.status
+ writing output to 24Mg_usdb_M0T0+.HH.EE
+my lowest eigenvalue is -87.104448
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+states found 10
+processing states 10
+State: 0 E= -87.104448 JJ= 0.000000
+ TT= 0.000000 
+State: 1 E= -85.602147 JJ= 6.000000
+ TT= 0.000000 
+State: 2 E= -82.988298 JJ= 6.000000
+ TT= 0.000000 
+State: 3 E= -82.732013 JJ= 20.000000
+ TT= 0.000000 
+State: 4 E= -82.032216 JJ= 12.000218
+ TT= 0.000051 
+State: 5 E= -81.221868 JJ= 20.000000
+ TT= 0.000000 
+State: 6 E= -79.766173 JJ= 0.000000
+ TT= 0.000000 
+State: 7 E= -79.622747 JJ= 6.000000
+ TT= 0.000000 
+State: 8 E= -79.307555 JJ= 30.000000
+ TT= 0.000000 
+State: 9 E= -79.286266 JJ= 2.000000
+ TT= 0.000000 
+states 28503
+-87.1044 1.42109e-14 5.76055e-10
+-85.6021 2.84217e-14 4.84387e-10
+-82.9883 2.84217e-14 2.79786e-09
+-82.732 1.98952e-13 1.11636e-09
+-82.0322 1.16871e-07 0.210842
+-81.2219 8.52651e-14 3.40215e-09
+-79.7662 7.10543e-14 1.83233e-09
+-79.6227 5.68434e-14 9.21334e-10
+-79.3076 2.84217e-14 2.49113e-09
+-79.2863 4.26326e-14 8.082e-09
+reading file 24Mg_usdb_M0T0+.HH.EE
+== 25Mg_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=5 Z=4
+
+MBS: Starting: MBSSun Nov 22 15:16:57 2026
+Status saved in the log file: MBS_1795378617.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.906149 
+generating 25Mg_usdb_M1T1+.HH
+dimension 44133
+
+VH: Starting: Sun Nov 22 15:16:57 2026
+VH:   0.48%    0.00 sec  ETA:     1.16 days       1     RATE=1.00VH:   1.43%    0.00 sec  ETA:     1.16 days       3     RATE=1.00VH:   3.33%    1.00 sec  ETA:     1.16 days       7     RATE=7.89VH:   5.24%    1.00 sec  ETA:     1.16 days      11     RATE=9.09
+VH: Completed:    1.00 sec   RATE=9.09 Sun Nov 22 15:16:58 2026
+Size: 44133
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 15:16:58 2026
+Status saved in the log file: D_1795378618.status
+ writing output to 25Mg_usdb_M1T1+.HH.EE
+my lowest eigenvalue is -94.401279
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+states found 10
+processing states 10
+State: 0 E= -94.401279 JJ= 8.000000
+ TT= 0.000000 
+State: 1 E= -93.795873 JJ= 0.000000
+ TT= 0.000000 
+State: 2 E= -93.304041 JJ= 3.000000
+ TT= 0.000000 
+State: 3 E= -92.680706 JJ= 15.000000
+ TT= 0.000000 
+State: 4 E= -92.405834 JJ= 8.000000
+ TT= 0.000000 
+State: 5 E= -91.818212 JJ= 0.000000
+ TT= 0.000000 
+State: 6 E= -91.590070 JJ= 3.000000
+ TT= 0.000000 
+State: 7 E= -91.499978 JJ= 15.000000
+ TT= 0.000000 
+State: 8 E= -90.953831 JJ= 24.000000
+ TT= 0.000000 
+State: 9 E= -90.504357 JJ= 24.000000
+ TT= 0.000000 
+states 44133
+-94.4013 1.42109e-14 2.00878e-10
+-93.7959 1.42109e-14 1.66922e-10
+-93.304 0 1.66869e-09
+-92.6807 4.26326e-14 7.53286e-10
+-92.4058 1.42109e-14 6.49861e-10
+-91.8182 1.42109e-14 2.40745e-09
+-91.5901 7.10543e-14 4.50077e-09
+-91.5 4.26326e-14 5.51514e-09
+-90.9538 2.27374e-13 9.64958e-10
+-90.5044 1.13687e-13 7.97719e-09
+reading file 25Mg_usdb_M1T1+.HH.EE
+== 28Si_usdb+.xml
+Program: DEXHVJTcsb
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+Maximum value for <spsint> 65535
+Valence particles N=6 Z=6
+
+MBS: Starting: MBSSun Nov 22 15:17:19 2026
+Status saved in the log file: MBS_1795378639.status
+Creating matrix node
+reading interaction files 
+Interaction files are in OXBASH format 
+reading files 
+Reading Interactions from 
+/mnt/home/beyerkyl/cosmo/interactions/sd/usdb.int
+Single-particle levels    :3 scale: 1 
+Lines in interaction file :63 scale: 0.875859 
+generating 28Si_usdb_M0T0+.HH
+dimension 93710
+
+VH: Starting: Sun Nov 22 15:17:19 2026
+VH:   0.33%    0.00 sec  ETA:     1.16 days       1     RATE=1.00VH:   0.98%    0.00 sec  ETA:     1.16 days       3     RATE=1.00VH:   2.29%    1.00 sec  ETA:     1.16 days       7     RATE=16.47VH:   3.59%    1.00 sec  ETA:     1.16 days      11     RATE=22.79VH:   6.21%    2.00 sec  ETA:   30.21 sec       19     RATE=13.05
+VH: Completed:    2.00 sec   RATE=13.05 Sun Nov 22 15:17:21 2026
+Size: 93710
+
+Davidson: Block: 10 Iterations: 800 Eigenvalues: 10
+
+D: Starting: Sun Nov 22 15:17:21 2026
+Status saved in the log file: D_1795378641.status
+ writing output to 28Si_usdb_M0T0+.HH.EE
+my lowest eigenvalue is -135.860731
+Maximum value for <spsint> 65535
+J+J- scaling is 0.000000
+T+T- scaling is 0.000000
+states found 10
+processing states 10
+State: 0 E= -135.860731 JJ= 0.000000
+ TT= 0.000000 
+State: 1 E= -133.929040 JJ= 6.000000
+ TT= 0.000000 
+State: 2 E= -131.253546 JJ= 20.000000
+ TT= 0.000000 
+State: 3 E= -131.024386 JJ= 0.000000
+ TT= 0.000000 
+State: 4 E= -129.530587 JJ= 12.000000
+ TT= 0.000000 
+State: 5 E= -128.855781 JJ= 20.000000
+ TT= 0.000000 
+State: 6 E= -128.533979 JJ= 0.000000
+ TT= 0.000000 
+State: 7 E= -128.337068 JJ= 6.000000
+ TT= 0.000000 
+State: 8 E= -127.959659 JJ= 6.000000
+ TT= 0.000000 
+State: 9 E= -127.851708 JJ= 12.000000
+ TT= 0.000000 
+states 93710
+-135.861 2.84217e-14 1.60668e-09
+-133.929 0 2.70797e-09
+-131.254 2.84217e-14 1.75905e-09
+-131.024 5.68434e-14 2.90576e-09
+-129.531 2.84217e-14 1.46591e-09
+-128.856 2.27374e-13 2.65087e-09
+-128.534 5.68434e-14 3.5428e-09
+-128.337 1.7053e-13 1.35806e-09
+-127.96 0 2.71074e-09
+-127.852 7.10543e-14 8.88729e-09
+reading file 28Si_usdb_M0T0+.HH.EE
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :20Ne_usdb+.xml systems 1
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :24Mg_usdb+.xml systems 1
+Model space :24Mg_usdb_M0T0+
+Include this space (y/n)[y]<>0+(1) T=0 0 -87.1044
+2+(1) T=0 1.5023 -85.6021
+2+(2) T=0 4.1161 -82.9883
+4+(1) T=0 4.3724 -82.732
+3+(1) T=0 5.0722 -82.0322
+4+(2) T=0 5.8825 -81.2219
+0+(2) T=0 7.3382 -79.7662
+2+(3) T=0 7.4817 -79.6227
+5+(1) T=0 7.7968 -79.3076
+1+(1) T=0 7.8181 -79.2863
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :25Mg_usdb+.xml systems 1
+Model space :25Mg_usdb_M1T1+
+Include this space (y/n)[y]<>5/2+(1) T=1/2 0 -94.4013
+1/2+(1) T=1/2 0.6054 -93.7959
+3/2+(1) T=1/2 1.0973 -93.304
+7/2+(1) T=1/2 1.7206 -92.6807
+5/2+(2) T=1/2 1.9955 -92.4058
+1/2+(2) T=1/2 2.5831 -91.8182
+3/2+(2) T=1/2 2.8112 -91.5901
+7/2+(2) T=1/2 2.9013 -91.5
+9/2+(1) T=1/2 3.4475 -90.9538
+9/2+(2) T=1/2 3.8969 -90.5044
+Program: Xlevels
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+File :28Si_usdb+.xml systems 1
+Model space :28Si_usdb_M0T0+
+Include this space (y/n)[y]<>0+(1) T=0 0 -135.861
+2+(1) T=0 1.932 -133.929
+4+(1) T=0 4.607 -131.254
+0+(2) T=0 4.837 -131.024
+3+(1) T=0 6.33 -129.531
+4+(2) T=0 7.005 -128.856
+0+(3) T=0 7.327 -128.534
+2+(2) T=0 7.524 -128.337
+2+(3) T=0 7.901 -127.96
+3+(2) T=0 8.009 -127.852
