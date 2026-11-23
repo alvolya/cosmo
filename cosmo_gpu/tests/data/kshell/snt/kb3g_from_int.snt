@@ -1,7 +1,7 @@
 ! kb3g (fp) converted from CoSMo interaction files by KSHELL's
 ! nushell2snt.py (GaffaSnobb/kshell 41ea03a); see tests/data/kshell/make_snt.py
 ! files: kb3g.int x1/1
-! /mnt/home/beyerkyl/kshell/bin/nushell2snt.py /tmp/tmp2ob9g333/fp.sp /tmp/tmp2ob9g333/fixed_kb3g.int  in isospin formalism
+! /mnt/home/beyerkyl/kshell/bin/nushell2snt.py /tmp/tmp53vujcqr/fp.sp /mnt/ffs24/home/beyerkyl/cosmo/interactions/fp/kb3g.int  in isospin formalism
 ! model space 
    4   4    20  20
     1     0   3   7  -1  !   1 = p 0f_ 7/2
