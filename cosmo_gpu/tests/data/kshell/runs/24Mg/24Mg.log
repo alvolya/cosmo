@@ -1,4 +1,4 @@
-OpenMP :  # of threads= 16
+OpenMP :  # of threads=  8
 
 random seed is   3229  2707  1879  3251
 &INPUT
@@ -59,7 +59,7 @@ Max 2*J =  24
 pn= 1   # of mbits=            495
 pn= 2   # of mbits=            495
 
-init_partition  time it took was:     0.161 sec
+init_partition  time it took was:     0.005 sec
 
 Memory usage in partition        0.09 MB
 M =   0/2  :  parity = +
@@ -73,7 +73,7 @@ hbar_omega =   14.21391 MeV;     b =    1.70811 fm
 
 loadbalancing cost max/min       28503.00000       28503.00000
 
- partition distribution algorithm time:   7.3600094765424728E-005
+ partition distribution algorithm time:   8.9237990323454142E-005
  max proton  dim. / a partition                    18
  max neutron dim. / a partition                    18
 
@@ -87,10 +87,10 @@ Memory / process is:     0.000 GB x    200 =      0.042 GB
 Total Memory for Lanczos vectors:     0.042 GB
 
 
-max. working area for pn-int.:      0.715GB        1000000
-split partition threshold dim.            200  max. # of split ptn  16
+max. working area for pn-int.:      0.358GB        1000000
+split partition threshold dim.            200  max. # of split ptn   8
  # of split partitions        0 /         1020
-init_bp_operator time it took was:     0.000 sec
+init_bp_operator time it took was:     0.001 sec
 
  max/min # of connected ptns / proc      164796      164796
 
@@ -102,24 +102,16 @@ init_bp_op allocated mem size    0.000614 GB
 time diag     0.000 sec
 time re-orth     0.000 sec
 H  lanczos     1    1     -43.682756 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000
-time / thread at rank 0    0     0.00692
-time / thread at rank 0    1     0.00693
-time / thread at rank 0    2     0.00691
-time / thread at rank 0    3     0.00693
-time / thread at rank 0    4     0.00693
-time / thread at rank 0    5     0.00696
-time / thread at rank 0    6     0.00695
-time / thread at rank 0    7     0.00692
-time / thread at rank 0    8     0.00691
-time / thread at rank 0    9     0.00693
-time / thread at rank 0   10     0.00690
-time / thread at rank 0   11     0.00695
-time / thread at rank 0   12     0.00692
-time / thread at rank 0   13     0.00692
-time / thread at rank 0   14     0.00695
-time / thread at rank 0   15     0.00693
-max time / a partition    0   0.00041
- H    operate_time      0.007
+time / thread at rank 0    0     0.02555
+time / thread at rank 0    1     0.02549
+time / thread at rank 0    2     0.02553
+time / thread at rank 0    3     0.02545
+time / thread at rank 0    4     0.02553
+time / thread at rank 0    5     0.02551
+time / thread at rank 0    6     0.02551
+time / thread at rank 0    7     0.02553
+max time / a partition    0   0.00080
+ H    operate_time      0.026
 H  lanczos     2    2     -54.887904     -32.324948 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000
 H  lanczos     3    3     -62.379371     -43.664122     -24.800423 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000
 H  lanczos     4    4     -67.984235     -51.823615     -35.692404     -19.436680 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000 1000000.000000
@@ -202,7 +194,7 @@ H  lanczos    77   77     -87.104449     -85.602148     -82.988299     -82.73201
 H  lanczos    78   78     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.765869     -79.566014     -79.255981     -78.758602
 H  lanczos    79   79     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.765983     -79.590369     -79.270386     -78.779686
 H  lanczos    80   80     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766060     -79.604297     -79.277774     -78.791152
-time diag     0.000 sec
+time diag     0.001 sec
 H  lanczos    81   81     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766107     -79.612102     -79.281793     -78.797883
 H  lanczos    82   82     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766135     -79.616595     -79.284139     -78.802174
 H  lanczos    83   83     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766152     -79.619163     -79.285532     -78.804983
@@ -224,7 +216,7 @@ H  lanczos    98   98     -87.104449     -85.602148     -82.988299     -82.73201
 H  lanczos    99   99     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622717     -79.287971     -78.956812
 H  lanczos   100  100     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622721     -79.287995     -78.986244
 time diag     0.001 sec
-time re-orth     0.140 sec
+time re-orth     0.002 sec
 H  lanczos   101  101     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622725     -79.288017     -79.011582
 H  lanczos   102  102     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622728     -79.288042     -79.036964
 H  lanczos   103  103     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622731     -79.288072     -79.064897
@@ -265,7 +257,7 @@ H  lanczos   136  136     -87.104449     -85.602148     -82.988299     -82.73201
 H  lanczos   137  137     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622748     -79.307556     -79.286267
 H  lanczos   138  138     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622748     -79.307556     -79.286267
 H  lanczos   139  139     -87.104449     -85.602148     -82.988299     -82.732013     -82.034079     -81.221869     -79.766174     -79.622748     -79.307556     -79.286267
-H converged  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.618172E-10  0.619593E-11
+H converged  0.000000E+00  0.000000E+00  0.000000E+00  0.142109E-13 -0.142109E-13  0.000000E+00  0.000000E+00  0.000000E+00  0.618314E-10  0.619593E-11
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
@@ -294,8 +286,8 @@ OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebu
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
 OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
-time restart     0.170
-time dump_snapshot I/O:     0.067 tmp_snapshot_24Mg.ptn_0_(myrank)     0.035 GB/s x     1
+time restart     0.007
+time dump_snapshot I/O:     0.017 tmp_snapshot_24Mg.ptn_0_(myrank)     0.135 GB/s x     1
 
 lanczos eigenvalues     1  -87.104449
 lanczos eigenvalues     2  -85.602148
@@ -308,23 +300,23 @@ lanczos eigenvalues     8  -79.622748
 lanczos eigenvalues     9  -79.307556
 lanczos eigenvalues    10  -79.286267
 
-total time it took was:    10.587 sec.      0.003 hours
+total time it took was:     3.878 sec.      0.001 hours
 
 
-    summary of time, total =     0:00:10
+    summary of time, total =     0:00:03
 
                        time,    ncall, time/ncall,   ratio 
-          total      10.587         1    10.58710   1.0000
-    pre-process       0.165         1     0.16494   0.0156
-        operate       0.972       140     0.00695   0.0919
-     re-orthog.       9.095       140     0.06496   0.8590
-  thick-restart       0.170         1     0.16971   0.0160
-   diag tri-mat       0.104       140     0.00074   0.0098
-  dump snapshot       0.067         1     0.06666   0.0063
-           misc       0.015                         0.0014
+          total       3.878         1     3.87790   1.0000
+    pre-process       0.010         1     0.00968   0.0025
+        operate       3.594       140     0.02567   0.9268
+     re-orthog.       0.165       140     0.00118   0.0424
+  thick-restart       0.007         1     0.00675   0.0017
+   diag tri-mat       0.069       140     0.00050   0.0179
+  dump snapshot       0.017         1     0.01731   0.0045
+           misc       0.016                         0.0042
 
-   I/O LV write       0.067         1     0.06664   0.0063
-           tmp        0.007         1     0.00699   0.0007
+   I/O LV write       0.017         1     0.01730   0.0045
+           tmp        0.026         1     0.02558   0.0066
 
 
  effective charges   1.000  0.000
@@ -398,18 +390,18 @@ time I/O      0.002 GB  /      0.005 sec. =      0.39 GB/s
  present num of allocated lanczos vec.          10
 
 
-    summary of time, total =     0:00:10
+    summary of time, total =     0:00:04
 
                        time,    ncall, time/ncall,   ratio 
-          total      10.705         2     5.35233   1.0000
-    pre-process       0.165         1     0.16494   0.0154
-        operate       1.000       170     0.00588   0.0934
-     re-orthog.       9.095       140     0.06496   0.8496
-  thick-restart       0.170         1     0.16971   0.0159
-   diag tri-mat       0.104       140     0.00074   0.0097
-  dump snapshot       0.067         1     0.06666   0.0062
-           misc       0.105                         0.0098
+          total       4.052         2     2.02600   1.0000
+    pre-process       0.010         1     0.00968   0.0024
+        operate       3.687       170     0.02169   0.9099
+     re-orthog.       0.165       140     0.00118   0.0406
+  thick-restart       0.007         1     0.00675   0.0017
+   diag tri-mat       0.069       140     0.00050   0.0171
+  dump snapshot       0.017         1     0.01731   0.0043
+           misc       0.097                         0.0240
 
-   I/O LV write       0.067         1     0.06664   0.0062
-           tmp        0.005        11     0.00049   0.0005
+   I/O LV write       0.017         1     0.01730   0.0043
+           tmp        0.005        11     0.00050   0.0014
 

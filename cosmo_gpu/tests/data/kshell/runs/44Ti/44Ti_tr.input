@@ -1,0 +1,11 @@
+&input
+  fn_int   = "/mnt/ffs24/home/beyerkyl/cosmo/cosmo_gpu/tests/data/kshell/snt/kb3g_from_int.snt"
+  fn_ptn_l = "44Ti.ptn"
+  fn_ptn_r = "44Ti.ptn"
+  fn_load_wave_l = "44Ti.wav"
+  fn_load_wave_r = "44Ti.wav"
+  hw_type = 1
+  eff_charge = 1.5, 0.5
+  gl = 1.0, 0.0
+  gs = 5.5857, -3.82608
+&end

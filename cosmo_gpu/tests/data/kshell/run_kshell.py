@@ -43,18 +43,19 @@ class Case:
     hw: tuple[int, int] | None = None
     n_eigen: int = 10
     slow: bool = False
+    transit: bool = False
 
 
 CASES = [
-    Case("20Ne", "20Ne", "usdb_from_int.snt", 2, 2, 1),
+    Case("20Ne", "20Ne", "usdb_from_int.snt", 2, 2, 1, transit=True),
     Case("22Na", "22Na", "usdb_from_int.snt", 3, 3, 1),
-    Case("24Mg", "24Mg", "usdb_from_int.snt", 4, 4, 1),
+    Case("24Mg", "24Mg", "usdb_from_int.snt", 4, 4, 1, transit=True),
     Case("25Mg", "25Mg", "usdb_from_int.snt", 4, 5, 1),
     Case("26Al", "26Al", "usdb_from_int.snt", 5, 5, 1, slow=True),
     Case("28Si", "28Si", "usdb_from_int.snt", 6, 6, 1, slow=True),
-    Case("44Ti", "44Ti", "kb3g_from_int.snt", 2, 2, 1),
+    Case("44Ti", "44Ti", "kb3g_from_int.snt", 2, 2, 1, transit=True),
     Case("46Ti", "46Ti", "kb3g_from_int.snt", 2, 4, 1, slow=True),
-    Case("33Al_0hw+", "33Al", "fsu9_A33.snt", 13, 20, 1, (0, 0)),
+    Case("33Al_0hw+", "33Al", "fsu9_A33.snt", 13, 20, 1, (0, 0), transit=True),
     Case("33Al_1hw-", "33Al", "fsu9_A33.snt", 13, 20, -1, (1, 1)),
     Case("20Ne_1hw-", "20Ne", "fsu9_A20.snt", 10, 10, -1, (1, 1)),
     Case("22Na_1hw-", "22Na", "fsu9_A22.snt", 11, 11, -1, (1, 1), slow=True),
@@ -120,6 +121,85 @@ def read_wav_header(wav: Path) -> tuple[int, list[float], list[int]]:
     return int(mtotal), evals.tolist(), jj.tolist()
 
 
+#: Transition operators for transit.exe (free-nucleon g factors as CoSMo's XSHLEMB defaults).
+EFF_CHARGE = (1.5, 0.5)
+GL = (1.0, 0.0)
+GS = (2 * 2.79285, 2 * -1.91304)
+TRANSIT_ROW = re.compile(
+    r"^\s*(\d+)\s+(\d+)\s+(-?[\d.]+)\s+(\d+)\s+(\d+)\s+(-?[\d.]+)\s+(-?[\d.]+)"
+    r"\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)"
+)
+
+
+def run_transit(kshell_bin: Path, case: Case, work: Path) -> dict[str, object]:
+    """Run transit.exe on the case's own wavefunctions; return b, E2 and M1 tables."""
+    inp = work / f"{case.name}_tr.input"
+    log = work / f"{case.name}_tr.log"
+    inp.write_text(
+        f"""&input
+  fn_int   = "{SNT / case.snt}"
+  fn_ptn_l = "{case.name}.ptn"
+  fn_ptn_r = "{case.name}.ptn"
+  fn_load_wave_l = "{case.name}.wav"
+  fn_load_wave_r = "{case.name}.wav"
+  hw_type = 1
+  eff_charge = {EFF_CHARGE[0]}, {EFF_CHARGE[1]}
+  gl = {GL[0]}, {GL[1]}
+  gs = {GS[0]}, {GS[1]}
+&end
+"""
+    )
+    with log.open("w") as out:
+        subprocess.run(
+            [str(kshell_bin / "transit.exe"), inp.name],
+            cwd=work,
+            stdout=out,
+            stderr=subprocess.STDOUT,
+            check=True,
+        )
+    text = log.read_text()
+    b = re.search(r"b =\s+([\d.]+) fm", text)
+    tables: dict[str, list[list[float]]] = {"E2": [], "M1": []}
+    current = None
+    for line in text.splitlines():
+        if line.strip().startswith(("E2 transition", "M1 transition")):
+            current = line.split()[0]
+            continue
+        m = TRANSIT_ROW.match(line)
+        if current and m:
+            j2f, idf, _, j2i, idi, _, _, mred, b_fwd, _ = m.groups()
+            tables[current].append(
+                [int(j2f), int(idf), int(j2i), int(idi), float(mred), float(b_fwd)]
+            )
+        elif current and not line.strip():
+            continue
+    return {
+        "b_fm": float(b.group(1)) if b else None,
+        "eff_charge": EFF_CHARGE,
+        "gl": GL,
+        "gs": GS,
+        # rows: [2J_first, idx_first, 2J_second, idx_second, Mred, B(first -> second)]
+        "E2": tables["E2"],
+        "M1": tables["M1"],
+    }
+
+
+def read_occupations(text: str) -> list[dict[str, list[float]]]:
+    """Per state (energy order), the ``<p Nj>`` and ``<n Nj>`` lines of a kshell.exe log."""
+    out: list[dict[str, list[float]]] = []
+    lines = text.splitlines()
+    for k, line in enumerate(lines):
+        if "<H>:" in line and "<JJ>:" in line:
+            occ: dict[str, list[float]] = {}
+            for nxt in lines[k + 1 : k + 6]:
+                if nxt.strip().startswith("<p Nj>"):
+                    occ["p"] = [float(x) for x in nxt.split()[2:]]
+                if nxt.strip().startswith("<n Nj>"):
+                    occ["n"] = [float(x) for x in nxt.split()[2:]]
+            out.append(occ)
+    return out
+
+
 def run_case(kshell_bin: Path, case: Case) -> dict[str, object]:
     """Run one case in ``runs/<name>/`` and return its reference record."""
     work = RUN / case.name
@@ -146,6 +226,9 @@ def run_case(kshell_bin: Path, case: Case) -> dict[str, object]:
     dim = re.search(r"total m-scheme dimension\s+(\d+)", text)
     converged = "H converged" in text
     m2, evals, jj = read_wav_header(wav)
+    extra: dict[str, object] = {"occupations": read_occupations(text)}
+    if case.transit:
+        extra["transit"] = run_transit(kshell_bin, case, work)
     return {
         **asdict(case),
         "dimension": int(dim.group(1)) if dim else None,
@@ -156,6 +239,7 @@ def run_case(kshell_bin: Path, case: Case) -> dict[str, object]:
         "tol": TOL,
         "seconds": round(seconds, 2),
         "kshell_commit": KSHELL_COMMIT,
+        **extra,
     }
 
 

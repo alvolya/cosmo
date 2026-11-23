@@ -1,0 +1,11 @@
+&input
+  fn_int   = "/mnt/ffs24/home/beyerkyl/cosmo/cosmo_gpu/tests/data/kshell/snt/usdb_from_int.snt"
+  fn_ptn_l = "20Ne.ptn"
+  fn_ptn_r = "20Ne.ptn"
+  fn_load_wave_l = "20Ne.wav"
+  fn_load_wave_r = "20Ne.wav"
+  hw_type = 1
+  eff_charge = 1.5, 0.5
+  gl = 1.0, 0.0
+  gs = 5.5857, -3.82608
+&end
