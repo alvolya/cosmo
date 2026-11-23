@@ -15,7 +15,7 @@ from numpy.typing import NDArray
 
 from cosmo_gpu.basis import MBasis, build_mbasis
 from cosmo_gpu.interaction import MSchemeInteraction
-from cosmo_gpu.reference_kernels import build_csc
+from cosmo_gpu.reference_kernels import build_csc, build_csc_transfer
 
 _EMPTY4 = np.zeros((0, 4), dtype=np.int32)
 _EMPTY2 = np.zeros((0, 2), dtype=np.int32)
@@ -82,14 +82,22 @@ def _max_bucket(t: IndexedTerms) -> int:
 
 
 def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_matrix:
-    """Assemble the stored matrix of ``terms`` from basis ``src`` to basis ``dst``."""
+    """Assemble the stored matrix of ``terms`` from basis ``src`` to basis ``dst``.
+
+    States are decoded with the source species bases and looked up in the destination ones, so
+    the two bases may differ (total M, truncation) as long as particle numbers are equal.
+    """
     if terms.diag_p.shape != terms.diag_n.shape:
         msg = "diag_p and diag_n must both be given or both be empty"
         raise ValueError(msg)
-    if dst.protons is not src.protons or dst.neutrons is not src.neutrons:
-        msg = "source and destination bases must share their species bases"
+    if (dst.protons.n_particles, dst.neutrons.n_particles) != (
+        src.protons.n_particles,
+        src.neutrons.n_particles,
+    ):
+        msg = "these terms conserve particle numbers; use transfer_operator for a+, a or cx"
         raise ValueError(msg)
     P, N = src.protons, src.neutrons
+    Pd, Nd = dst.protons, dst.neutrons
     nm = src.space.n_morbits
     src_t = (
         src.block_offset,
@@ -102,13 +110,13 @@ def build_operator(dst: MBasis, src: MBasis, terms: OperatorTerms) -> sp.csr_mat
     )
     dst_t = (dst.block_of, dst.block_offset)
     lookup = (
-        P.sorted_dets,
-        P.det_sub,
-        P.det_local,
-        N.sorted_dets,
-        N.det_sub,
-        N.det_local,
-        N.sub_start,
+        Pd.sorted_dets,
+        Pd.det_sub,
+        Pd.det_local,
+        Nd.sorted_dets,
+        Nd.det_sub,
+        Nd.det_local,
+        Nd.sub_start,
     )
     ob_p = _one_body(terms.ob_p, terms.ob_p_v, nm)
     ob_n = _one_body(terms.ob_n, terms.ob_n_v, nm)
@@ -197,3 +205,80 @@ def j_expectation(
     jp = jplus @ vectors.T
     jsq = np.einsum("ij,ij->j", jp, jp) / np.einsum("ij,ij->i", vectors, vectors) + M * (M + 1)
     return j_from_jsq(np.asarray(jsq, dtype=np.float64))
+
+
+#: Kinds of single-nucleon and charge-exchange terms (``transfer_operator``).
+CREATE_P, ANNIHILATE_P, CREATE_N, ANNIHILATE_N, CX_PN, CX_NP = range(6)
+_DELTA = {
+    CREATE_P: (1, 0),
+    ANNIHILATE_P: (-1, 0),
+    CREATE_N: (0, 1),
+    ANNIHILATE_N: (0, -1),
+    CX_PN: (1, -1),
+    CX_NP: (-1, 1),
+}
+
+
+@dataclass(frozen=True)
+class TransferTerms:
+    """Terms that change particle numbers, all of one kind.
+
+    * ``CREATE_P`` / ``CREATE_N``: ``v a+_c`` (``a`` unused).
+    * ``ANNIHILATE_P`` / ``ANNIHILATE_N``: ``v a_a`` (``c`` unused).
+    * ``CX_PN``: ``v a+_(p,c) a_(n,a)``; ``CX_NP``: ``v a+_(n,c) a_(p,a)``.
+    """
+
+    kind: int
+    c: NDArray[np.int32]
+    a: NDArray[np.int32]
+    v: NDArray[np.float64]
+
+
+def transfer_operator(dst: MBasis, src: MBasis, terms: TransferTerms) -> sp.csr_matrix:
+    """Assemble the stored matrix of a particle-number-changing operator from ``src`` to ``dst``.
+
+    States are ``a+_(protons) a+_(neutrons) |0>``, so a single neutron operator passes the
+    proton string and picks up ``(-1)^Z`` with ``Z`` the proton number it meets.
+    """
+    dz, dn = _DELTA[terms.kind]
+    if (
+        dst.protons.n_particles - src.protons.n_particles,
+        dst.neutrons.n_particles - src.neutrons.n_particles,
+    ) != (dz, dn):
+        msg = f"term kind {terms.kind} changes (Z, N) by {(dz, dn)}; the bases do not"
+        raise ValueError(msg)
+    P, N = src.protons, src.neutrons
+    Pd, Nd = dst.protons, dst.neutrons
+    src_t = (
+        src.block_offset,
+        src.block_psub,
+        src.block_nsub,
+        P.sub_start,
+        N.sub_start,
+        P.dets,
+        N.dets,
+    )
+    dst_t = (dst.block_of, dst.block_offset)
+    lookup = (
+        Pd.sorted_dets,
+        Pd.det_sub,
+        Pd.det_local,
+        Nd.sorted_dets,
+        Nd.det_sub,
+        Nd.det_local,
+        Nd.sub_start,
+    )
+    n_chunks = max(1, min(src.dim, 64 * numba.get_num_threads()))
+    indptr, indices, data = build_csc_transfer(
+        src.dim,
+        n_chunks,
+        src_t,
+        dst_t,
+        lookup,
+        terms.kind,
+        np.ascontiguousarray(terms.c, dtype=np.int32),
+        np.ascontiguousarray(terms.a, dtype=np.int32),
+        np.ascontiguousarray(terms.v, dtype=np.float64),
+    )
+    mat = sp.csc_matrix((data, indices, indptr), shape=(dst.dim, src.dim))
+    return sp.csr_matrix(mat)

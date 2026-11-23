@@ -266,3 +266,82 @@ def build_csc(
             indices[indptr[c] : indptr[c] + m] = bi[:m]
             data[indptr[c] : indptr[c] + m] = bv[:m]
     return indptr, indices, data
+
+
+@njit(cache=True)
+def _transfer_column(
+    col: int,
+    src: tuple,  # type: ignore[type-arg]
+    dst: tuple,  # type: ignore[type-arg]
+    lookup: tuple,  # type: ignore[type-arg]
+    kind: int,
+    tc: NDArray[np.int32],
+    ta: NDArray[np.int32],
+    tv: NDArray[np.float64],
+    out_idx: NDArray[np.int64],
+    out_val: NDArray[np.float64],
+) -> int:
+    offset, psub, nsub, p_start, n_start, p_dets, n_dets = src
+    p, n = _state(col, offset, psub, nsub, p_start, n_start, p_dets, n_dets)
+    zp = 0
+    for b in range(64):
+        if (p >> np.uint64(b)) & ONE:
+            zp += 1
+    k = 0
+    for t in range(tv.shape[0]):
+        p2, n2, g = p, n, 1
+        if kind == 0:  # a+_p c
+            p2, g = create(p, tc[t])
+        elif kind == 1:  # a_p a
+            p2, g = annihilate(p, ta[t])
+        elif kind == 2:  # a+_n c, passes Z protons
+            n2, g = create(n, tc[t])
+            g *= 1 - 2 * (zp % 2)
+        elif kind == 3:  # a_n a
+            n2, g = annihilate(n, ta[t])
+            g *= 1 - 2 * (zp % 2)
+        elif kind == 4:  # a+_(p,c) a_(n,a): a_n passes Z protons, then a+_p
+            n2, g1 = annihilate(n, ta[t])
+            p2, g2 = create(p, tc[t])
+            g = g1 * g2 * (1 - 2 * (zp % 2))
+        else:  # a+_(n,c) a_(p,a): a_p first, then a+_n passes Z - 1 protons
+            p2, g1 = annihilate(p, ta[t])
+            n2, g2 = create(n, tc[t])
+            g = g1 * g2 * (1 - 2 * ((zp - 1) % 2))
+        if g != 0:
+            k = _emit(_index(p2, n2, lookup, dst), g * tv[t], k, out_idx, out_val)
+    return _merge(k, out_idx, out_val)
+
+
+@njit(cache=True, parallel=True)
+def build_csc_transfer(
+    n_cols: int,
+    n_chunks: int,
+    src: tuple,  # type: ignore[type-arg]
+    dst: tuple,  # type: ignore[type-arg]
+    lookup: tuple,  # type: ignore[type-arg]
+    kind: int,
+    tc: NDArray[np.int32],
+    ta: NDArray[np.int32],
+    tv: NDArray[np.float64],
+) -> tuple[NDArray[np.int64], NDArray[np.int64], NDArray[np.float64]]:
+    """CSC arrays of a single-nucleon or charge-exchange operator, one column per source state."""
+    buf = max(1, tv.shape[0])
+    counts = np.zeros(n_cols + 1, dtype=np.int64)
+    step = (n_cols + n_chunks - 1) // n_chunks
+    for ch in prange(n_chunks):
+        bi = np.empty(buf, dtype=np.int64)
+        bv = np.empty(buf, dtype=np.float64)
+        for c in range(ch * step, min(n_cols, (ch + 1) * step)):
+            counts[c + 1] = _transfer_column(c, src, dst, lookup, kind, tc, ta, tv, bi, bv)
+    indptr = np.cumsum(counts)
+    indices = np.empty(indptr[-1], dtype=np.int64)
+    data = np.empty(indptr[-1], dtype=np.float64)
+    for ch in prange(n_chunks):
+        bi = np.empty(buf, dtype=np.int64)
+        bv = np.empty(buf, dtype=np.float64)
+        for c in range(ch * step, min(n_cols, (ch + 1) * step)):
+            m = _transfer_column(c, src, dst, lookup, kind, tc, ta, tv, bi, bv)
+            indices[indptr[c] : indptr[c] + m] = bi[:m]
+            data[indptr[c] : indptr[c] + m] = bv[:m]
+    return indptr, indices, data
