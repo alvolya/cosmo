@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --job-name=remote-frac
+#SBATCH --partition=general-short
+#SBATCH --constraint=amd24
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=160G
+#SBATCH --time=2:00:00
+#SBATCH --output=remote-frac-%j.out
+# Stage-2 table sizes and remote fractions. Submit from cosmo_gpu/: sbatch tools/remote_fraction.sb
+set -euo pipefail
+export NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+/usr/bin/time -v uv run --locked python tools/remote_fraction.py 24Mg 28Si 2>&1 \
+    | grep -v -i "numbawarning\|warnings.warn\|tbb" | tee tools/remote_fraction.txt

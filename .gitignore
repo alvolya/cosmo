@@ -26,3 +26,6 @@ cosmo_gpu/tests/data/kshell/runs/**/*.ptn
 cosmo_gpu/tests/data/kshell/runs/**/tmp_*
 cosmo_gpu/kshell-ref-*.out
 cosmo_gpu/slow-*.out
+cosmo_gpu/.venv-gpu/
+cosmo_gpu/gpu-smoke-*.out
+cosmo_gpu/remote-frac-*.out
