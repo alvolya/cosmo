@@ -12,7 +12,7 @@ license = "GPL-3.0-or-later"
 dependencies = ["numpy>=1.26", "numba>=0.59", "scipy>=1.11"]
 
 [project.optional-dependencies]
-gpu = ["cupy>=13"]
+gpu = ["cupy-cuda12x[ctk]>=14"]
 mpi = ["mpi4py>=3.1"]
 io = ["h5py>=3.9"]
 
@@ -84,12 +84,12 @@ files = ["src/cosmo_gpu", "tests"]
 exclude = ["tests/data/"]
 
 [[tool.mypy.overrides]]
-module = ["numba.*", "cupy.*", "mpi4py.*", "scipy.*", "h5py.*"]
+module = ["numba.*", "cupy.*", "cupyx.*", "mpi4py.*", "scipy.*", "h5py.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 # Numba kernel modules (*_kernels.py): @njit is untyped; typed wrappers carry the public API
-module = ["cosmo_gpu.bits_kernels", "cosmo_gpu.reference_kernels"]
+module = ["cosmo_gpu.bits_kernels", "cosmo_gpu.reference_kernels", "cosmo_gpu.operator_tables_kernels"]
 disallow_untyped_decorators = false
 warn_return_any = false
 
