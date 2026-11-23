@@ -116,8 +116,17 @@ def make_truncation(
 
 def parse_hw(text: str) -> tuple[int, int]:
     """Parse ``MIN:MAX`` (or a single ``N`` meaning ``0:N``)."""
-    lo, _, hi = text.partition(":")
-    return (int(lo), int(hi)) if hi else (0, int(lo))
+    lo, sep, hi = text.partition(":")
+    if not sep:
+        return (0, int(lo))
+    if not lo.strip() or not hi.strip():
+        msg = f"bad Nhw window {text!r}: give MIN:MAX or a single N"
+        raise ValueError(msg)
+    pair = (int(lo), int(hi))
+    if not 0 <= pair[0] <= pair[1]:
+        msg = f"bad Nhw window {text!r}: need 0 <= MIN <= MAX"
+        raise ValueError(msg)
+    return pair
 
 
 def parse_rejection(text: str, space: ModelSpace) -> OccupationRule:

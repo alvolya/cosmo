@@ -25,7 +25,7 @@ from cosmo_gpu.lanczos import block_lanczos
 from cosmo_gpu.modelspace import parse_nucleus
 from cosmo_gpu.operators import MatrixCache, State, e2, expectation, m1, number, transition_strength
 from cosmo_gpu.reference_csr import hamiltonian_csr, j_expectation, jplus_csr
-from cosmo_gpu.snt import read_snt
+from cosmo_gpu.snt import read_snt, read_snt_space
 from cosmo_gpu.truncation import make_truncation
 
 from .systems import build_system
@@ -68,7 +68,7 @@ def test_levels_match_kshell(rec):
     assert rec["converged"]
     Z, N = parse_nucleus(rec["nucleus"])
     zv, nv = _valence(rec)
-    space, _ = read_snt(SNT / rec["snt"], 0)
+    space = read_snt_space(SNT / rec["snt"])
     assert (Z - space.core_z, N - space.core_n) == (zv, nv)
     hw = tuple(rec["hw"]) if rec["hw"] is not None else None
     lev = compute_levels(
@@ -185,7 +185,7 @@ def test_transitions_match_kshell_transit(name: str, kind: str):
     else:
         op = m1(space, tr["gl"][0], tr["gs"][0], tr["gl"][1], tr["gs"][1])
         scale = 1.0
-    cache_: MatrixCache = {}
+    cache_ = MatrixCache()
     rows = tr[kind]
     assert rows
     for j2a, ia, j2b, ib, _mred, b_fwd in rows:

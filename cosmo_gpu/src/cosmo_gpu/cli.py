@@ -35,7 +35,7 @@ from cosmo_gpu.operators import (
     transition_strength,
 )
 from cosmo_gpu.reference_csr import hamiltonian_csr, j_expectation, jplus_csr
-from cosmo_gpu.snt import read_snt
+from cosmo_gpu.snt import read_snt, read_snt_space
 from cosmo_gpu.strength import lanczos_strength
 from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, parse_rejection
 
@@ -58,11 +58,26 @@ class Levels:
     H: sp.csr_matrix | None = None
 
     def states(self) -> list[State]:
-        """Return the eigenvectors as ``operators.State`` objects (J rounded to half-integers)."""
+        """Return the eigenvectors as ``operators.State`` objects.
+
+        Raises
+        ------
+        ValueError
+            If the solver did not converge or a level's <J> is not a half-integer (within
+            ``BAD_SPIN_TOL``): reduced matrix elements need good J.
+        """
         if self.vectors is None:
             msg = "no eigenvectors stored"
             raise ValueError(msg)
+        if not self.converged:
+            msg = "not all requested states converged; raise --nev or check the residuals"
+            raise ValueError(msg)
         j2 = np.rint(2 * self.spins).astype(int)
+        bad = np.flatnonzero(np.abs(2 * self.spins - j2) > 2 * BAD_SPIN_TOL)
+        if bad.size:
+            js = ", ".join(f"level {k + 1}: <J> = {self.spins[k]:.4f}" for k in bad)
+            msg = f"levels without good J ({js}); near-degenerate states of different J?"
+            raise ValueError(msg)
         return [State(self.vectors[k], self.basis, int(j2[k])) for k in range(len(j2))]
 
 
@@ -79,7 +94,7 @@ def load_interaction(
         if space_name is not None or hamiltonian is not None:
             msg = "give either a CoSMo space and Hamiltonian or a .snt file, not both"
             raise ValueError(msg)
-        space, _ = read_snt(snt, 0)
+        space = read_snt_space(snt)
         zv, nv = Z - space.core_z, N - space.core_n
         space, from_core = read_snt(snt, zv + nv)
         return space, zv, nv, to_mscheme(from_core)
@@ -225,13 +240,13 @@ def _operator_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--b", type=float, default=1.0, help="oscillator length in fm (E2 units)")
 
 
-def _levels_for(args: argparse.Namespace, nucleus: str) -> Levels:
+def _levels_for(args: argparse.Namespace, nucleus: str, parity: int | None = None) -> Levels:
     return compute_levels(
         nucleus,
         args.space,
         args.hamiltonian,
         args.nev,
-        args.parity,
+        args.parity if parity is None else parity,
         hw=args.hw,
         rejections=tuple(args.rejection),
         snt=args.snt,
@@ -255,11 +270,22 @@ def _label(s: State, k: int, states: list[State], parity: int) -> str:
     return f"{js}{'+' if parity > 0 else '-'}({idx})"
 
 
+def _states_or_report(lev: Levels) -> list[State] | None:
+    """Return the levels as states, or None after printing why they cannot be used."""
+    try:
+        return lev.states()
+    except ValueError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return None
+
+
 def _cmd_transitions(args: argparse.Namespace) -> int:
     lev = _levels_for(args, args.nucleus)
     op, scale, unit = _operator(args, lev)
-    states = lev.states()
-    cache: MatrixCache = {}
+    states = _states_or_report(lev)
+    if states is None:
+        return 1
+    cache = MatrixCache()
     print(f"# {args.nucleus} B({args.op}) in {unit}, i -> f among the lowest {len(states)} levels")
     for a, si in enumerate(states):
         for b, sf_ in enumerate(states):
@@ -271,35 +297,65 @@ def _cmd_transitions(args: argparse.Namespace) -> int:
     return 0
 
 
+def _final_parities(args: argparse.Namespace, li: Levels) -> list[int]:
+    """Return the final parities: ``--final-parity``, both if mixed, else the initial."""
+    if args.final_parity is not None:
+        return [args.final_parity]
+    if len(set(li.basis.space.orbit_parity.tolist())) > 1:
+        return [1, -1]
+    return [li.basis.parity]
+
+
 def _cmd_sf(args: argparse.Namespace) -> int:
     li = _levels_for(args, args.nucleus)
-    lf = _levels_for(args, args.final)
+    si = _states_or_report(li)
+    if si is None:
+        return 1
     space = li.basis.space
-    dz = lf.basis.protons.n_particles - li.basis.protons.n_particles
-    dn = lf.basis.neutrons.n_particles - li.basis.neutrons.n_particles
+    finals: list[tuple[Levels, list[State]]] = []
+    for par in _final_parities(args, li):
+        try:
+            lf = _levels_for(args, args.final, par)
+        except ValueError as err:  # empty basis for this parity
+            print(f"# final parity {par:+d}: {err}")
+            continue
+        sfs = _states_or_report(lf)
+        if sfs is None:
+            return 1
+        finals.append((lf, sfs))
+    if not finals:
+        print("error: no final states", file=sys.stderr)
+        return 1
+    lf0 = finals[0][0]
+    dz = lf0.basis.protons.n_particles - li.basis.protons.n_particles
+    dn = lf0.basis.neutrons.n_particles - li.basis.neutrons.n_particles
     if (dz, dn) not in ((1, 0), (0, 1)):
         print("final nucleus must have one proton or one neutron more", file=sys.stderr)
         return 2
     proton = dz == 1
-    si, sfs = li.states(), lf.states()
     print(f"# S = |<f||a+_j||i>|^2/(2J_f+1), {'proton' if proton else 'neutron'} added")
+    caches = [MatrixCache() for _ in range(space.n_orbits)]
     for a, i in enumerate(si):
-        for b, f in enumerate(sfs):
-            for orb in range(space.n_orbits):
-                val = spectroscopic_factor(space, orb, proton, i, f)
-                if val > 1e-12:
-                    print(
-                        f"{_label(i, a, si, li.basis.parity):>8} -> "
-                        f"{_label(f, b, sfs, lf.basis.parity):<8} "
-                        f"{space.orbits[orb].name:>4} {val:10.6f}"
-                    )
+        for lf, sfs in finals:
+            for b, f in enumerate(sfs):
+                for orb in range(space.n_orbits):
+                    val = spectroscopic_factor(space, orb, proton, i, f, caches[orb])
+                    if val > 1e-12:
+                        print(
+                            f"{_label(i, a, si, li.basis.parity):>8} -> "
+                            f"{_label(f, b, sfs, lf.basis.parity):<8} "
+                            f"{space.orbits[orb].name:>4} {val:10.6f}"
+                        )
     return 0
 
 
 def _cmd_strength(args: argparse.Namespace) -> int:
     lev = _levels_for(args, args.nucleus)
     op, scale, unit = _operator(args, lev)
-    g = lev.states()[0]
+    states = _states_or_report(lev)
+    if states is None:
+        return 1
+    g = states[0]
     if lev.H is None:
         msg = "no Hamiltonian stored"
         raise RuntimeError(msg)
@@ -346,6 +402,13 @@ def main(argv: list[str] | None = None) -> int:
     sf.add_argument("nucleus", help="initial nucleus (A)")
     sf.add_argument("final", help="final nucleus (A + 1)")
     _system_args(sf)
+    sf.add_argument(
+        "--final-parity",
+        type=int,
+        choices=(-1, 1),
+        default=None,
+        help="parity of the A+1 states (default: both in mixed-parity spaces, else --parity)",
+    )
 
     stp = sub.add_parser("strength", help="Lanczos strength function from the ground state")
     stp.add_argument("nucleus")

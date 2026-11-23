@@ -224,7 +224,11 @@ def parse_hamiltonian(h: ET.Element, interactions_dir: Path | None = None) -> Ha
         fname = (f.findtext("name") or "").strip()
         scales = {1: 1.0, 2: 1.0}
         for s in f.findall("scale"):
-            scales[int(s.get("rank", "0"))] *= float((s.text or "1").strip())
+            rank = s.get("rank")
+            if rank not in ("1", "2"):
+                msg = f"hamiltonian {name}, file {fname}: <scale> needs rank 1 or 2, got {rank!r}"
+                raise ValueError(msg)
+            scales[int(rank)] *= float((s.text or "1").strip())
         files.append(
             InteractionFile(
                 path=find_interaction_file(fname, interactions_dir),

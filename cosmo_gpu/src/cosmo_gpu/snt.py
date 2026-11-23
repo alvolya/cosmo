@@ -65,6 +65,15 @@ class _Rows:
 Where = dict[int, tuple[bool, int]]
 
 
+def read_snt_space(path: Path) -> ModelSpace:
+    """Only the model space (orbits and core) of a ``.snt`` file.
+
+    Use it to learn the core before the valence number, and so the mass factor, is known.
+    """
+    space, _ = _read_orbits(_Rows(path))
+    return space
+
+
 def read_snt(path: Path, n_valence: int) -> tuple[ModelSpace, PNCoupledInteraction]:
     """Read a KSHELL ``.snt`` file for a nucleus with ``n_valence`` valence nucleons.
 

@@ -97,7 +97,7 @@ def test_transitions_match_cosmo(nucleus: str, kind: str):
         op = m1(space, gl[0], 2 * mu[0], gl[1], 2 * mu[1])
         rel = 5e-5
     good = _good(nucleus)
-    cache_: MatrixCache = {}
+    cache_ = MatrixCache()
     n = 0
     for ini, fin, b in REF["nuclei"][nucleus][kind]:
         if ini not in good or fin not in good:
@@ -142,7 +142,12 @@ def test_spectroscopic_factors_24mg_to_25mg_match_cosmo():
             continue
         a = lab[tuple(nlj)]
         ours = spectroscopic_factor(
-            space, a, False, i_states[daughter], f_states[parent], cache_.setdefault(a, {})
+            space,
+            a,
+            False,
+            i_states[daughter],
+            f_states[parent],
+            cache_.setdefault(a, MatrixCache()),
         )
         assert ours == pytest.approx(c2s, rel=2e-5, abs=1e-9), (parent, daughter, nlj)
         n += 1

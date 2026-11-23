@@ -195,7 +195,12 @@ def _read_oxbash(
     num = _parse_float32 if cosmo_float32 else float
     lines = [ln.strip() for ln in path.read_text().splitlines()]
     lines = [ln for ln in lines if ln and ln[0] not in "!#$%"]
+    # the header may continue on further lines, each ending with "-" (OXBASH)
     header = lines[0].split()
+    first_tbme = 1
+    while header and header[-1] == "-":
+        header = header[:-1] + lines[first_tbme].split()
+        first_tbme += 1
     count = int(float(header[0]))
     values = [num(x) for x in header[1:]]
     mass_factor = 1.0
@@ -209,10 +214,11 @@ def _read_oxbash(
     tbme: dict[tuple[int, int, int, int, int, int], float] = {}
     scale = tbme_scale * mass_factor
     orb = space.orbits
-    for ln in lines[1:]:
+    for ln in lines[first_tbme:]:
         tok = ln.split()
         if len(tok) < 7:
-            continue
+            msg = f"{path.name}: line {ln!r} has {len(tok)} fields; expected i j k l J T V"
+            raise ValueError(msg)
         a, b, c, d = (space.orbit_position(int(x)) for x in tok[:4])
         J, T = int(tok[4]), int(tok[5])
         v = num(tok[6]) * scale

@@ -76,7 +76,7 @@ def test_newsr_e2_m1_20ne(which: str, initial: int):
     op = e2(space, 1.5, 0.5) if which == "E2" else m1(space, 1.0, 5.586, 0.0, -3.826)
     states = _dense(2, 2)
     i = states[initial]
-    cache_: MatrixCache = {}
+    cache_ = MatrixCache()
     total = sum(transition_strength(op, i, f, cache_) for f in states)
     assert total == pytest.approx(total_strength(op, i), rel=SUM_TOL, abs=SUM_TOL)
 
@@ -96,7 +96,7 @@ def test_gt_strengths_sum_to_total_20ne_to_20na():
     op = gamow_teller(space, "n->p")
     i = _dense(2, 2)[0]
     finals = _dense(3, 1, m2=0)
-    cache_: MatrixCache = {}
+    cache_ = MatrixCache()
     total = sum(transition_strength(op, i, f, cache_) for f in finals)
     assert total == pytest.approx(total_strength(op, i, *_species(3, 1)), rel=SUM_TOL)
 
@@ -107,7 +107,7 @@ def test_macfarlane_french_18o_to_19o(orbit: int):
     space = _space()
     i = _dense(0, 2)[0]
     finals = _dense(0, 3)
-    cache_: MatrixCache = {}
+    cache_ = MatrixCache()
     total = sum(
         (f.j2 + 1) / (i.j2 + 1) * spectroscopic_factor(space, orbit, False, i, f, cache_)
         for f in finals

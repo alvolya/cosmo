@@ -39,9 +39,9 @@ class Strength:
         """Number of Lanczos steps taken (fewer than asked at an invariant subspace)."""
         return int(self.alpha.shape[0])
 
-    def moment(self, k: int) -> float:
-        """``sum_k w_k theta_k^m`` (equals ``<p|H^m|p>`` for ``m <= 2 N - 1``)."""
-        return float(np.sum(self.weights * self.energies**k))
+    def moment(self, m: int) -> float:
+        """Return ``sum_k w_k theta_k^m``, which equals ``<p|H^m|p>`` for ``m <= 2N - 1``."""
+        return float(np.sum(self.weights * self.energies**m))
 
     def continued_fraction(self, z: complex) -> complex:
         """``<p|(z - H)^-1|p>`` from the tridiagonal coefficients."""
@@ -75,7 +75,8 @@ def lanczos_strength(
 ) -> Strength:
     """Run up to ``n_steps`` plain Lanczos steps from ``pivot`` (shape ``(1, D)``).
 
-    Stops early when the Krylov space becomes invariant (``beta < BREAKDOWN * |alpha|``).
+    Stops early when the Krylov space becomes invariant
+    (``beta <= BREAKDOWN * max(1, |alpha|)``).
     """
     norm2 = float(backend.inner(pivot, pivot)[0, 0])
     if norm2 <= 0.0:

@@ -43,6 +43,7 @@ from cosmo_gpu.reference_csr import (
     jplus_csr,
     transfer_operator,
 )
+from cosmo_gpu.truncation import make_truncation
 
 THREEJ_MIN = 1e-8
 ZERO = 1e-14
@@ -294,14 +295,19 @@ def _basis_at(
     protons: SpeciesBasis | None = None,
     neutrons: SpeciesBasis | None = None,
 ) -> MBasis:
-    return build_mbasis(
-        template.space,
-        protons or template.protons,
-        neutrons or template.neutrons,
-        m2,
-        parity,
-        template.truncation,
-    )
+    """Basis like ``template`` at ``m2``/``parity``, optionally with other species bases.
+
+    A truncation is rebuilt for the destination (Z, N): its minimum quanta depend on the
+    particle numbers, so the source's cannot be reused across charge exchange or transfer.
+    """
+    P = protons or template.protons
+    N = neutrons or template.neutrons
+    trunc = template.truncation
+    if trunc is not None:
+        trunc = make_truncation(
+            template.space, P.n_particles, N.n_particles, trunc.hw, trunc.occupation
+        )
+    return build_mbasis(template.space, P, N, m2, parity, trunc)
 
 
 def tensor_matrix(op: Tensor, q2: int, dst: MBasis, src: MBasis) -> sp.csr_matrix:
@@ -349,9 +355,9 @@ def annihilation_matrix(
     return transfer_operator(dst, src, terms)
 
 
-def ladder_up(state: State) -> State:
-    """``|J M+1> = J+ |J M> / sqrt(J(J+1) - M(M+1))``."""
-    jp, up = jplus_csr(state.basis)
+def ladder_up(state: State, cache: MatrixCache | None = None) -> State:
+    """``|J M+1> = J+ |J M> / sqrt(J(J+1) - M(M+1))`` (J+ reused from ``cache`` if given)."""
+    jp, up = cache.jplus(state.basis) if cache is not None else jplus_csr(state.basis)
     j2, m2 = state.j2, state.basis.m2
     norm = sqrt((j2 * (j2 + 2) - m2 * (m2 + 2)) / 4.0)
     if norm == 0.0:
@@ -360,9 +366,9 @@ def ladder_up(state: State) -> State:
     return State(np.asarray(jp @ state.vector) / norm, up, j2)
 
 
-def _raise(state: State, steps: int) -> State:
+def _raise(state: State, steps: int, cache: MatrixCache | None = None) -> State:
     for _ in range(steps):
-        state = ladder_up(state)
+        state = ladder_up(state, cache)
     return state
 
 
@@ -385,22 +391,49 @@ def _choose_components(k2: int, i: State, f: State) -> tuple[int, int, int, floa
     raise ValueError(msg)
 
 
-MatrixCache = dict[tuple[int, ...], sp.csr_matrix]
+BasisKey = tuple[int, int, int, int, int, int]
 
 
-def _key(q2: int, dst: MBasis, src: MBasis) -> tuple[int, ...]:
-    """Bases built from the same species bases at the same M and parity are identical."""
-    return (
-        q2,
-        dst.m2,
-        dst.parity,
-        id(dst.protons),
-        id(dst.neutrons),
-        src.m2,
-        src.parity,
-        id(src.protons),
-        id(src.neutrons),
-    )
+def _basis_key(b: MBasis) -> BasisKey:
+    return (b.m2, b.parity, id(b.protons), id(b.neutrons), id(b.truncation), b.dim)
+
+
+class MatrixCache:
+    """Stored operator components and J+ matrices, reused across reduced matrix elements.
+
+    Keys identify a basis by its M, parity, species bases, truncation and dimension (bases
+    rebuilt from the same parts are identical). Each entry keeps its bases alive, so the
+    ``id`` values in its key cannot be reused by other objects. Use one cache per operator.
+    """
+
+    def __init__(self) -> None:
+        self._ops: dict[tuple[int, ...], tuple[MBasis, MBasis, sp.csr_matrix]] = {}
+        self._jp: dict[BasisKey, tuple[MBasis, sp.csr_matrix, MBasis]] = {}
+
+    def operator(
+        self,
+        q2: int,
+        dst: MBasis,
+        src: MBasis,
+        build: Callable[[int, MBasis, MBasis], sp.csr_matrix],
+    ) -> sp.csr_matrix:
+        """Component ``q2`` from ``src`` to ``dst``, built once."""
+        key = (q2, *_basis_key(dst), *_basis_key(src))
+        hit = self._ops.get(key)
+        if hit is None:
+            hit = (dst, src, build(q2, dst, src))
+            self._ops[key] = hit
+        return hit[2]
+
+    def jplus(self, basis: MBasis) -> tuple[sp.csr_matrix, MBasis]:
+        """J+ from ``basis`` and the 2M + 2 basis, built once per basis."""
+        key = _basis_key(basis)
+        hit = self._jp.get(key)
+        if hit is None:
+            jp, up = jplus_csr(basis)
+            hit = (basis, jp, up)
+            self._jp[key] = hit
+        return hit[1], hit[2]
 
 
 def reduced_matrix_element(
@@ -413,17 +446,14 @@ def reduced_matrix_element(
     """``<f||T^k||i>`` from one m-scheme matrix element, using ladders when needed.
 
     ``component(q2, dst, src)`` returns the stored matrix of ``T^k_q`` between two bases;
-    ``cache`` (optional, per operator) keeps those matrices across calls.
+    ``cache`` (optional, one per operator) keeps those matrices and the J+ ladders.
     """
     di, df, q2, w = _choose_components(k2, i, f)
-    ii, ff = _raise(i, di), _raise(f, df)
+    ii, ff = _raise(i, di, cache), _raise(f, df, cache)
     if cache is None:
         mat = component(q2, ff.basis, ii.basis)
     else:
-        key = _key(q2, ff.basis, ii.basis)
-        if key not in cache:
-            cache[key] = component(q2, ff.basis, ii.basis)
-        mat = cache[key]
+        mat = cache.operator(q2, ff.basis, ii.basis, component)
     me = float(ff.vector @ (mat @ ii.vector))
     phase = -1.0 if ((f.j2 - ff.basis.m2) // 2) % 2 else 1.0
     return me / (phase * w)
