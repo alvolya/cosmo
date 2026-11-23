@@ -32,3 +32,4 @@ cosmo_gpu/remote-frac-*.out
 cosmo_gpu/stage3-bench-*.out
 cosmo_gpu/k48cr-*.out
 cosmo_gpu/tests/data/kshell/runs/*_bench/
+cosmo_gpu/gpu-tests-*.out
