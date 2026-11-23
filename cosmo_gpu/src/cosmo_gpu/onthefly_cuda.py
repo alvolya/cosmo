@@ -6,8 +6,17 @@ list, so branches on the task kind are uniform across the warp; each lane sums i
 in registers over all tasks (pn, pp, nn) and writes it once. This is gather only: no atomics,
 a fixed summation order (task, proton entry, neutron entry), so reruns are bitwise equal.
 
+The default "lean" pn path computes per-vector base pointers once per task, uses 32-bit offsets
+inside a block, hoists the identity cases out of the inner loops and applies signs by flipping
+the sign bit; jump entries are packed into one 64-bit load on the device; and the launch caps
+registers (``default_launch``) to raise occupancy. Nsight Compute showed the original kernel
+issue-bound (about 110 warp instructions per pn entry step, 6% of DRAM bandwidth, 41%
+occupancy); these changes are 1.4 to 1.6x faster on H200 and A100. ``lean=False,
+packed=False, threads=128, min_blocks=1`` is the original kernel, kept as a reference.
+
 The vector layout is a compile-time choice: ``"rows"`` is the ABI's ``(nvec, D)``;
-``"interleaved"`` is ``(D, nvec)``, where one gather reads all vectors of an amplitude at once.
+``"interleaved"`` is ``(D, nvec)`` (measured slower on H200; kept for experiments; the lean
+path applies to "rows" only).
 """
 
 from __future__ import annotations
@@ -27,8 +36,35 @@ from cosmo_gpu.reference_csr import j_from_jsq
 
 WARP = 32
 THREADS = 128
+CAP_MAX_NVEC = 4  # the register cap of default_launch applies up to this many vectors
 
 KERNEL = r"""
+#ifndef PACKED
+#define PACKED 0
+#endif
+#ifndef LEAN
+#define LEAN 0
+#endif
+#ifndef MINBLOCKS
+#define MINBLOCKS 1
+#endif
+#ifndef TPB
+#define TPB 128
+#endif
+
+// flip the sign of v when bit 15 of the label is set, without a branch
+__device__ __forceinline__ double signed_by(double v, int o) {
+    return __longlong_as_double(__double_as_longlong(v) ^ ((long long)(o & 0x8000) << 48));
+}
+
+// Jump entry e: source local index and label (sign in bit 15).
+#if PACKED
+#define JGET(e, s, o) { \
+    const unsigned long long w_ = jump_pk[e]; s = (int)(w_ >> 16); o = (int)(w_ & 0xFFFFull); }
+#else
+#define JGET(e, s, o) { s = jump_src[e]; o = (int)(unsigned short)jump_op[e]; }
+#endif
+
 #if INTERLEAVED
 #define XAT(v, pos) x[(long long)(pos) * NVEC + (v)]
 #define YAT(v, pos) y[(long long)(pos) * NVEC + (v)]
@@ -37,7 +73,7 @@ KERNEL = r"""
 #define YAT(v, pos) y[(long long)(v) * y_len + (pos)]
 #endif
 
-extern "C" __global__ void apply_tables(
+extern "C" __global__ void __launch_bounds__(TPB, MINBLOCKS) apply_tables(
     const int* __restrict__ item_block, const int* __restrict__ item_k0, const long long n_items,
     const long long* __restrict__ dst_block_offset, const int* __restrict__ dst_block_psub,
     const int* __restrict__ dst_block_nsub, const long long* __restrict__ src_block_offset,
@@ -48,6 +84,7 @@ extern "C" __global__ void apply_tables(
     const int* __restrict__ task_coupling, const signed char* __restrict__ task_kind,
     const long long* __restrict__ jump_table_start, const long long* __restrict__ jump_row_ptr,
     const int* __restrict__ jump_src, const short* __restrict__ jump_op,
+    const unsigned long long* __restrict__ jump_pk,
     const long long* __restrict__ coup_start, const int* __restrict__ coup_ncol,
     const double* __restrict__ coup_data,
     const long long* __restrict__ ss_start, const long long* __restrict__ ss_row_ptr,
@@ -110,30 +147,79 @@ extern "C" __global__ void apply_tables(
                     n_lo = jump_row_ptr[nb];
                     n_hi = jump_row_ptr[nb + 1];
                 }
+#if LEAN && !INTERLEAVED
+                // lean path: per-vector base pointers once per task, 32-bit offsets inside the
+                // block, identity cases hoisted out of the loops, signs applied by bit flips
+                const double* xb[NVEC];
+                #pragma unroll
+                for (int v = 0; v < NVEC; ++v) xb[v] = x + (long long)v * x_len + off_s;
+                const int dnsi = (int)dns;
+                if (pj >= 0 && nj >= 0) {
+                    for (long long pe = p_lo; pe < p_hi; ++pe) {
+                        int i_src, o;
+                        JGET(pe, i_src, o);
+                        const double* __restrict__ vr =
+                            coup_data + cs + (long long)(o & 0x7FFF) * ncol;
+                        const int prow = i_src * dnsi;
+                        const int sgn = o & 0x8000;
+                        for (long long ne = n_lo; ne < n_hi; ++ne) {
+                            int j_src, on;
+                            JGET(ne, j_src, on);
+                            const double val = signed_by(vr[on & 0x7FFF], (on ^ sgn) & 0x8000);
+                            const int xs = prow + j_src;
+                            #pragma unroll
+                            for (int v = 0; v < NVEC; ++v) acc[v] = fma(val, xb[v][xs], acc[v]);
+                        }
+                    }
+                } else if (pj >= 0) {           // neutron identity: j_src = jn, label 0
+                    for (long long pe = p_lo; pe < p_hi; ++pe) {
+                        int i_src, o;
+                        JGET(pe, i_src, o);
+                        const double val =
+                            signed_by(coup_data[cs + (long long)(o & 0x7FFF) * ncol], o);
+                        const int xs = i_src * dnsi + (int)jn;
+                        #pragma unroll
+                        for (int v = 0; v < NVEC; ++v) acc[v] = fma(val, xb[v][xs], acc[v]);
+                    }
+                } else if (nj >= 0) {           // proton identity: i_src = ip, label 0
+                    const int prow = (int)ip * dnsi;
+                    for (long long ne = n_lo; ne < n_hi; ++ne) {
+                        int j_src, on;
+                        JGET(ne, j_src, on);
+                        const double val = signed_by(coup_data[cs + (on & 0x7FFF)], on);
+                        const int xs = prow + j_src;
+                        #pragma unroll
+                        for (int v = 0; v < NVEC; ++v) acc[v] = fma(val, xb[v][xs], acc[v]);
+                    }
+                }
+#else
                 for (long long pe = p_lo; pe < p_hi; ++pe) {
                     long long i_src = ip, vrow = cs;
                     double sp = 1.0;
                     if (pj >= 0) {
-                        const int op = (int)(unsigned short)jump_op[pe];
-                        i_src = jump_src[pe];
-                        vrow = cs + (long long)(op & 0x7FFF) * ncol;
-                        if (op & 0x8000) sp = -1.0;
+                        int s_, o;
+                        JGET(pe, s_, o);
+                        i_src = s_;
+                        vrow = cs + (long long)(o & 0x7FFF) * ncol;
+                        if (o & 0x8000) sp = -1.0;
                     }
                     const long long xrow = off_s + i_src * dns;
                     for (long long ne = n_lo; ne < n_hi; ++ne) {
                         long long j_src = jn;
                         double val = sp * coup_data[vrow];
                         if (nj >= 0) {
-                            const int opn = (int)(unsigned short)jump_op[ne];
-                            j_src = jump_src[ne];
-                            val = sp * coup_data[vrow + (opn & 0x7FFF)];
-                            if (opn & 0x8000) val = -val;
+                            int s_, o;
+                            JGET(ne, s_, o);
+                            j_src = s_;
+                            val = sp * coup_data[vrow + (o & 0x7FFF)];
+                            if (o & 0x8000) val = -val;
                         }
                         const long long xs = xrow + j_src;
                         #pragma unroll
                         for (int v = 0; v < NVEC; ++v) acc[v] += val * XAT(v, xs);
                     }
                 }
+#endif
             }
         }
         #pragma unroll
@@ -147,13 +233,39 @@ extern "C" __global__ void apply_tables(
 
 
 @cache
-def _kernel(nvec: int, interleaved: bool) -> cp.RawKernel:
-    """Compile (once per vector count and layout) and return the kernel."""
+def _kernel(
+    nvec: int,
+    interleaved: bool,
+    packed: bool,
+    lean: bool = False,
+    threads: int = THREADS,
+    min_blocks: int = 1,
+) -> cp.RawKernel:
+    """Compile (once per vector count, layout and variant) and return the kernel."""
     mod = cp.RawModule(
         code=KERNEL,
-        options=("-std=c++14", f"-DNVEC={nvec}", f"-DINTERLEAVED={int(interleaved)}"),
+        options=(
+            "-std=c++14",
+            f"-DNVEC={nvec}",
+            f"-DINTERLEAVED={int(interleaved)}",
+            f"-DPACKED={int(packed)}",
+            f"-DLEAN={int(lean)}",
+            f"-DTPB={threads}",
+            f"-DMINBLOCKS={min_blocks}",
+        ),
     )
     return mod.get_function("apply_tables")
+
+
+def default_launch() -> tuple[int, int]:
+    """Threads per block and minimum resident blocks (register cap) for this GPU.
+
+    Measured on 28Si spsdpf 1hw, 24Mg 1hw and 48Cr (Nov 2026): 256 threads with at least 3
+    resident blocks per SM is fastest on H200 (compute capability 9.0), with 4 on A100 (8.0),
+    both 1.5 to 1.6x faster than the unconstrained 128-thread launch.
+    """
+    cc = int(cp.cuda.Device().compute_capability)  # e.g. "90" for H200, "80" for A100
+    return (256, 3) if cc >= 90 else (256, 4)
 
 
 def _work_items(
@@ -174,13 +286,27 @@ def _work_items(
 class CudaOperator:
     """A linear operator applied on the GPU from its tables (uploaded once)."""
 
-    def __init__(self, tables: OperatorTables, layout: str = "rows") -> None:
+    def __init__(
+        self,
+        tables: OperatorTables,
+        layout: str = "rows",
+        packed: bool = True,
+        threads: int | None = None,
+        lean: bool = True,
+        min_blocks: int | None = None,
+    ) -> None:
+        """Upload ``tables``; the keyword options select kernel variants (see the module)."""
         if layout not in ("rows", "interleaved"):
             msg = f"layout must be 'rows' or 'interleaved', not {layout!r}"
             raise ValueError(msg)
         t0 = time.perf_counter()
         self.tables = tables
         self.layout = layout
+        self.packed = packed
+        d_threads, d_min_blocks = default_launch()
+        self.threads = d_threads if threads is None else threads
+        self.lean = lean
+        self.min_blocks = d_min_blocks if min_blocks is None else min_blocks
         t = tables
         dst, src = t.dst, t.src
         block, k0, self.items_first = _work_items(t)
@@ -194,6 +320,10 @@ class CudaOperator:
 
         self._item_block = i32(block)
         self._item_k0 = i32(k0)
+        pk = (np.asarray(t.jump_src, dtype=np.uint64) << np.uint64(16)) | np.asarray(
+            t.jump_op, dtype=np.int16
+        ).view(np.uint16).astype(np.uint64)
+        self._jump_pk = dev(pk) if packed else dev(np.zeros(1, dtype=np.uint64))
         self._args = (
             i64(dst.block_offset),
             i32(dst.block_psub),
@@ -211,8 +341,10 @@ class CudaOperator:
             dev(np.ascontiguousarray(t.task_kind, dtype=np.int8)),
             i64(t.jump_table_start),
             i64(t.jump_row_ptr),
-            i32(t.jump_src),
-            dev(np.ascontiguousarray(t.jump_op, dtype=np.int16)),
+            # the packed kernel reads only jump_pk: do not keep the unpacked copy on the device
+            i32(t.jump_src if not packed else np.zeros(1, np.int32)),
+            dev(np.ascontiguousarray(t.jump_op if not packed else np.zeros(1), dtype=np.int16)),
+            self._jump_pk,
             i64(t.coup_start),
             i32(t.coup_ncol),
             dev(np.ascontiguousarray(t.coup_data, dtype=np.float64)),
@@ -268,13 +400,17 @@ class CudaOperator:
         n_items = i1 - i0
         if n_items == 0:
             return
-        blocks = min((n_items * WARP + THREADS - 1) // THREADS, 65535 * 8)
-        _kernel(nvec, inter)(
+        item_block, item_k0 = self._item_block[i0:i1], self._item_k0[i0:i1]
+        threads, min_blocks = self.threads, self.min_blocks
+        if nvec > CAP_MAX_NVEC:  # more accumulators: a register cap would spill (3-6x slower)
+            threads, min_blocks = THREADS, 1
+        blocks = min((n_items * WARP + threads - 1) // threads, 65535 * 8)
+        _kernel(nvec, inter, self.packed, self.lean, threads, min_blocks)(
             (blocks,),
-            (THREADS,),
+            (threads,),
             (
-                self._item_block[i0:i1],
-                self._item_k0[i0:i1],
+                item_block,
+                item_k0,
                 np.int64(n_items),
                 *self._args,
                 cp.ascontiguousarray(x, dtype=cp.float64),

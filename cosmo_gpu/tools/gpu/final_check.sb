@@ -1,0 +1,16 @@
+#!/bin/bash
+# GPU tests (including slow), end-to-end benchmark and kernel-variant table on one GPU.
+#   sbatch --gpus=h200:1 tools/gpu/final_check.sb
+#SBATCH --job-name=gpu-final
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=2:00:00
+#SBATCH --output=gpu-final-%j.out
+set -uo pipefail
+nvidia-smi --query-gpu=name --format=csv,noheader
+export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+F="numbawarning\|warnings.warn\|tbb"
+uv run --no-sync pytest -q -p no:cacheprovider -m "slow or not slow" --durations=3 tests/test_gpu.py 2>&1 | grep -v -i "$F" | tail -6
+uv run --no-sync python tools/stage4_bench.py 2>&1 | grep --line-buffered -v -i "$F"
+uv run --no-sync python tools/gpu/variant_bench.py 2>&1 | grep --line-buffered -v -i "$F"

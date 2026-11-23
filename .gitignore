@@ -39,3 +39,10 @@ cosmo_gpu/tests/data/kshell/runs/*_benchfullnode/
 cosmo_gpu/tests/data/kshell/runs/*_bencht16/
 cosmo_gpu/tests/data/kshell/runs/*_bencht16_28si/
 cosmo_gpu/block-sweep-*.out
+cosmo_gpu/gpu-profile-*.out
+cosmo_gpu/tools/gpu/profiles/*.ncu-rep
+cosmo_gpu/tools/gpu/profiles/*.nsys-rep
+cosmo_gpu/tools/gpu/profiles/*.sqlite
+cosmo_gpu/variant-bench-*.out
+cosmo_gpu/gpu-final-*.out
+cosmo_gpu/ab-bench-*.out

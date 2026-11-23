@@ -5,6 +5,8 @@ Run on GPU nodes with ``tools/gpu/gpu_tests.sb``.
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np
 import pytest
 
@@ -133,3 +135,47 @@ def test_48cr_on_gpu_matches_kshell():
     assert lev.basis.dim == rec["dimension"]
     np.testing.assert_allclose(lev.energies, rec["energies"], atol=1e-8, rtol=0)
     np.testing.assert_array_equal(np.rint(2 * lev.spins).astype(int), rec["jj"])
+
+
+VARIANTS: dict[str, dict[str, Any]] = {
+    "original": {"lean": False, "packed": False, "threads": 128, "min_blocks": 1},
+    "lean_unpacked": {"packed": False},
+    "default": {},
+    "lean_t128_mb6": {"threads": 128, "min_blocks": 6},
+}
+
+
+@pytest.mark.parametrize("variant", list(VARIANTS))
+@pytest.mark.parametrize("name", REF_CASES)
+def test_kernel_variants_match_references(name: str, variant: str):
+    from cosmo_gpu.onthefly_cuda import CudaOperator
+    from cosmo_gpu.operator_tables import hamiltonian_tables
+
+    basis, inter, ref = _case(name)
+    op = CudaOperator(hamiltonian_tables(basis, inter), **VARIANTS[variant])
+    X = cp.asarray(ref["X"])
+    Y1 = op.matvec(X)
+    Y2 = op.matvec(X)
+    assert bool(cp.all(Y1 == Y2))
+    assert rel_error(cp.asnumpy(Y1), ref["Y"], _scale(name)) < TOL
+    # split sources (the full-range sort does not apply to partial calls)
+    Y = cp.full(ref["Y"].shape, np.nan)
+    cuts = np.linspace(0, basis.n_blocks, 3).astype(int)
+    for k in range(2):
+        s0, s1 = int(cuts[k]), int(cuts[k + 1])
+        lo, hi = basis.block_offset[s0], basis.block_offset[s1]
+        op.apply(cp.ascontiguousarray(X[:, lo:hi]), Y, src_range=(s0, s1), accumulate=k > 0)
+    assert rel_error(cp.asnumpy(Y), ref["Y"], _scale(name)) < TOL
+
+
+@pytest.mark.parametrize("nvec", [1, 8])
+def test_default_kernel_other_block_sizes(nvec: int):
+    """Wider blocks fall back to the uncapped launch; results are unchanged."""
+    from cosmo_gpu.onthefly import hamiltonian_operator
+    from cosmo_gpu.onthefly_cuda import hamiltonian_cuda
+
+    s = build_system("20Ne", "spsdpf", "fsu9", parity=-1, hw=(1, 1))
+    X = np.random.default_rng(21).standard_normal((nvec, s.basis.dim))
+    cpu = hamiltonian_operator(s.basis, s.inter).matvec(X)
+    gpu = cp.asnumpy(hamiltonian_cuda(s.basis, s.inter).matvec(cp.asarray(X)))
+    assert float(np.max(np.abs(gpu - cpu)) / np.max(np.abs(cpu))) < 1e-13

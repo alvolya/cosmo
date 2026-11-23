@@ -24,7 +24,7 @@ Stages 1 (CPU reference), 0b (GPU smoke test), 2 (operator layer), 3 (on-the-fly
   the kernel ABI's source/destination ranges and accumulate flag (`--matvec otf`, automatic above
   2 x 10^5 states); 48Cr in the pf shell (D = 1,963,461) matches KSHELL to 1e-8 MeV;
 - the same matvec as one CUDA kernel with the Lanczos solve on the GPU (`--matvec gpu`, needs the
-  `gpu` extra): 28Si spsdpf 1ħω (D = 3.8 x 10^6, 10 states) in 18 s on one H200, against 607 s
+  `gpu` extra): 28Si spsdpf 1ħω (D = 3.8 x 10^6, 10 states) in 14 s on one H200, against 607 s
   for our CPU kernel and 661 s for KSHELL on 16 cores;
 - E2, M1, Gamow-Teller, occupations, one-body densities and spectroscopic factors with reduced
   matrix elements, and Lanczos strength functions.

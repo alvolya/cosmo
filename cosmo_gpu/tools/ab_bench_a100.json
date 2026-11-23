@@ -1,0 +1,30 @@
+{
+ "gpu": "NVIDIA A100-SXM4-80GB",
+ "48Cr_kb3g": {
+  "original_ms": 45.403,
+  "default_ms": 28.876,
+  "speedup_median": 1.572,
+  "speedup_min_max": [
+   1.57,
+   1.575
+  ]
+ },
+ "24Mg_1hw-": {
+  "original_ms": 20.225,
+  "default_ms": 12.387,
+  "speedup_median": 1.632,
+  "speedup_min_max": [
+   1.63,
+   1.637
+  ]
+ },
+ "28Si_1hw-": {
+  "original_ms": 98.257,
+  "default_ms": 60.748,
+  "speedup_median": 1.617,
+  "speedup_min_max": [
+   1.616,
+   1.619
+  ]
+ }
+}
