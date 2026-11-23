@@ -140,6 +140,8 @@ def run_case(kshell_bin: Path, case: Case) -> dict[str, object]:
             env={**os.environ, "GFORTRAN_UNBUFFERED_PRECONNECTED": "y"},
         )
     seconds = time.perf_counter() - t0
+    for tmp in work.glob("tmp_*"):
+        tmp.unlink()
     text = log.read_text()
     dim = re.search(r"total m-scheme dimension\s+(\d+)", text)
     converged = "H converged" in text

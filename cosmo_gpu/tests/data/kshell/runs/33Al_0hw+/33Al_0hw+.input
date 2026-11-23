@@ -1,0 +1,15 @@
+&input
+  beta_cm = 0.0
+  fn_int = "/mnt/ffs24/home/beyerkyl/cosmo/cosmo_gpu/tests/data/kshell/snt/fsu9_A33.snt"
+  fn_ptn = "33Al_0hw+.ptn"
+  fn_save_wave = "33Al_0hw+.wav"
+  hw_type = 1
+  is_double_j = .false.
+  max_lanc_vec = 200
+  maxiter = 2000
+  mode_lv_hdd = 0
+  mtot = 1
+  n_eigen = 10
+  n_restart_vec = 15
+  tol = 1e-10
+&end

@@ -29,6 +29,7 @@ SNT = DATA / "snt"
 REFERENCE = DATA / "kshell_reference.json"
 KSHELL_TOL = 1e-8  # MeV
 TBME_TOL = 1e-7  # nushell2snt prints 8 decimals
+FAST_DIM_LIMIT = 20_000  # larger energy comparisons run with -m slow
 
 RECORDS = json.loads(REFERENCE.read_text()) if REFERENCE.exists() else {}
 
@@ -36,7 +37,8 @@ RECORDS = json.loads(REFERENCE.read_text()) if REFERENCE.exists() else {}
 def _cases(slow_ok: bool = True) -> list[Any]:
     out = []
     for name, rec in sorted(RECORDS.items()):
-        marks = [pytest.mark.slow] if rec["slow"] and slow_ok else []
+        heavy = rec["slow"] or rec["dimension"] > FAST_DIM_LIMIT
+        marks = [pytest.mark.slow] if heavy and slow_ok else []
         out.append(pytest.param(rec, id=name, marks=marks))
     return out or [pytest.param(None, id="no-reference", marks=pytest.mark.skip("no KSHELL data"))]
 

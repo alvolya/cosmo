@@ -21,5 +21,8 @@ cosmo_gpu/tests/data/*.out
 core.*
 # uv project environment
 cosmo_gpu/.venv/
-cosmo_gpu/tests/data/kshell/runs/
+cosmo_gpu/tests/data/kshell/runs/**/*.wav
+cosmo_gpu/tests/data/kshell/runs/**/*.ptn
+cosmo_gpu/tests/data/kshell/runs/**/tmp_*
 cosmo_gpu/kshell-ref-*.out
+cosmo_gpu/slow-*.out

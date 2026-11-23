@@ -44,6 +44,28 @@ def write_sp(space: ModelSpace, path: Path) -> None:
     path.write_text("\n".join(lines) + "\n")
 
 
+def fix_line_count(interaction: Path, tmp: Path) -> Path:
+    """Return the file, or a copy whose header count matches its TBME lines.
+
+    ``nushell2snt.py`` reads exactly the declared number of TBMEs, while CoSMo reads them all
+    and only warns. ``fp/kb3g.int`` declares 194 and lists 195, so without this the last
+    element (p1/2^2 J=1 T=0) would be dropped silently.
+    """
+    lines = interaction.read_text().splitlines()
+    data = [i for i, ln in enumerate(lines) if ln.strip() and ln.lstrip()[0] not in "!#"]
+    head = lines[data[0]].split()
+    count = int(float(head[0]))
+    n_tbme = len(data) - 1
+    if count == 0 or abs(count) == n_tbme:
+        return interaction
+    print(f"warning: {interaction.name} declares {abs(count)} TBMEs but lists {n_tbme}; fixed")
+    head[0] = str(n_tbme if count > 0 else -n_tbme)
+    lines[data[0]] = "  ".join(head)
+    fixed = tmp / f"fixed_{interaction.name}"
+    fixed.write_text("\n".join(lines) + "\n")
+    return fixed
+
+
 def nushell2snt(kshell_bin: Path, sp: Path, interaction: Path, out: Path) -> str:
     """Run KSHELL's converter; answer its scaling prompt (asked only without a mass header)."""
     res = subprocess.run(
@@ -134,7 +156,7 @@ def main() -> int:
             converted = []
             for k, f in enumerate(spec.files):
                 out = tmp / f"{ham}_{k}.snt"
-                nushell2snt(kshell_bin, sp, f.path, out)
+                nushell2snt(kshell_bin, sp, fix_line_count(f.path, tmp), out)
                 converted.append((Snt(out), f))
                 print(f"{ham}: converted {f.path.name} ({len(converted[-1][0].tbme)} TBMEs)")
             comment = [
