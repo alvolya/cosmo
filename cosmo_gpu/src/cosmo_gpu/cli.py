@@ -24,6 +24,12 @@ from cosmo_gpu.modelspace import (
     load_model_space,
     parse_nucleus,
 )
+from cosmo_gpu.onthefly import (
+    OnTheFlyOperator,
+    hamiltonian_operator,
+    j_expectation_otf,
+    jplus_operator,
+)
 from cosmo_gpu.operators import (
     MatrixCache,
     State,
@@ -40,6 +46,7 @@ from cosmo_gpu.strength import lanczos_strength
 from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, parse_rejection
 
 DENSE_LIMIT = 2000
+OTF_LIMIT = 200_000  # 'auto' uses the on-the-fly matvec above this dimension
 BAD_SPIN_TOL = 1e-4
 
 
@@ -55,7 +62,16 @@ class Levels:
     n_matvec: int
     timings: dict[str, float]
     vectors: NDArray[np.float64] | None = None
-    H: sp.csr_matrix | None = None
+    H: sp.csr_matrix | OnTheFlyOperator | None = None
+
+    def matvec(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
+        """``X H^T`` for a block of row vectors, with whichever H was used."""
+        if self.H is None:
+            msg = "no Hamiltonian stored"
+            raise ValueError(msg)
+        if isinstance(self.H, OnTheFlyOperator):
+            return self.H.matvec(X)
+        return np.ascontiguousarray((self.H @ np.atleast_2d(X).T).T)
 
     def states(self) -> list[State]:
         """Return the eigenvectors as ``operators.State`` objects.
@@ -107,6 +123,27 @@ def load_interaction(
     return space, zv, nv, to_mscheme(read_interaction(spec, space, zv + nv, cosmo_float32))
 
 
+Solution = tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], bool, int]
+
+
+def _diagonalize(
+    H: sp.csr_matrix | OnTheFlyOperator, dim: int, nev: int, block: int, tol: float
+) -> Solution:
+    """Lowest ``nev`` pairs: dense for a small stored H, block Lanczos otherwise."""
+    if isinstance(H, sp.csr_matrix) and dim <= DENSE_LIMIT:
+        w, v = sla.eigh(H.toarray())
+        return w[:nev], np.ascontiguousarray(v[:, :nev].T), np.zeros(nev), True, 0
+    if isinstance(H, OnTheFlyOperator):
+        mv = H.matvec
+    else:
+
+        def mv(X: NDArray[np.float64]) -> NDArray[np.float64]:
+            return np.ascontiguousarray((H @ X.T).T)
+
+    res = block_lanczos(mv, dim, nev, NumpyBackend(), block=block, tol=tol)
+    return res.eigenvalues, res.eigenvectors, res.residuals, res.converged, res.n_matvec
+
+
 def compute_levels(
     nucleus: str,
     space_name: str | None,
@@ -121,8 +158,12 @@ def compute_levels(
     rejections: tuple[str, ...] = (),
     snt: Path | None = None,
     system: CosmoSystem | None = None,
+    matvec: str = "auto",
 ) -> Levels:
-    """Build the basis and stored H, then diagonalize (dense below ``DENSE_LIMIT``).
+    """Build the basis and H, then diagonalize (dense below ``DENSE_LIMIT``).
+
+    ``matvec`` is "stored" (CSR reference path), "otf" (operator tables and the on-the-fly
+    kernel; H is never stored) or "auto" (on the fly above ``OTF_LIMIT`` states).
 
     ``hw`` is the Nħω window above the lowest configuration and ``rejections`` are occupation
     windows in CoSMo's ``ORBS:TYPE:NMIN:NMAX`` form. ``parity`` is required in spaces that mix
@@ -162,34 +203,33 @@ def compute_levels(
         raise ValueError(msg)
     t["basis"] = time.perf_counter() - t0
 
+    if matvec not in ("auto", "stored", "otf"):
+        msg = f"matvec must be 'auto', 'stored' or 'otf', not {matvec!r}"
+        raise ValueError(msg)
+    otf = basis.dim > DENSE_LIMIT and (
+        matvec == "otf" or (matvec == "auto" and basis.dim > OTF_LIMIT)
+    )
     t0 = time.perf_counter()
-    H = hamiltonian_csr(basis, inter)
-    jplus, _ = jplus_csr(basis)
-    t["build_H"] = time.perf_counter() - t0
+    H: sp.csr_matrix | OnTheFlyOperator
+    if otf:
+        H = hamiltonian_operator(basis, inter)
+        jop = jplus_operator(basis)
+        t["build_tables"] = time.perf_counter() - t0
+    else:
+        H = hamiltonian_csr(basis, inter)
+        jplus, _ = jplus_csr(basis)
+        t["build_H"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    nev = min(nev, basis.dim)
-    energies: NDArray[np.float64]
-    vectors: NDArray[np.float64]
-    residuals: NDArray[np.float64]
-    if basis.dim <= DENSE_LIMIT:
-        w, v = sla.eigh(H.toarray())
-        energies, vectors = w[:nev], np.ascontiguousarray(v[:, :nev].T)
-        residuals = np.zeros(nev)
-        converged, n_matvec = True, 0
-    else:
-        res = block_lanczos(
-            lambda X: np.ascontiguousarray((H @ X.T).T),
-            basis.dim,
-            nev,
-            NumpyBackend(),
-            block=block,
-            tol=tol,
-        )
-        energies, vectors = res.eigenvalues, res.eigenvectors
-        residuals, converged, n_matvec = res.residuals, res.converged, res.n_matvec
+    energies, vectors, residuals, converged, n_matvec = _diagonalize(
+        H, basis.dim, min(nev, basis.dim), block, tol
+    )
     t["solve"] = time.perf_counter() - t0
-    spins = j_expectation(vectors, jplus, basis.m2)
+    spins = (
+        j_expectation_otf(vectors, jop, basis.m2)
+        if otf
+        else j_expectation(vectors, jplus, basis.m2)
+    )
     return Levels(basis, energies, spins, residuals, converged, n_matvec, t, vectors, H)
 
 
@@ -356,13 +396,9 @@ def _cmd_strength(args: argparse.Namespace) -> int:
     if states is None:
         return 1
     g = states[0]
-    if lev.H is None:
-        msg = "no Hamiltonian stored"
-        raise RuntimeError(msg)
-    H = lev.H
     pivot = tensor_matrix(op, 0, lev.basis, lev.basis) @ g.vector
     st = lanczos_strength(
-        lambda X: np.ascontiguousarray((H @ X.T).T),
+        lev.matvec,
         np.ascontiguousarray(pivot[None, :]),
         args.steps,
         NumpyBackend(),
@@ -391,6 +427,12 @@ def main(argv: list[str] | None = None) -> int:
     lv.add_argument("--system", default=None, help="system name in a multi-system CoSMo XML")
     lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
     lv.add_argument("--block", type=int, default=4)
+    lv.add_argument(
+        "--matvec",
+        choices=("auto", "stored", "otf"),
+        default="auto",
+        help="stored CSR H, on-the-fly from tables, or auto (otf above 2e5 states)",
+    )
     lv.add_argument("--tol", type=float, default=1e-8)
 
     tr = sub.add_parser("transitions", help="B(E2) or B(M1) among the lowest levels")
@@ -445,6 +487,7 @@ def _cmd_levels(args: argparse.Namespace, parser: argparse.ArgumentParser) -> in
         tuple(args.rejection),
         args.snt,
         system,
+        args.matvec,
     )
     b = lev.basis
     sign = "+" if b.parity > 0 else "-"

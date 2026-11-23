@@ -57,3 +57,46 @@ def test_otf_shape_errors():
     op = hamiltonian_operator(s.basis, s.inter)
     with pytest.raises(ValueError, match="must be"):
         op.apply(np.zeros((2, 5)), np.zeros((2, s.basis.dim)))
+
+
+@pytest.mark.parametrize(
+    ("nucleus", "space", "ham", "parity", "hw"),
+    [("24Mg", "sd", "usdb", 1, None), ("20Ne", "spsdpf", "fsu9", -1, (1, 1))],
+)
+def test_compute_levels_otf_equals_stored(nucleus, space, ham, parity, hw):
+    from cosmo_gpu.cli import compute_levels
+    from cosmo_gpu.onthefly import OnTheFlyOperator
+
+    kw = {"nev": 6, "parity": parity, "hw": hw, "tol": 1e-10}
+    a = compute_levels(nucleus, space, ham, matvec="stored", **kw)
+    b = compute_levels(nucleus, space, ham, matvec="otf", **kw)
+    assert isinstance(b.H, OnTheFlyOperator)
+    assert "build_tables" in b.timings
+    np.testing.assert_allclose(b.energies, a.energies, atol=1e-10)
+    np.testing.assert_allclose(b.spins, a.spins, atol=1e-8)
+    X = np.random.default_rng(8).standard_normal((2, a.basis.dim))
+    assert _rel(b.matvec(X), a.matvec(X)) < 1e-13
+
+
+def test_lanczos_keep_and_history():
+    from cosmo_gpu.backend import NumpyBackend
+    from cosmo_gpu.lanczos import block_lanczos
+
+    s = _system("25Mg")
+    calls: list[tuple[int, np.ndarray, np.ndarray]] = []
+    res = block_lanczos(
+        lambda X: np.ascontiguousarray((s.H @ X.T).T),
+        s.basis.dim,
+        5,
+        NumpyBackend(),
+        block=4,
+        ncv=40,
+        n_keep=15,
+        tol=1e-10,
+        history=lambda n, th, r: calls.append((n, th, r)),
+    )
+    assert res.converged
+    assert calls
+    assert calls[-1][0] == res.n_matvec
+    assert np.all(np.diff([c[0] for c in calls]) > 0)
+    np.testing.assert_allclose(calls[-1][1], res.eigenvalues)

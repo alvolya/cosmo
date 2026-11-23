@@ -106,6 +106,8 @@ def block_lanczos(
     max_restarts: int = 1000,
     seed: int = 12345,
     start: Array | None = None,
+    n_keep: int | None = None,
+    history: Callable[[int, NDArray[np.float64], NDArray[np.float64]], None] | None = None,
 ) -> LanczosResult:
     """Lowest ``nev`` eigenpairs of ``matvec`` by block thick-restart Lanczos.
 
@@ -133,6 +135,12 @@ def block_lanczos(
         Seed of the random start block and of replacement directions.
     start
         Optional ``(b, dim)`` start block.
+    n_keep
+        Ritz vectors kept at a thick restart (KSHELL's ``n_restart_vec``); default
+        ``max(nev + b, (k + nev) // 2)`` for a basis of ``k`` vectors.
+    history
+        Optional callback ``history(n_matvec, ritz_values, residuals)`` for the wanted pairs,
+        called before each restart and at the end.
 
     Returns
     -------
@@ -179,6 +187,8 @@ def block_lanczos(
         theta, S = sla.eigh(T[:k, :k])
         coupling = R.T @ S[cur : cur + b, :]
         resid = np.linalg.norm(coupling, axis=0)
+        if history is not None:
+            history(n_matvec, theta[:nev].copy(), resid[:nev].copy())
         wanted = resid[:nev] <= tol * np.maximum(1.0, np.abs(theta[:nev]))
         if bool(np.all(wanted)) or restart == max_restarts:
             vecs = backend.combine(np.ascontiguousarray(S[:, :nev].T), V[:k])
@@ -191,7 +201,10 @@ def block_lanczos(
                 n_restart=restart,
             )
 
-        p = min(ncv - 2 * b, max(nev + b, (k + nev) // 2))
+        if n_keep is None:
+            p = min(ncv - 2 * b, max(nev + b, (k + nev) // 2))
+        else:
+            p = min(ncv - 2 * b, max(nev, n_keep))
         _thick_restart(V, T, S[:, :p], theta[:p], coupling[:, :p], q, k, backend)
         k, cur = p + b, p
 
