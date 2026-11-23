@@ -1,0 +1,64 @@
+Program: XSHLAO
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+ system 24Mg_usdb_M0T0+
+ states 14
+<state J="0" P="+" T="0" E="-87.1044" dE="2.84217e-14" name="0+(1)" Ex="0">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="0"/>
+</state>
+
+<state J="2" P="+" T="0" E="-85.6021" dE="2.84217e-14" name="2+(1)" Ex="1.5023">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="1"/>
+</state>
+
+<state J="2" P="+" T="0" E="-82.9883" dE="1.42109e-14" name="2+(2)" Ex="4.1161">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="2"/>
+</state>
+
+<state J="4" P="+" T="0" E="-82.732" dE="4.26326e-14" name="4+(1)" Ex="4.3724">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="3"/>
+</state>
+
+<state J="3" P="+" T="0" E="-82.0341" dE="2.84217e-14" name="3+(1)" Ex="5.0703">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="4"/>
+</state>
+
+<state J="4" P="+" T="0" E="-81.2219" dE="9.9476e-14" name="4+(2)" Ex="5.8825">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="5"/>
+</state>
+
+<state J="0" P="+" T="0" E="-79.7662" dE="8.52651e-14" name="0+(2)" Ex="7.3382">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="6"/>
+</state>
+
+<state J="2" P="+" T="0" E="-79.6227" dE="2.84217e-14" name="2+(3)" Ex="7.4817">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="7"/>
+</state>
+
+<state J="5" P="+" T="0" E="-79.3076" dE="2.84217e-14" name="5+(1)" Ex="7.7968">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="8"/>
+</state>
+
+<state J="1" P="+" T="0" E="-79.2863" dE="0" name="1+(1)" Ex="7.8181">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="9"/>
+</state>
+
+<state J="6" P="+" T="0" E="-78.8349" dE="5.68434e-14" name="6+(1)" Ex="8.2695">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="10"/>
+</state>
+
+<state J="4" P="+" T="0" E="-78.795" dE="2.84217e-14" name="4+(3)" Ex="8.3094">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="11"/>
+</state>
+
+<state J="2" P="+" T="0" E="-78.1371" dE="2.84217e-14" name="2+(4)" Ex="8.9673">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="12"/>
+</state>
+
+<state J="4" P="+" T="1" E="-77.7056" dE="9.9476e-14" name="4+(4)" Ex="9.3988">
+	<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="13"/>
+</state>
+

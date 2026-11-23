@@ -1,0 +1,56 @@
+Program: XSHLAO
+Author: Alexander Volya, http://www.volya.net
+Version date: Nov 18 2026
+Compiler: 14.3.0
+
+Maximum value for <spsint> 65535
+ system 20Ne_usdb_M0T0+
+ states 12
+<state J="0" P="+" T="0" E="-40.4723" dE="2.84217e-14" name="0+(1)" Ex="0">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="0"/>
+</state>
+
+<state J="2" P="+" T="0" E="-38.7256" dE="0" name="2+(1)" Ex="1.7467">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="1"/>
+</state>
+
+<state J="4" P="+" T="0" E="-36.2971" dE="2.13163e-14" name="4+(1)" Ex="4.1752">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="2"/>
+</state>
+
+<state J="0" P="+" T="0" E="-33.7742" dE="7.10543e-15" name="0+(2)" Ex="6.6981">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="3"/>
+</state>
+
+<state J="2" P="+" T="0" E="-32.9294" dE="0" name="2+(2)" Ex="7.5429">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="4"/>
+</state>
+
+<state J="6" P="+" T="0" E="-31.9252" dE="1.77636e-14" name="6+(1)" Ex="8.5471">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="5"/>
+</state>
+
+<state J="4" P="+" T="0" E="-30.527" dE="1.06581e-14" name="4+(2)" Ex="9.9453">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="6"/>
+</state>
+
+<state J="2" P="+" T="1" E="-30.5142" dE="1.06581e-14" name="2+(3)" Ex="9.9581">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="7"/>
+</state>
+
+<state J="2" P="+" T="0" E="-29.9792" dE="1.42109e-14" name="2+(4)" Ex="10.4931">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="8"/>
+</state>
+
+<state J="3" P="+" T="0" E="-29.9622" dE="8.26627e-05" name="3+(1)" Ex="10.5101">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="9"/>
+</state>
+
+<state J="3" P="+" T="1" E="-29.9187" dE="1.06581e-14" name="3+(2)" Ex="10.5536">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="10"/>
+</state>
+
+<state J="4" P="+" T="0" E="-29.7579" dE="2.13163e-14" name="4+(3)" Ex="10.7144">
+	<wavefunction Jz="0" Tz="0" file="20Ne_usdb_M0T0+.HH.EE" id="11"/>
+</state>
+

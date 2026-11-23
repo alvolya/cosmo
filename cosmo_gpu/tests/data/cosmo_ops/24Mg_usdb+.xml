@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cosmo version="4.1">
+	<valencespace name="sd">
+		<core name="16O" N="8" Z="8"/>
+		<orbital name="0d3" n="0" l="2" j="3/2" type="pn" index="1"/>
+		<orbital name="0d5" n="0" l="2" j="5/2" type="pn" index="2"/>
+		<orbital name="1s1" n="1" l="0" j="1/2" type="pn" index="3"/>
+		<outercore name="40Ca" N="20" Z="20"/>
+	</valencespace>
+	<hamiltonian name="usdb" valencespace="sd">
+		<file format="ascii">
+			<name>usdb.int</name>
+			<formulascale rank="2">(18/A)^(0.3)</formulascale>
+		</file>
+		<comment>Phys. Rev. C74, 034315 (2006)</comment>
+		<reference doi="10.1103/PhysRevC.78.064302">PHYSICAL REVIEW C 78, 064302 (2008)</reference>
+	</hamiltonian>
+	<system Av="8" Nv="4" Zv="4" A="24" Tz="0" Jz="0" P="+" name="24Mg_usdb_M0T0+">
+		<ManyBodyStates name="24Mg_usdb_M0T0+.mbs" size="28503" creator="MakeMBS2"/>
+		<matrix name="24Mg_usdb_M0T0+.HH" format="pp"/>
+		<state J="0" P="+" T="0" E="-87.1044" dE="2.84217e-14" name="0+(1)" Ex="0">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="0"/>
+		</state>
+		<state J="2" P="+" T="0" E="-85.6021" dE="2.84217e-14" name="2+(1)" Ex="1.5023">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="1"/>
+		</state>
+		<state J="2" P="+" T="0" E="-82.9883" dE="1.42109e-14" name="2+(2)" Ex="4.1161">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="2"/>
+		</state>
+		<state J="4" P="+" T="0" E="-82.732" dE="4.26326e-14" name="4+(1)" Ex="4.3724">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="3"/>
+		</state>
+		<state J="3" P="+" T="0" E="-82.0341" dE="2.84217e-14" name="3+(1)" Ex="5.0703">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="4"/>
+		</state>
+		<state J="4" P="+" T="0" E="-81.2219" dE="9.9476e-14" name="4+(2)" Ex="5.8825">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="5"/>
+		</state>
+		<state J="0" P="+" T="0" E="-79.7662" dE="8.52651e-14" name="0+(2)" Ex="7.3382">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="6"/>
+		</state>
+		<state J="2" P="+" T="0" E="-79.6227" dE="2.84217e-14" name="2+(3)" Ex="7.4817">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="7"/>
+		</state>
+		<state J="5" P="+" T="0" E="-79.3076" dE="2.84217e-14" name="5+(1)" Ex="7.7968">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="8"/>
+		</state>
+		<state J="1" P="+" T="0" E="-79.2863" dE="0" name="1+(1)" Ex="7.8181">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="9"/>
+		</state>
+		<state J="6" P="+" T="0" E="-78.8349" dE="5.68434e-14" name="6+(1)" Ex="8.2695">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="10"/>
+		</state>
+		<state J="4" P="+" T="0" E="-78.795" dE="2.84217e-14" name="4+(3)" Ex="8.3094">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="11"/>
+		</state>
+		<state J="2" P="+" T="0" E="-78.1371" dE="2.84217e-14" name="2+(4)" Ex="8.9673">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="12"/>
+		</state>
+		<state J="4" P="+" T="1" E="-77.7056" dE="9.9476e-14" name="4+(4)" Ex="9.3988">
+			<wavefunction Jz="0" Tz="0" file="24Mg_usdb_M0T0+.HH.EE" id="13"/>
+		</state>
+	</system>
+</cosmo>

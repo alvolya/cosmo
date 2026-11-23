@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --job-name=cosmo-ops
+#SBATCH --partition=general-short
+#SBATCH --constraint=amd24
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=16G
+#SBATCH --time=1:00:00
+#SBATCH --output=ops-%j.out
+# CoSMo references for stage-2 operators. Submit from this directory: sbatch ops.sb
+# Systems were written with the cosmo skill's make_system.py (sd usdb, default Jz and parity).
+source ~/cosmo/cosmovar.sh ~/cosmo >/dev/null  # before set -u: the script reads unset vars
+set -euo pipefail
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+for x in 20Ne 22Na 24Mg 25Mg; do
+    if ! grep -q "<state " ${x}_usdb+.xml; then
+        DEXHVJTcsb ${x}_usdb+.xml -n 14 -i 1200 -l 1 </dev/null > dex-$x.log 2>&1
+    fi
+    printf 'E\n2\n0.5\n1.5\n\n' | XSHLEMB ${x}_usdb+.xml -o ${x}_E2.xml > emb-E2-$x.log 2>&1
+    printf 'M\n1\n\n\n\n\n\n' | XSHLEMB ${x}_usdb+.xml -o ${x}_M1.xml > emb-M1-$x.log 2>&1
+    XSHLAO ${x}_usdb+.xml -o ${x}_occ.txt > ao-$x.log 2>&1 || true
+done
+# XSHLSF wants the parent to have one nucleon more (removal); -of does not parse here
+XSHLSF 25Mg_usdb+.xml -f 24Mg_usdb+.xml -o sf-25Mg-24Mg.txt </dev/null > sf-25Mg-24Mg.log 2>&1
+python3 extract_ops.py
+echo done
