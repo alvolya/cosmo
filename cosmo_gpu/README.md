@@ -8,7 +8,7 @@ KSHELL as numerical oracles. The design and staged plan are in
 
 ## Status
 
-Stages 1 (CPU reference), 0b (GPU smoke test) and 2 (operator layer) are complete; stage 3 (on-the-fly CPU kernel) is next. The code has:
+Stages 1 (CPU reference), 0b (GPU smoke test), 2 (operator layer) and 3 (on-the-fly CPU kernel) are complete; stage 4 (GPU kernel) is next. The code has:
 
 - valence spaces and OXBASH isospin interactions (multi-file, scaled, mass-dependent) from
   CoSMo's `int.xml`, KSHELL `.snt` proton-neutron interactions (`--snt`), and CoSMo system
@@ -18,8 +18,11 @@ Stages 1 (CPU reference), 0b (GPU smoke test) and 2 (operator layer) are complet
   partition so a truncated space is never enumerated in full;
 - stored-CSR Hamiltonian and J+ built from bitstrings (the reference path, not for production);
 - block thick-restart Lanczos behind a vector-backend interface (NumPy and CuPy backends);
-- operator tables for H and J+ (jump, coupling, same-species and task tables, the stage-3 kernel
-  input) and the remote-fraction count for multi-GPU planning;
+- operator tables for H and J+ (jump, coupling, same-species and task tables) and the
+  remote-fraction count for multi-GPU planning;
+- an on-the-fly matvec (Numba) that applies H and J+ from those tables without storing H, with
+  the kernel ABI's source/destination ranges and accumulate flag (`--matvec otf`, automatic above
+  2 x 10^5 states); 48Cr in the pf shell (D = 1,963,461) matches KSHELL to 1e-8 MeV;
 - E2, M1, Gamow-Teller, occupations, one-body densities and spectroscopic factors with reduced
   matrix elements, and Lanczos strength functions.
 
@@ -45,6 +48,7 @@ The package is a [uv](https://docs.astral.sh/uv/) project. Python ≥ 3.12 is re
 uv sync                                     # creates .venv with the package and dev tools
 uv run cosmo-gpu levels 24Mg sd usdb -n 10  # or: uv run python -m cosmo_gpu levels ...
 uv run cosmo-gpu levels 33Al spsdpf fsu9 --parity -1 --hw 1:1 -n 10
+uv run cosmo-gpu levels 48Cr fp kb3g --matvec otf -n 10   # H never stored (use a Slurm job)
 uv sync --extra gpu                         # add CuPy (also: mpi, io)
 uv run cosmo-gpu levels 24Mg --snt tests/data/kshell/snt/usdb_from_int.snt  # a KSHELL file
 uv run cosmo-gpu levels tests/data/cosmo_fsu9/33Al_1hw-.xml   # rerun a CoSMo system file

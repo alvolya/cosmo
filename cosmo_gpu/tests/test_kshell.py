@@ -143,7 +143,7 @@ def test_isospin_to_pn_matches_kshell_conversion(nucleus, space, ham, snt):
     _assert_equivalent(ours, theirs)
 
 
-TRANSIT = {k: r for k, r in RECORDS.items() if "transit" in r}
+TRANSIT = {k: r for k, r in RECORDS.items() if isinstance(r.get("transit"), dict)}
 
 
 @cache
