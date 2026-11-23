@@ -23,6 +23,7 @@ from cosmo_gpu.backend_cupy import DeviceArray
 from cosmo_gpu.basis import MBasis
 from cosmo_gpu.interaction import MSchemeInteraction
 from cosmo_gpu.operator_tables import OperatorTables, hamiltonian_tables, jplus_tables
+from cosmo_gpu.reference_csr import j_from_jsq
 
 WARP = 32
 THREADS = 128
@@ -314,3 +315,11 @@ def jplus_cuda(basis: MBasis, layout: str = "rows") -> CudaOperator:
     """J+ from ``basis`` (2M) to the basis with 2M + 2, on the GPU."""
     tables, _ = jplus_tables(basis)
     return CudaOperator(tables, layout)
+
+
+def j_expectation_cuda(vectors: DeviceArray, jplus: CudaOperator, m2: int) -> NDArray[np.float64]:
+    """``J`` of each row of device ``vectors`` from ``<J^2> = |J+ psi|^2 + M (M + 1)``."""
+    M = m2 / 2.0
+    jp = jplus.matvec(vectors)
+    jsq = cp.einsum("ij,ij->i", jp, jp) / cp.einsum("ij,ij->i", vectors, vectors) + M * (M + 1)
+    return j_from_jsq(np.asarray(cp.asnumpy(jsq), dtype=np.float64))

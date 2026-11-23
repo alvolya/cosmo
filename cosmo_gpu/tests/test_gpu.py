@@ -99,3 +99,37 @@ def test_cuda_jplus_matches_stored():
     got = cp.asnumpy(jplus_cuda(s.basis).matvec(cp.asarray(X)))
     want = np.asarray((ref @ X.T).T)
     assert float(np.max(np.abs(got - want)) / np.max(np.abs(want))) < 1e-13
+
+
+@pytest.mark.parametrize(
+    ("nucleus", "space", "ham", "parity", "hw"),
+    [("24Mg", "sd", "usdb", 1, None), ("20Ne", "spsdpf", "fsu9", -1, (1, 1))],
+)
+def test_compute_levels_gpu_equals_cpu(nucleus, space, ham, parity, hw):
+    from cosmo_gpu.cli import compute_levels
+
+    kw = {"nev": 6, "parity": parity, "hw": hw, "tol": 1e-10}
+    a = compute_levels(nucleus, space, ham, matvec="otf", **kw)
+    b = compute_levels(nucleus, space, ham, matvec="gpu", **kw)
+    np.testing.assert_allclose(b.energies, a.energies, atol=1e-10)
+    np.testing.assert_allclose(b.spins, a.spins, atol=1e-8)
+    assert isinstance(b.vectors, np.ndarray)
+    X = np.random.default_rng(13).standard_normal((2, a.basis.dim))
+    assert float(np.max(np.abs(b.matvec(X) - a.matvec(X)))) < 1e-10
+
+
+@pytest.mark.slow
+def test_48cr_on_gpu_matches_kshell():
+    import json
+    from pathlib import Path
+
+    from cosmo_gpu.cli import compute_levels
+
+    rec = json.loads(
+        (Path(__file__).parent / "data" / "kshell" / "kshell_reference.json").read_text()
+    )["48Cr"]
+    snt = Path(__file__).parent / "data" / "kshell" / "snt" / rec["snt"]
+    lev = compute_levels("48Cr", None, None, nev=10, matvec="gpu", tol=1e-10, snt=snt)
+    assert lev.basis.dim == rec["dimension"]
+    np.testing.assert_allclose(lev.energies, rec["energies"], atol=1e-8, rtol=0)
+    np.testing.assert_array_equal(np.rint(2 * lev.spins).astype(int), rec["jj"])

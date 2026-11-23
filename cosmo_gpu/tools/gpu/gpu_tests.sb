@@ -12,5 +12,5 @@ set -euo pipefail
 nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
 export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
 uv sync --locked --extra gpu --quiet
-uv run --no-sync pytest -q -p no:cacheprovider tests/test_gpu.py "$@" 2>&1 \
+uv run --no-sync pytest -q -p no:cacheprovider -m "slow or not slow" --durations=5 tests/test_gpu.py "$@" 2>&1 \
     | grep -v -i "numbawarning\|warnings.warn\|tbb"

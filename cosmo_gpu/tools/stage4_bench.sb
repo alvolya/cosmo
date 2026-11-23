@@ -1,0 +1,14 @@
+#!/bin/bash
+# Stage-4 GPU benchmark on one GPU. Submit from cosmo_gpu/:
+#   sbatch --gpus=h200:1 tools/stage4_bench.sb [case ...]
+#SBATCH --job-name=stage4-bench
+#SBATCH --partition=general-short
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=3:00:00
+#SBATCH --output=stage4-bench-%j.out
+set -euo pipefail
+nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
+lscpu | grep -E "Model name"
+export UV_PROJECT_ENVIRONMENT=.venv-gpu NUMBA_NUM_THREADS=$SLURM_CPUS_PER_TASK
+uv run --no-sync python tools/stage4_bench.py "$@" 2>&1 | grep --line-buffered -v -i "numbawarning\|warnings.warn\|tbb"

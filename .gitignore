@@ -33,3 +33,7 @@ cosmo_gpu/stage3-bench-*.out
 cosmo_gpu/k48cr-*.out
 cosmo_gpu/tests/data/kshell/runs/*_bench/
 cosmo_gpu/gpu-tests-*.out
+cosmo_gpu/stage4-bench-*.out
+cosmo_gpu/cpu-fullnode-*.out
+cosmo_gpu/tests/data/kshell/runs/*_benchfullnode/
+cosmo_gpu/tests/data/kshell/runs/*_bencht16/

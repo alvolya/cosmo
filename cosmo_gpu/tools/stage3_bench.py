@@ -72,6 +72,14 @@ def _kshell_driver() -> ModuleType:
     return mod
 
 
+TAG = os.environ.get("BENCH_TAG", "")
+SOLVE = {n for n in os.environ.get("BENCH_SOLVE", "").split(",") if n}
+
+
+def _solve(b: Bench) -> bool:
+    return b.solve or b.name in SOLVE
+
+
 def ours(b: Bench) -> dict[str, object]:
     """Table setup, matvec timing and (if ``b.solve``) a block-Lanczos run."""
     space, zv, nv, inter = load_interaction(b.nucleus, None, None, SNT / b.snt)
@@ -98,7 +106,7 @@ def ours(b: Bench) -> dict[str, object]:
         "gmadds_per_s": round(BLOCK * op.cost / min(reps) / 1e9, 2),
         "threads": numba.get_num_threads(),
     }
-    if b.solve:
+    if _solve(b):
         history: list[list[object]] = []
         t0 = time.perf_counter()
         res = block_lanczos(
@@ -130,11 +138,11 @@ def kshell(b: Bench, drv: ModuleType, kshell_bin: Path) -> dict[str, object]:
         "max_lanc_vec": NCV,
         "n_restart_vec": KEEP,
         "tol": TOL,
-        "maxiter": 2000 if b.solve else 25,
+        "maxiter": 2000 if _solve(b) else 25,
     }
-    rec: dict[str, object] = drv.run_solver(kshell_bin, case, settings, "bench")
+    rec: dict[str, object] = drv.run_solver(kshell_bin, case, settings, f"bench{TAG}")
     calls = rec.get("operate_calls")
-    if b.solve and calls is not None:
+    if _solve(b) and calls is not None:
         rec["matvecs"] = BLOCK * len(rec["history"])  # one operate (block of 4) per iteration
     return rec
 
@@ -184,8 +192,9 @@ def main(names: list[str]) -> int:
             json.dumps({k: v for k, v in results[b.name]["ours"].items() if k != "history"}),
             flush=True,
         )
-    (OUT / "stage3_bench.json").write_text(json.dumps(results, indent=1) + "\n")
-    (OUT / "stage3_bench.md").write_text(report(results))
+    suffix = f"_{TAG}" if TAG else ""
+    (OUT / f"stage3_bench{suffix}.json").write_text(json.dumps(results, indent=1) + "\n")
+    (OUT / f"stage3_bench{suffix}.md").write_text(report(results))
     print(report(results))
     return 0
 

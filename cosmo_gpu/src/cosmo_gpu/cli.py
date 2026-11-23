@@ -7,6 +7,7 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import scipy.linalg as sla
@@ -47,6 +48,7 @@ from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, pars
 
 DENSE_LIMIT = 2000
 OTF_LIMIT = 200_000  # 'auto' uses the on-the-fly matvec above this dimension
+GPU_LAYOUT = "rows"  # vector layout of the GPU kernel (see onthefly_cuda)
 BAD_SPIN_TOL = 1e-4
 
 
@@ -62,7 +64,7 @@ class Levels:
     n_matvec: int
     timings: dict[str, float]
     vectors: NDArray[np.float64] | None = None
-    H: sp.csr_matrix | OnTheFlyOperator | None = None
+    H: sp.csr_matrix | OnTheFlyOperator | Any | None = None  # Any: CudaOperator (needs CuPy)
 
     def matvec(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
         """``X H^T`` for a block of row vectors, with whichever H was used."""
@@ -71,6 +73,10 @@ class Levels:
             raise ValueError(msg)
         if isinstance(self.H, OnTheFlyOperator):
             return self.H.matvec(X)
+        if not isinstance(self.H, sp.csr_matrix):  # CudaOperator: device round trip
+            import cupy as cp
+
+            return np.asarray(cp.asnumpy(self.H.matvec(cp.asarray(np.atleast_2d(X)))))
         return np.ascontiguousarray((self.H @ np.atleast_2d(X).T).T)
 
     def states(self) -> list[State]:
@@ -123,6 +129,41 @@ def load_interaction(
     return space, zv, nv, to_mscheme(read_interaction(spec, space, zv + nv, cosmo_float32))
 
 
+def _levels_gpu(
+    basis: MBasis,
+    inter: MSchemeInteraction,
+    nev: int,
+    block: int,
+    tol: float,
+    t: dict[str, float],
+) -> Levels:
+    """Tables on the GPU, block Lanczos on the device; eigenvectors returned to the host."""
+    import cupy as cp
+
+    from cosmo_gpu.backend_cupy import CupyBackend
+    from cosmo_gpu.onthefly_cuda import (
+        hamiltonian_cuda,
+        j_expectation_cuda,
+        jplus_cuda,
+    )
+
+    t0 = time.perf_counter()
+    H = hamiltonian_cuda(basis, inter, GPU_LAYOUT)
+    jop = jplus_cuda(basis, GPU_LAYOUT)
+    cp.cuda.Device().synchronize()
+    t["build_tables"] = time.perf_counter() - t0
+    t0 = time.perf_counter()
+    res = block_lanczos(
+        H.matvec, basis.dim, min(nev, basis.dim), CupyBackend(), block=block, tol=tol
+    )
+    spins = j_expectation_cuda(res.eigenvectors, jop, basis.m2)
+    vectors = np.asarray(cp.asnumpy(res.eigenvectors), dtype=np.float64)
+    t["solve"] = time.perf_counter() - t0
+    return Levels(
+        basis, res.eigenvalues, spins, res.residuals, res.converged, res.n_matvec, t, vectors, H
+    )
+
+
 Solution = tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], bool, int]
 
 
@@ -163,7 +204,8 @@ def compute_levels(
     """Build the basis and H, then diagonalize (dense below ``DENSE_LIMIT``).
 
     ``matvec`` is "stored" (CSR reference path), "otf" (operator tables and the on-the-fly
-    kernel; H is never stored) or "auto" (on the fly above ``OTF_LIMIT`` states).
+    kernel; H is never stored), "gpu" (the same tables on the GPU, Lanczos on the device; needs
+    the ``gpu`` extra) or "auto" (on the fly above ``OTF_LIMIT`` states).
 
     ``hw`` is the Nħω window above the lowest configuration and ``rejections`` are occupation
     windows in CoSMo's ``ORBS:TYPE:NMIN:NMAX`` form. ``parity`` is required in spaces that mix
@@ -203,9 +245,11 @@ def compute_levels(
         raise ValueError(msg)
     t["basis"] = time.perf_counter() - t0
 
-    if matvec not in ("auto", "stored", "otf"):
-        msg = f"matvec must be 'auto', 'stored' or 'otf', not {matvec!r}"
+    if matvec not in ("auto", "stored", "otf", "gpu"):
+        msg = f"matvec must be 'auto', 'stored', 'otf' or 'gpu', not {matvec!r}"
         raise ValueError(msg)
+    if matvec == "gpu" and basis.dim > DENSE_LIMIT:
+        return _levels_gpu(basis, inter, nev, block, tol, t)
     otf = basis.dim > DENSE_LIMIT and (
         matvec == "otf" or (matvec == "auto" and basis.dim > OTF_LIMIT)
     )
@@ -429,9 +473,9 @@ def main(argv: list[str] | None = None) -> int:
     lv.add_argument("--block", type=int, default=4)
     lv.add_argument(
         "--matvec",
-        choices=("auto", "stored", "otf"),
+        choices=("auto", "stored", "otf", "gpu"),
         default="auto",
-        help="stored CSR H, on-the-fly from tables, or auto (otf above 2e5 states)",
+        help="stored CSR H, on the fly from tables (CPU or gpu), or auto (otf above 2e5 states)",
     )
     lv.add_argument("--tol", type=float, default=1e-8)
 
