@@ -10,6 +10,7 @@ from pathlib import Path
 
 import numpy as np
 import scipy.linalg as sla
+import scipy.sparse as sp
 from numpy.typing import NDArray
 
 from cosmo_gpu.backend import NumpyBackend
@@ -23,8 +24,19 @@ from cosmo_gpu.modelspace import (
     load_model_space,
     parse_nucleus,
 )
+from cosmo_gpu.operators import (
+    MatrixCache,
+    State,
+    Tensor,
+    e2,
+    m1,
+    spectroscopic_factor,
+    tensor_matrix,
+    transition_strength,
+)
 from cosmo_gpu.reference_csr import hamiltonian_csr, j_expectation, jplus_csr
 from cosmo_gpu.snt import read_snt
+from cosmo_gpu.strength import lanczos_strength
 from cosmo_gpu.truncation import OccupationRule, make_truncation, parse_hw, parse_rejection
 
 DENSE_LIMIT = 2000
@@ -42,6 +54,16 @@ class Levels:
     converged: bool
     n_matvec: int
     timings: dict[str, float]
+    vectors: NDArray[np.float64] | None = None
+    H: sp.csr_matrix | None = None
+
+    def states(self) -> list[State]:
+        """Return the eigenvectors as ``operators.State`` objects (J rounded to half-integers)."""
+        if self.vectors is None:
+            msg = "no eigenvectors stored"
+            raise ValueError(msg)
+        j2 = np.rint(2 * self.spins).astype(int)
+        return [State(self.vectors[k], self.basis, int(j2[k])) for k in range(len(j2))]
 
 
 def load_interaction(
@@ -153,7 +175,7 @@ def compute_levels(
         residuals, converged, n_matvec = res.residuals, res.converged, res.n_matvec
     t["solve"] = time.perf_counter() - t0
     spins = j_expectation(vectors, jplus, basis.m2)
-    return Levels(basis, energies, spins, residuals, converged, n_matvec, t)
+    return Levels(basis, energies, spins, residuals, converged, n_matvec, t, vectors, H)
 
 
 def _format_j(j: float) -> str:
@@ -163,42 +185,184 @@ def _format_j(j: float) -> str:
     return str(j2 // 2) if j2 % 2 == 0 else f"{j2}/2"
 
 
-def main(argv: list[str] | None = None) -> int:
-    """Entry point of the ``cosmo-gpu`` command."""
-    parser = argparse.ArgumentParser(prog="cosmo-gpu")
-    sub = parser.add_subparsers(dest="command", required=True)
-    lv = sub.add_parser("levels", help="lowest levels of a nucleus")
-    lv.add_argument("nucleus", help="e.g. 24Mg, or a CoSMo system file ending in .xml")
-    lv.add_argument("space", nargs="?", help="CoSMo valence space, e.g. sd")
-    lv.add_argument("hamiltonian", nargs="?", help="CoSMo Hamiltonian name, e.g. usdb")
-    lv.add_argument("--snt", type=Path, default=None, help="KSHELL .snt file instead")
-    lv.add_argument("--system", default=None, help="system name in a multi-system CoSMo XML")
-    lv.add_argument("-n", "--nev", type=int, default=10)
-    lv.add_argument("--parity", type=int, choices=(-1, 1), default=None)
-    lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
-    lv.add_argument(
+def _system_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("space", nargs="?", help="CoSMo valence space, e.g. sd")
+    p.add_argument("hamiltonian", nargs="?", help="CoSMo Hamiltonian name, e.g. usdb")
+    p.add_argument("--snt", type=Path, default=None, help="KSHELL .snt file instead")
+    p.add_argument("-n", "--nev", type=int, default=10)
+    p.add_argument("--parity", type=int, choices=(-1, 1), default=None)
+    p.add_argument(
         "--hw",
         type=parse_hw,
         default=None,
         metavar="MIN:MAX",
         help="oscillator quanta above the lowest configuration, e.g. 1:1",
     )
-    lv.add_argument(
+    p.add_argument(
         "--rejection",
         action="append",
         default=[],
         metavar="ORBS:TYPE:NMIN:NMAX",
         help="occupation window, e.g. 0f5,1p3,1p1:pn:0:4 (repeatable)",
     )
-    lv.add_argument("--block", type=int, default=4)
-    lv.add_argument("--tol", type=float, default=1e-8)
-    lv.add_argument(
+    p.add_argument(
         "--cosmo-float32",
         action="store_true",
         help="round interaction-file numbers to single precision, as CoSMo does",
     )
-    args = parser.parse_args(argv)
 
+
+def _operator_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--op", choices=("E2", "M1"), default="E2")
+    p.add_argument(
+        "--charges", default="1.5,0.5", help="E2 effective charges e_p,e_n (default 1.5,0.5)"
+    )
+    p.add_argument(
+        "--g",
+        default="1,5.5857,0,-3.82608",
+        help="M1 g factors gl_p,gs_p,gl_n,gs_n (default free nucleons)",
+    )
+    p.add_argument("--b", type=float, default=1.0, help="oscillator length in fm (E2 units)")
+
+
+def _levels_for(args: argparse.Namespace, nucleus: str) -> Levels:
+    return compute_levels(
+        nucleus,
+        args.space,
+        args.hamiltonian,
+        args.nev,
+        args.parity,
+        hw=args.hw,
+        rejections=tuple(args.rejection),
+        snt=args.snt,
+        cosmo_float32=args.cosmo_float32,
+    )
+
+
+def _operator(args: argparse.Namespace, lev: Levels) -> tuple[Tensor, float, str]:
+    space = lev.basis.space
+    if args.op == "E2":
+        ep, en = (float(x) for x in args.charges.split(","))
+        unit = "e^2 b^4" if args.b == 1.0 else "e^2 fm^4"
+        return e2(space, ep, en), args.b**4, unit
+    glp, gsp, gln, gsn = (float(x) for x in args.g.split(","))
+    return m1(space, glp, gsp, gln, gsn), 1.0, "mu_N^2"
+
+
+def _label(s: State, k: int, states: list[State], parity: int) -> str:
+    idx = sum(1 for q in states[: k + 1] if q.j2 == s.j2)
+    js = str(s.j2 // 2) if s.j2 % 2 == 0 else f"{s.j2}/2"
+    return f"{js}{'+' if parity > 0 else '-'}({idx})"
+
+
+def _cmd_transitions(args: argparse.Namespace) -> int:
+    lev = _levels_for(args, args.nucleus)
+    op, scale, unit = _operator(args, lev)
+    states = lev.states()
+    cache: MatrixCache = {}
+    print(f"# {args.nucleus} B({args.op}) in {unit}, i -> f among the lowest {len(states)} levels")
+    for a, si in enumerate(states):
+        for b, sf_ in enumerate(states):
+            bval = transition_strength(op, si, sf_, cache) * scale
+            if bval > 0.0:
+                li = _label(si, a, states, lev.basis.parity)
+                lf = _label(sf_, b, states, lev.basis.parity)
+                print(f"{li:>8} -> {lf:<8} {bval:14.6f}")
+    return 0
+
+
+def _cmd_sf(args: argparse.Namespace) -> int:
+    li = _levels_for(args, args.nucleus)
+    lf = _levels_for(args, args.final)
+    space = li.basis.space
+    dz = lf.basis.protons.n_particles - li.basis.protons.n_particles
+    dn = lf.basis.neutrons.n_particles - li.basis.neutrons.n_particles
+    if (dz, dn) not in ((1, 0), (0, 1)):
+        print("final nucleus must have one proton or one neutron more", file=sys.stderr)
+        return 2
+    proton = dz == 1
+    si, sfs = li.states(), lf.states()
+    print(f"# S = |<f||a+_j||i>|^2/(2J_f+1), {'proton' if proton else 'neutron'} added")
+    for a, i in enumerate(si):
+        for b, f in enumerate(sfs):
+            for orb in range(space.n_orbits):
+                val = spectroscopic_factor(space, orb, proton, i, f)
+                if val > 1e-12:
+                    print(
+                        f"{_label(i, a, si, li.basis.parity):>8} -> "
+                        f"{_label(f, b, sfs, lf.basis.parity):<8} "
+                        f"{space.orbits[orb].name:>4} {val:10.6f}"
+                    )
+    return 0
+
+
+def _cmd_strength(args: argparse.Namespace) -> int:
+    lev = _levels_for(args, args.nucleus)
+    op, scale, unit = _operator(args, lev)
+    g = lev.states()[0]
+    if lev.H is None:
+        msg = "no Hamiltonian stored"
+        raise RuntimeError(msg)
+    H = lev.H
+    pivot = tensor_matrix(op, 0, lev.basis, lev.basis) @ g.vector
+    st = lanczos_strength(
+        lambda X: np.ascontiguousarray((H @ X.T).T),
+        np.ascontiguousarray(pivot[None, :]),
+        args.steps,
+        NumpyBackend(),
+    )
+    if g.j2 == 0:
+        # one final J (= k); by rotational invariance B = (2k + 1) |<f 0|T_0|i 0>|^2
+        scale *= op.k2 + 1
+        note = f"B({args.op}) to J = {op.k2 // 2}"
+    else:
+        note = "|<f M|T_0|i M>|^2 at the run's M, summed over final J"
+    print(f"# {args.nucleus} {args.op} strength from the ground state: {note}, {unit}")
+    print(f"# total {st.norm2 * scale:.6f} over {st.n_steps} Lanczos steps")
+    print(f"# {'E (MeV)':>12} {'Ex':>10} {'weight':>14}")
+    for e, w in zip(st.energies, st.weights, strict=True):
+        print(f"  {e:12.4f} {e - lev.energies[0]:10.4f} {w * scale:14.6f}")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Entry point of the ``cosmo-gpu`` command."""
+    parser = argparse.ArgumentParser(prog="cosmo-gpu")
+    sub = parser.add_subparsers(dest="command", required=True)
+    lv = sub.add_parser("levels", help="lowest levels of a nucleus")
+    lv.add_argument("nucleus", help="e.g. 24Mg, or a CoSMo system file ending in .xml")
+    _system_args(lv)
+    lv.add_argument("--system", default=None, help="system name in a multi-system CoSMo XML")
+    lv.add_argument("--m2", type=int, default=None, help="doubled total M (default 0 or 1)")
+    lv.add_argument("--block", type=int, default=4)
+    lv.add_argument("--tol", type=float, default=1e-8)
+
+    tr = sub.add_parser("transitions", help="B(E2) or B(M1) among the lowest levels")
+    tr.add_argument("nucleus")
+    _system_args(tr)
+    _operator_args(tr)
+
+    sf = sub.add_parser("sf", help="spectroscopic factors for adding one nucleon")
+    sf.add_argument("nucleus", help="initial nucleus (A)")
+    sf.add_argument("final", help="final nucleus (A + 1)")
+    _system_args(sf)
+
+    stp = sub.add_parser("strength", help="Lanczos strength function from the ground state")
+    stp.add_argument("nucleus")
+    _system_args(stp)
+    _operator_args(stp)
+    stp.add_argument("--steps", type=int, default=100)
+    args = parser.parse_args(argv)
+    if args.command == "transitions":
+        return _cmd_transitions(args)
+    if args.command == "sf":
+        return _cmd_sf(args)
+    if args.command == "strength":
+        return _cmd_strength(args)
+    return _cmd_levels(args, parser)
+
+
+def _cmd_levels(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     system = None
     if args.nucleus.endswith(".xml"):
         system = read_cosmo_xml(Path(args.nucleus), args.system)
