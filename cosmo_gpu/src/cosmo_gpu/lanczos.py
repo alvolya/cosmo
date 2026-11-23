@@ -122,7 +122,9 @@ def block_lanczos(
     block
         Block size ``b``.
     ncv
-        Maximum basis size before a restart; default ``max(2 nev + 2 b, nev + 6 b)``.
+        Maximum basis size before a restart; default ``max(6 nev, nev + 6 b)``, capped below
+        ``dim - b``. A larger subspace means fewer restarts: on 33Al FSU9 1ħω (10 states,
+        b = 4) it cut matvecs from 3356 at ``max(2 nev + 2 b, nev + 6 b)`` to 1260.
     tol
         Convergence when ``|H y - theta y| <= tol * max(1, |theta|)`` for each wanted pair.
     max_restarts
@@ -139,7 +141,7 @@ def block_lanczos(
     """
     b = block
     if ncv is None:
-        ncv = max(2 * nev + 2 * b, nev + 6 * b)
+        ncv = max(nev + 2 * b, min(max(6 * nev, nev + 6 * b), dim - b - 1))
     if nev + 2 * b > ncv:
         msg = f"ncv={ncv} too small for nev={nev}, block={b}"
         raise ValueError(msg)

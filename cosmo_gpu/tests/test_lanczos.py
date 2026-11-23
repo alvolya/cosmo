@@ -39,5 +39,14 @@ def test_degenerate_spectrum():
 
 
 def test_too_small_raises():
+    # nev = 4, b = 4 needs ncv >= 12 and dim > ncv + b
     with pytest.raises(ValueError, match="dense"):
-        block_lanczos(lambda X: X, 20, 4, NumpyBackend())
+        block_lanczos(lambda X: X, 14, 4, NumpyBackend())
+
+
+def test_default_ncv_is_capped_by_dimension():
+    rng = np.random.default_rng(3)
+    A = rng.standard_normal((20, 20))
+    A = A + A.T
+    res = block_lanczos(lambda X: X @ A, 20, 4, NumpyBackend())
+    np.testing.assert_allclose(res.eigenvalues, np.linalg.eigvalsh(A)[:4], atol=1e-8)
